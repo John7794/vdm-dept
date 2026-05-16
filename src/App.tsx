@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Layout from "./components/layout/Layout";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Home from "./pages/Home";
@@ -12,13 +13,28 @@ import ProjectDetail from "./pages/ProjectDetail";
 import Applicants from "./pages/Applicants";
 import Contacts from "./pages/Contacts";
 import Maintenance from "./pages/Maintenance";
+import AccessGate from "./components/AccessGate";
 
 export default function App() {
+  const [hasAccess, setHasAccess] = useState(false);
+  
   // Toggle maintenance mode via Environment Variable
-  const isMaintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+  const isMaintenance = (import.meta as any).env.VITE_MAINTENANCE_MODE === "true";
+  const sitePassword = (import.meta as any).env.VITE_SITE_PASSWORD;
+
+  useEffect(() => {
+    const granted = localStorage.getItem("site_access") === "granted";
+    if (granted || !sitePassword) {
+      setHasAccess(true);
+    }
+  }, [sitePassword]);
 
   if (isMaintenance) {
     return <Maintenance />;
+  }
+
+  if (!hasAccess && sitePassword) {
+    return <AccessGate correctPassword={sitePassword} onAccess={() => setHasAccess(true)} />;
   }
 
   return (
