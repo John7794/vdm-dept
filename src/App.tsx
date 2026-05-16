@@ -12,14 +12,11 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Applicants from "./pages/Applicants";
 import Contacts from "./pages/Contacts";
-import Maintenance from "./pages/Maintenance";
 import AccessGate from "./components/AccessGate";
 
 export default function App() {
   const [hasAccess, setHasAccess] = useState(false);
   
-  // Toggle maintenance mode via Environment Variable
-  const isMaintenance = (import.meta as any).env.VITE_MAINTENANCE_MODE === "true";
   const sitePassword = (import.meta as any).env.VITE_SITE_PASSWORD;
 
   useEffect(() => {
@@ -28,10 +25,6 @@ export default function App() {
       setHasAccess(true);
     }
   }, [sitePassword]);
-
-  if (isMaintenance) {
-    return <Maintenance />;
-  }
 
   if (!hasAccess && sitePassword) {
     return <AccessGate correctPassword={sitePassword} onAccess={() => setHasAccess(true)} />;
