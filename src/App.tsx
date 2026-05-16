@@ -20,13 +20,19 @@ export default function App() {
   const sitePassword = (import.meta as any).env.VITE_SITE_PASSWORD;
 
   useEffect(() => {
+    // Check if access was already granted in this browser
     const granted = localStorage.getItem("site_access") === "granted";
-    if (granted || !sitePassword) {
+    
+    // If no password is set in environment, we allow access by default
+    // Otherwise, check if we already have a grant
+    if (!sitePassword || sitePassword.trim() === "" || granted) {
       setHasAccess(true);
+    } else {
+      setHasAccess(false);
     }
   }, [sitePassword]);
 
-  if (!hasAccess && sitePassword) {
+  if (!hasAccess && sitePassword && sitePassword.trim() !== "") {
     return <AccessGate correctPassword={sitePassword} onAccess={() => setHasAccess(true)} />;
   }
 
