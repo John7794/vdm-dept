@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User submitted form data",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["name", "email", "message", "timestamp"]
+    },
+    "NewsItem": {
+      "title": "News Item",
+      "description": "A news or event item",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" }
+      },
+      "required": ["date", "type", "title", "excerpt", "content"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Student project",
+      "type": "object",
+      "properties": {
+        "student": { "type": "string" },
+        "year": { "type": "string" },
+        "title": { "type": "string" },
+        "type": { "type": "string" },
+        "img": { "type": "string" }
+      },
+      "required": ["student", "year", "title", "type", "img"]
+    },
+    "StaffMember": {
+      "title": "Staff Member",
+      "description": "Academic staff details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "degree": { "type": "string" },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "image": { "type": "string" },
+        "group": { "type": "string" }
+      },
+      "required": ["name", "role", "degree"]
+    },
+    "Program": {
+      "title": "Educational Program",
+      "description": "Educational program details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "duration": { "type": "string" },
+        "degree": { "type": "string" },
+        "level": { "type": "string", "enum": ["Бакалавріат", "Магістратура", "Аспірантура"] },
+        "code": { "type": "string" },
+        "competencies": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["title", "duration", "degree", "level"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "File or document for download",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "type": { "type": "string", "enum": ["PDF", "DOCX", "LINK"] },
+        "category": { "type": "string" },
+        "info": { "type": "string" }
+      },
+      "required": ["title", "url", "type"]
+    }
+  },
+  "firestore": {
+    "/feedbacks/{feedbackId}": {
+      "schema": { "$ref": "#/entities/Feedback" },
+      "description": "Submitted contact forms"
+    },
+    "/news/{newsId}": {
+      "schema": { "$ref": "#/entities/NewsItem" },
+      "description": "News and events"
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Student projects"
+    },
+    "/staff/{staffId}": {
+      "schema": { "$ref": "#/entities/StaffMember" },
+      "description": "Staff roster"
+    },
+    "/programs/{programId}": {
+      "schema": { "$ref": "#/entities/Program" },
+      "description": "Educational programs"
+    },
+    "/announcements/{id}": {
+      "schema": { "type": "object", "properties": { "text": { "type": "string" } }, "required": ["text"] },
+      "description": "Ticker announcements"
+    },
+    "/heroSlides/{id}": {
+      "schema": { "type": "object", "properties": { "image": { "type": "string" } }, "required": ["image"] },
+      "description": "Hero background images"
+    },
+    "/documents/{docId}": {
+      "schema": { "$ref": "#/entities/Document" },
+      "description": "Downloadable documents"
+    },
+    "/applicantsSteps/{id}": {
+      "schema": { "type": "object", "properties": { "title": { "type": "string" }, "description": { "type": "string" }, "order": { "type": "number" } }, "required": ["title", "description", "order"] },
+      "description": "Admission steps"
+    },
+    "/applicantsChecklist/{id}": {
+      "schema": { "type": "object", "properties": { "text": { "type": "string" } }, "required": ["text"] },
+      "description": "Required documents checklist"
+    }
+  }
+}

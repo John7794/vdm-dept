@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'e-Ukraine';
+  src: url('https://cdn.jsdelivr.net/gh/ukraine-ds/ukraine-ds/assets/fonts/e-Ukraine-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'e-Ukraine';
+  src: url('https://cdn.jsdelivr.net/gh/ukraine-ds/ukraine-ds/assets/fonts/e-Ukraine-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'e-Ukraine';
+  src: url('https://cdn.jsdelivr.net/gh/ukraine-ds/ukraine-ds/assets/fonts/e-Ukraine-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'e-Ukraine';
+  src: url('https://cdn.jsdelivr.net/gh/ukraine-ds/ukraine-ds/assets/fonts/e-Ukraine-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Absolute Colors - NEVER change based on theme */
+  --color-ink: #0D0D0D;
+  --color-paper: #FFFFFF;
+  --color-accent-blue: #0A32B3;
+  --color-accent-yellow: #FFD400;
+
+  /* Semantic Theme Variables - Light */
+  --theme-bg: #F4F4F4;
+  --theme-surface: #FFFFFF;
+  --theme-surface-alt: #EAEAEA;
+  
+  --theme-text-main: #0D0D0D;
+  --theme-text-dim: #666666;
+  
+  --theme-border-main: #0D0D0D;
+  --theme-border-soft: #E0E0E0;
+}
+
+.dark {
+  /* Semantic Theme Variables - Dark */
+  --theme-bg: #0A0A0A;
+  --theme-surface: #111111;
+  --theme-surface-alt: #1A1A1A;
+  
+  --theme-text-main: #F4F4F4;
+  --theme-text-dim: #999999;
+  
+  --theme-border-main: #F4F4F4;
+  --theme-border-soft: #333333;
+}
+
+@theme {
+  --font-sans: 'e-Ukraine', Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  
+  /* Absolute bindings */
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-accent-yellow: var(--color-accent-yellow);
+  
+  /* Semantic bindings */
+  --color-page-bg: var(--theme-bg);
+  --color-surface-main: var(--theme-surface);
+  --color-surface-mut: var(--theme-surface-alt);
+  
+  --color-text-main: var(--theme-text-main);
+  --color-text-dim: var(--theme-text-dim);
+  
+  --color-border-main: var(--theme-border-main);
+  --color-border-soft: var(--theme-border-soft);
+}
+
+body {
+  background-color: var(--color-page-bg);
+  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.2;
+}
+
+/* Base utility for focus rings (Accessibility WCAG 2.1) */
+.focus-ring {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-text-main focus-visible:ring-offset-2;
+}
+
+/* Neo-Brutalist Grid Lines */
+.brutal-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, var(--theme-border-soft) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--theme-border-soft) 1px, transparent 1px);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+

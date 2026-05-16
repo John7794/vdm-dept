@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      // Temporary: Since there is no auth implemented for admins yet, no one can write public resources, only via server.ts if we want.
+      // But we will use the admin SDK on the server, which bypasses rules anyway.
+      return false; 
+    }
+
+    // Validation for Feedback
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['name', 'email', 'message', 'timestamp']) &&
+             data.size() == 4 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 5000 &&
+             data.timestamp is string;
+    }
+
+    function isValidNewsItem(data) {
+      return data.keys().hasAll(['id', 'date', 'type', 'title', 'excerpt', 'content']) &&
+             data.date is string &&
+             data.type is string &&
+             data.title is string &&
+             data.excerpt is string &&
+             data.content is string;
+    }
+
+    function isValidProject(data) {
+      return data.keys().hasAll(['id', 'student', 'year', 'title', 'type', 'img']) &&
+             data.student is string &&
+             data.year is string &&
+             data.title is string &&
+             data.type is string &&
+             data.img is string;
+    }
+
+    function isValidStaffMember(data) {
+      return data.keys().hasAll(['name', 'role', 'degree']) &&
+             data.name is string &&
+             data.role is string &&
+             data.degree is string &&
+             (!data.keys().contains('interests') || data.interests is list) &&
+             (!data.keys().contains('image') || data.image is string) &&
+             (!data.keys().contains('group') || data.group is string);
+    }
+
+    function isValidProgram(data) {
+      return data.keys().hasAll(['title', 'duration', 'degree', 'level']) &&
+             data.title is string &&
+             data.duration is string &&
+             data.degree is string &&
+             data.level in ['Бакалавріат', 'Магістратура', 'Аспірантура'] &&
+             (!data.keys().contains('id') || data.id is string) &&
+             (!data.keys().contains('code') || data.code is string) &&
+             (!data.keys().contains('competencies') || data.competencies is list);
+    }
+
+    match /feedbacks/{feedbackId} {
+      allow create: if isValidFeedback(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /news/{newsId} {
+      allow read: if true;
+      allow create: if isValidNewsItem(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create: if isValidProject(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /staff/{staffId} {
+      allow read: if true;
+      allow create: if isValidStaffMember(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /programs/{programId} {
+      allow read: if true;
+      allow create: if isValidProgram(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /announcements/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /heroSlides/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /documents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /applicantsSteps/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /applicantsChecklist/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
