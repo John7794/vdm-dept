@@ -14,7 +14,10 @@ export default function AccessGate({ onAccess, correctPassword }: AccessGateProp
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (password === correctPassword) {
+    const normalizedInput = password.trim().toLowerCase();
+    const normalizedCorrect = (correctPassword || "").trim().toLowerCase();
+
+    if (normalizedInput === normalizedCorrect) {
       localStorage.setItem("site_access", "granted");
       onAccess();
     } else {
@@ -47,7 +50,7 @@ export default function AccessGate({ onAccess, correctPassword }: AccessGateProp
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="ПАРОЛЬ"
-              className={`w-full bg-surface-mut border-2 p-4 font-mono text-sm uppercase tracking-widest outline-none transition-colors ${
+              className={`w-full bg-surface-mut border-2 p-4 font-mono text-sm lowercase tracking-widest outline-none transition-colors ${
                 error ? "border-red-500" : "border-border-soft focus:border-accent-blue"
               }`}
             />
