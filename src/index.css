@@ -50,6 +50,7 @@
   --theme-border-soft: #E0E0E0;
   
   --theme-accent-blue: #0A32B3;
+  --theme-glow: 0 0 4px var(--theme-accent-blue);
 }
 
 .dark {
@@ -65,6 +66,7 @@
   --theme-border-soft: #333333;
   
   --theme-accent-blue: #4D88FF; /* Brighter blue for dark mode contrast */
+  --theme-glow: 0 0 16px var(--theme-accent-blue);
 }
 
 @theme {

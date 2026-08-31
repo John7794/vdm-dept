@@ -44,12 +44,12 @@ export default function Navbar() {
 
   const NAV_LINKS = [
     { name: t("nav_home"), path: "/" },
-    { name: t("nav_about", "Про нас"), path: "/about" },
     { name: t("nav_programs"), path: "/programs" },
     { name: t("nav_staff"), path: "/staff" },
     { name: t("nav_news"), path: "/news" },
     { name: t("nav_projects"), path: "/projects" },
     { name: t("nav_applicants"), path: "/applicants" },
+    { name: t("nav_about", "Про нас"), path: "/about" },
   ];
 
   const langs: ("UA" | "EN" | "DE" | "PL")[] = ["UA", "EN", "DE", "PL"];
@@ -113,7 +113,7 @@ export default function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="activeNavSegment"
-                    className="absolute bottom-0 left-0 w-full h-[4px] bg-accent-blue"
+                    className="absolute bottom-0 left-0 w-full h-[4px] bg-accent-blue shadow-[var(--theme-glow)]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}

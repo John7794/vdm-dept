@@ -77,25 +77,29 @@ export default function About() {
               </h2>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="relative pl-6">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
                   <div className="text-4xl md:text-5xl font-bold font-mono mb-2">20+</div>
                   <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
                     {t("about_achievements_1", "Років досвіду")}
                   </div>
                 </div>
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="relative pl-6">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
                   <div className="text-4xl md:text-5xl font-bold font-mono mb-2">500+</div>
                   <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
                     {t("about_achievements_2", "Випускників")}
                   </div>
                 </div>
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="relative pl-6">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
                   <div className="text-4xl md:text-5xl font-bold font-mono mb-2">50+</div>
                   <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
                     {t("about_achievements_3", "Нагород на конкурсах")}
                   </div>
                 </div>
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="relative pl-6">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
                   <div className="text-4xl md:text-5xl font-bold font-mono mb-2">100%</div>
                   <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
                     {t("about_achievements_4", "Проєктне навчання")}

@@ -129,16 +129,16 @@ export default function Staff() {
                   <div className="col-span-5 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 uppercase w-full">{t("staff_lbl_employee")}</span>
                     {/* Staff Photo */}
-                    <div className="w-32 h-32 md:w-48 md:h-48 bg-ink rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main group-hover:border-page-bg transition-colors flex items-center justify-center">
+                    <div className="w-32 h-32 md:w-48 md:h-48 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main group-hover:border-page-bg transition-colors flex items-center justify-center">
                       {member.Image || member.image ? (
                         <img 
                           src={formatDriveLink(member.Image || member.image)} 
                           srcSet={member.Image_2x ? `${formatDriveLink(member.Image_2x)} 2x` : undefined}
                           alt={name} 
-                          className="w-full h-full object-cover grayscale mix-blend-multiply opacity-80 group-hover:grayscale-0 group-hover:mix-blend-normal group-hover:opacity-100 transition-all" 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-paper/30 bg-ink group-hover:text-page-bg/30 transition-colors">
+                        <div className="w-full h-full flex items-center justify-center text-text-dim bg-surface-mut transition-colors">
                           <User className="w-16 h-16 md:w-24 md:h-24" strokeWidth={1} />
                         </div>
                       )}
