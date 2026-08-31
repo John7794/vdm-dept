@@ -12,6 +12,10 @@ interface CmsData {
   staff: any[];
   programs: any[];
   projects: any[];
+  applicantssteps: any[];
+  applicantsdocuments: any[];
+  applicantschecklist: any[];
+  multimedia: any[];
 }
 
 interface CmsContextType {
@@ -56,7 +60,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        const sheets = ["Static", "News", "Staff", "Programs", "Projects"];
+        const sheets = ["Static", "News", "Staff", "Programs", "Projects", "ApplicantsSteps", "ApplicantsDocuments", "ApplicantsChecklist", "Multimedia"];
         const parsedData: any = {};
 
         // Fetch each sheet in parallel for better performance

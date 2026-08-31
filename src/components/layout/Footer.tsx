@@ -1,11 +1,34 @@
 import { Link, useLocation } from "react-router-dom";
 import { useCms } from "../../contexts/CmsContext";
-import logoImage from "../../assets/images/regenerated_image_1778868808604.png";
+import { formatDriveLink } from "../../lib/utils";
+
+const LogoText = ({ className }: { className?: string }) => (
+  <div className={`font-bold text-4xl tracking-tighter uppercase select-none ${className}`}>
+    VDA<span className="text-accent-blue">.</span>
+  </div>
+);
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
-  const { t } = useCms();
+  const { data, t } = useCms();
+
+  const logoDataLight = (data?.multimedia || []).find((item: any) => item.Category === "LogoLight" && item.Url && item.Url.trim() !== "");
+  const logoDataDark = (data?.multimedia || []).find((item: any) => item.Category === "LogoDark" && item.Url && item.Url.trim() !== "");
+  
+  const lightUrl = logoDataLight ? formatDriveLink(logoDataLight.Url) : null;
+  const darkUrl = logoDataDark ? formatDriveLink(logoDataDark.Url) : null;
+  
+  // Footer is always dark background, so prefer the light (white) logo
+  const currentLogoUrl = lightUrl || darkUrl;
+
+  const Logo = ({ className }: { className?: string }) => (
+    currentLogoUrl ? (
+      <img src={currentLogoUrl} alt="VDA Logo" className={`h-12 md:h-16 w-auto object-contain ${className || ""}`} />
+    ) : (
+      <LogoText className={className} />
+    )
+  );
 
   return (
     <footer className="bg-ink text-paper border-t-2 border-ink mt-auto w-full">
@@ -16,19 +39,11 @@ export default function Footer() {
           <div className="flex flex-col gap-8">
             {location.pathname === "/" ? (
               <div className="inline-block">
-                <img 
-                  src={logoImage} 
-                  alt="Логотип кафедри" 
-                  className="h-16 md:h-20 w-auto object-contain brightness-0 invert"
-                />
+                <Logo className="text-paper" />
               </div>
             ) : (
               <Link to="/" className="inline-block transition-opacity hover:opacity-80">
-                <img 
-                  src={logoImage} 
-                  alt="Логотип кафедри" 
-                  className="h-16 md:h-20 w-auto object-contain brightness-0 invert"
-                />
+                <Logo className="text-paper" />
               </Link>
             )}
             <p className="text-paper/70 max-w-sm text-sm leading-relaxed font-light uppercase tracking-widest whitespace-pre-line">

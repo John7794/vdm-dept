@@ -1,25 +1,51 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../components/ThemeProvider";
 import { useCms } from "../contexts/CmsContext";
-import heroImage2 from "../assets/images/regenerated_image_1778865710012.jpg";
-import heroImage3 from "../assets/images/regenerated_image_1778867677539.jpg";
+import { formatDriveLink } from "../lib/utils";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const { theme } = useTheme();
-  const { t } = useCms();
+  const { data, t } = useCms();
 
-  const slides = [heroImage2, heroImage3];
+  const defaultSlides = [
+    "https://drive.google.com/uc?export=view&id=1n7JNFmicxCNLEm0_AFB_-hg5258z7YmG",
+    "https://drive.google.com/uc?export=view&id=11dYw0FRts0F248vo_de-BLW1QTUgPZVP",
+    "https://drive.google.com/uc?export=view&id=1i0qE12_3C4i-QTjAfvt7fTTfViiz4I9a"
+  ];
+
+  const cmsBanners = (data?.multimedia || [])
+    .filter((item: any) => item.Category === "HeroBanner" && item.Url && item.Url.trim() !== "")
+    .map((item: any) => formatDriveLink(item.Url))
+    .filter((url: string) => url !== "");
+
+  const baseSlides = cmsBanners.length > 0 ? cmsBanners : defaultSlides;
+  // Clone the first slide at the end to allow a seamless transition back to start
+  const slides = [...baseSlides, baseSlides[0]];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setIsTransitioning(true);
+      setCurrentSlide((prev) => prev + 1);
     }, 5000);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, []);
+
+  // When we reach the cloned slide at the end, wait for the animation to finish,
+  // then instantly snap back to the first slide without a transition.
+  useEffect(() => {
+    if (currentSlide === baseSlides.length) {
+      const snapTimer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentSlide(0);
+      }, 1200); // 1200ms matches the transition duration
+      return () => clearTimeout(snapTimer);
+    }
+  }, [currentSlide, baseSlides.length]);
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -27,23 +53,19 @@ export default function Home() {
       <section className="relative flex flex-col w-full border-b-2 border-border-main overflow-hidden bg-page-bg">
         {/* The Base Slider Layer */}
         <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full"
-            >
-              <img
-                src={slides[currentSlide]}
-                alt="Hero Background"
-                className="w-full h-full object-cover"
+          <div 
+            className={`flex w-full h-full ${isTransitioning ? "transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.25,1)]" : ""}`}
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {slides.map((src, i) => (
+              <div 
+                key={i} 
+                className="w-full h-full flex-shrink-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${src})` }}
               />
-              <div className="absolute inset-0 bg-accent-blue/10 pointer-events-none mix-blend-overlay"></div>
-            </motion.div>
-          </AnimatePresence>
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-accent-blue/10 pointer-events-none mix-blend-overlay"></div>
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-blue/20 blur-[100px] rounded-full z-[1]"></div>
         </div>
 
@@ -68,10 +90,6 @@ export default function Home() {
 
           {/* Right Column (Pure Hole) */}
           <div className={`lg:col-span-4 flex items-end p-12 transition-colors duration-500 ${theme === "dark" ? "bg-white" : "bg-black"}`}>
-             <div className={`w-full font-mono text-xs flex justify-between items-end opacity-50 ${theme === "dark" ? "text-black" : "text-white"}`}>
-               <span>ЕКСПОЗИЦІЯ / 0{currentSlide + 1}</span>
-               <span className={`w-20 h-[1px] block mb-2 ${theme === "dark" ? "bg-black" : "bg-white"}`}></span>
-             </div>
           </div>
         </div>
 
@@ -127,13 +145,18 @@ export default function Home() {
 
           <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair">
             <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f3_label")}</span>
-            <ul className="space-y-3 font-medium text-lg tracking-tight uppercase">
-              <li className="flex justify-between border-b border-border-soft pb-1"><span>UX / UI Дизайн</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-              <li className="flex justify-between border-b border-border-soft pb-1"><span>Типографіка</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-              <li className="flex justify-between border-b border-border-soft pb-1"><span>Брендинг</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-              <li className="flex justify-between border-b border-border-soft pb-1"><span>Motion & 3D</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-              <li className="flex justify-between border-b border-border-soft pb-1"><span>Арт-дирекшн</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-            </ul>
+            <div className="max-h-[220px] overflow-y-auto pr-4 custom-scrollbar">
+              <ul className="space-y-3 font-medium text-lg tracking-tight uppercase">
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_ux_ui") || "UX / UI Дизайн"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_typography") || "Типографіка"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_branding") || "Брендинг"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_motion") || "Motion & 3D"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_art_direction") || "Арт-дирекшн"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_illustration") || "Ілюстрація"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_game_design") || "Game Design"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_new_media") || "Нові Медіа"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
+              </ul>
+            </div>
           </div>
           
         </div>
@@ -144,7 +167,7 @@ export default function Home() {
         <motion.div 
           animate={{ x: [0, -1000] }} 
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          className="flex space-x-8 font-mono text-sm font-bold uppercase text-text-main"
+          className="flex font-mono text-sm font-bold uppercase text-text-main"
         >
            {Array(20).fill([t("home_marquee")]).flat().map((text, i) => (
              <span key={i} className="flex items-center">

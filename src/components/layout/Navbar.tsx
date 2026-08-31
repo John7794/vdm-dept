@@ -4,14 +4,43 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../ThemeProvider";
 import { useCms } from "../../contexts/CmsContext";
-import logoImage from "../../assets/images/regenerated_image_1778868808082.png";
+import { formatDriveLink } from "../../lib/utils";
+
+const LogoText = ({ className }: { className?: string }) => (
+  <div className={`font-bold text-2xl tracking-tighter uppercase select-none ${className}`}>
+    VDA<span className="text-accent-blue">.</span>
+  </div>
+);
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const { lang, setLang, t } = useCms();
+  const { data, lang, setLang, t } = useCms();
+
+  const logoDataLight = (data?.multimedia || []).find((item: any) => item.Category === "LogoLight" && item.Url && item.Url.trim() !== "");
+  const logoDataDark = (data?.multimedia || []).find((item: any) => item.Category === "LogoDark" && item.Url && item.Url.trim() !== "");
+
+  const logoLightUrl = logoDataLight ? formatDriveLink(logoDataLight.Url) : null;
+  const logoDarkUrl = logoDataDark ? formatDriveLink(logoDataDark.Url) : null;
+  
+  // LogoLight = White logo (for dark theme)
+  // LogoDark = Black logo (for light theme)
+  const getLogo = () => {
+    if (theme === "dark") return logoLightUrl || logoDarkUrl;
+    return logoDarkUrl || logoLightUrl;
+  };
+  
+  const currentLogoUrl = getLogo();
+
+  const Logo = ({ className }: { className?: string }) => (
+    currentLogoUrl ? (
+      <img src={currentLogoUrl} alt="VDA Logo" className={`h-8 w-auto object-contain ${className || ""}`} />
+    ) : (
+      <LogoText className={className} />
+    )
+  );
 
   const NAV_LINKS = [
     { name: t("nav_home"), path: "/" },
@@ -30,19 +59,11 @@ export default function Navbar() {
         <div className="flex-shrink-0 flex items-center border-r-2 border-border-main px-6 w-full lg:w-auto lg:min-w-[320px] justify-between lg:justify-start">
           {location.pathname === "/" ? (
             <div className="flex items-center" aria-label="Головна сторінка">
-              <img 
-                src={logoImage} 
-                alt="Логотип кафедри" 
-                className={`h-10 w-auto object-contain transition-all duration-300 ${theme === "dark" ? "brightness-0 invert" : ""}`}
-              />
+              <Logo className="text-text-main" />
             </div>
           ) : (
             <Link to="/" className="flex items-center focus-ring rounded-sm outline-none" aria-label="Головна сторінка">
-              <img 
-                src={logoImage} 
-                alt="Логотип кафедри" 
-                className={`h-10 w-auto object-contain transition-all duration-300 ${theme === "dark" ? "brightness-0 invert" : ""}`}
-              />
+              <Logo className="text-text-main" />
             </Link>
           )}
           

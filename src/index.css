@@ -111,3 +111,15 @@ body {
   text-wrap: balance;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--theme-border-soft);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--theme-text-dim);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-text-main);
+}
