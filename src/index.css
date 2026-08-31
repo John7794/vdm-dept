@@ -36,7 +36,6 @@
   /* Absolute Colors - NEVER change based on theme */
   --color-ink: #0D0D0D;
   --color-paper: #FFFFFF;
-  --color-accent-blue: #0A32B3;
   --color-accent-yellow: #FFD400;
 
   /* Semantic Theme Variables - Light */
@@ -49,6 +48,8 @@
   
   --theme-border-main: #0D0D0D;
   --theme-border-soft: #E0E0E0;
+  
+  --theme-accent-blue: #0A32B3;
 }
 
 .dark {
@@ -62,6 +63,8 @@
   
   --theme-border-main: #F4F4F4;
   --theme-border-soft: #333333;
+  
+  --theme-accent-blue: #4D88FF; /* Brighter blue for dark mode contrast */
 }
 
 @theme {
@@ -71,7 +74,6 @@
   /* Absolute bindings */
   --color-ink: var(--color-ink);
   --color-paper: var(--color-paper);
-  --color-accent-blue: var(--color-accent-blue);
   --color-accent-yellow: var(--color-accent-yellow);
   
   /* Semantic bindings */
@@ -84,6 +86,8 @@
   
   --color-border-main: var(--theme-border-main);
   --color-border-soft: var(--theme-border-soft);
+  
+  --color-accent-blue: var(--theme-accent-blue);
 }
 
 body {

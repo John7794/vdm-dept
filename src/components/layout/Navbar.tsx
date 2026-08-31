@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, Globe } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../ThemeProvider";
@@ -44,6 +44,7 @@ export default function Navbar() {
 
   const NAV_LINKS = [
     { name: t("nav_home"), path: "/" },
+    { name: t("nav_about", "Про нас"), path: "/about" },
     { name: t("nav_programs"), path: "/programs" },
     { name: t("nav_staff"), path: "/staff" },
     { name: t("nav_news"), path: "/news" },
@@ -52,6 +53,13 @@ export default function Navbar() {
   ];
 
   const langs: ("UA" | "EN" | "DE" | "PL")[] = ["UA", "EN", "DE", "PL"];
+  
+  const flagMap: Record<string, string> = {
+    UA: "https://flagcdn.com/ua.svg",
+    EN: "https://flagcdn.com/gb.svg",
+    DE: "https://flagcdn.com/de.svg",
+    PL: "https://flagcdn.com/pl.svg",
+  };
 
   return (
     <header className="fixed top-0 w-full z-50 bg-page-bg border-b-2 border-border-main transition-colors duration-300">
@@ -70,9 +78,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2 lg:hidden">
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)} 
-              className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors"
+              className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors flex items-center gap-1.5"
               aria-label="Мова"
             >
+              <img src={flagMap[lang]} alt={lang} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
               <span className="font-bold text-sm uppercase">{lang}</span>
             </button>
             <button 
@@ -142,7 +151,7 @@ export default function Navbar() {
               onClick={() => setIsLangOpen(!isLangOpen)}
               className="h-full px-6 flex items-center gap-2 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none"
             >
-              <Globe className="w-4 h-4" />
+              <img src={flagMap[lang]} alt={lang} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
               <span className="font-bold text-xs">{lang}</span>
             </button>
             
@@ -158,9 +167,10 @@ export default function Navbar() {
                     <button
                       key={l}
                       onClick={() => { setLang(l); setIsLangOpen(false); }}
-                      className="px-6 py-4 text-xs font-bold text-text-main hover:bg-surface-mut transition-colors text-center"
+                      className="px-6 py-4 flex items-center justify-center gap-2 text-xs font-bold text-text-main hover:bg-surface-mut transition-colors"
                     >
-                      {l}
+                      <img src={flagMap[l]} alt={l} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
+                      <span>{l}</span>
                     </button>
                   ))}
                 </motion.div>
@@ -190,9 +200,10 @@ export default function Navbar() {
               <button
                 key={l}
                 onClick={() => { setLang(l); setIsLangOpen(false); }}
-                className={`flex-1 py-4 text-sm font-bold uppercase ${lang === l ? 'bg-text-main text-page-bg' : 'text-text-main hover:bg-surface-mut'}`}
+                className={`flex-1 py-4 flex items-center justify-center gap-2 text-sm font-bold uppercase ${lang === l ? 'bg-text-main text-page-bg' : 'text-text-main hover:bg-surface-mut'}`}
               >
-                {l}
+                <img src={flagMap[l]} alt={l} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
+                <span>{l}</span>
               </button>
             ))}
           </div>

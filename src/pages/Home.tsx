@@ -110,7 +110,7 @@ export default function Home() {
                 <div className="mt-4 md:mt-12">
                   <Link 
                     to="/applicants" 
-                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-sm hover:bg-accent-yellow hover:text-text-main transition-all duration-500 focus-ring shadow-2xl pointer-events-auto relative z-40"
+                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-sm hover:bg-accent-yellow hover:text-ink transition-all duration-500 focus-ring shadow-2xl pointer-events-auto relative z-40"
                   >
                     {t("home_btn_apply")}
                     <ArrowUpRight className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />

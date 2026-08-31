@@ -92,6 +92,13 @@ export default function Footer() {
                 <Link to="/projects" className="hover:text-accent-yellow transition-colors focus-ring block">{t("nav_projects")}</Link>
               )}
             </li>
+            <li>
+              {location.pathname === "/about" ? (
+                <span className="text-accent-yellow block">{t("nav_about", "Про нас")}</span>
+              ) : (
+                <Link to="/about" className="hover:text-accent-yellow transition-colors focus-ring block">{t("nav_about", "Про нас")}</Link>
+              )}
+            </li>
           </ul>
         </div>
         

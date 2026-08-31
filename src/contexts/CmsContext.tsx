@@ -24,7 +24,7 @@ interface CmsContextType {
   error: string | null;
   lang: Language;
   setLang: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, defaultVal?: string) => string;
 }
 
 const CmsContext = createContext<CmsContextType | undefined>(undefined);
@@ -119,11 +119,11 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     fetchDirectlyFromSheets();
   }, []);
 
-  const t = (key: string): string => {
-    if (!data || !data.static) return key;
+  const t = (key: string, defaultVal?: string): string => {
+    if (!data || !data.static) return defaultVal || key;
     const entry = data.static[key];
-    if (!entry) return key;
-    return entry[lang] || key;
+    if (!entry) return defaultVal || key;
+    return entry[lang] || defaultVal || key;
   };
 
   return (
