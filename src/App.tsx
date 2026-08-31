@@ -13,9 +13,13 @@ import ProjectDetail from "./pages/ProjectDetail";
 import Applicants from "./pages/Applicants";
 import Contacts from "./pages/Contacts";
 import AccessGate from "./components/AccessGate";
+import Admin from "./pages/Admin";
+import { useCms } from "./contexts/CmsContext";
+import { Loader2 } from "lucide-react";
 
 export default function App() {
   const [hasAccess, setHasAccess] = useState(false);
+  const { loading, error } = useCms();
   
   const sitePassword = (import.meta as any).env.VITE_SITE_PASSWORD;
 
@@ -36,6 +40,22 @@ export default function App() {
     return <AccessGate correctPassword={sitePassword} onAccess={() => setHasAccess(true)} />;
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-page-bg flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-text-main" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-page-bg flex items-center justify-center text-red-500 font-mono">
+        Error loading CMS: {error}
+      </div>
+    );
+  }
+
   return (
     <ThemeProvider>
       <Router>
@@ -52,6 +72,7 @@ export default function App() {
             <Route path="applicants" element={<Applicants />} />
             <Route path="contacts" element={<Contacts />} />
           </Route>
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Router>
     </ThemeProvider>

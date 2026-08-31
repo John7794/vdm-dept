@@ -3,53 +3,16 @@ import { ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../components/ThemeProvider";
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { db } from "../lib/firebase";
-import { handleFirestoreError, OperationType } from "../lib/firestore-errors";
-import heroImage1 from "../assets/images/regenerated_image_1778867776797.jpg";
+import { useCms } from "../contexts/CmsContext";
 import heroImage2 from "../assets/images/regenerated_image_1778865710012.jpg";
 import heroImage3 from "../assets/images/regenerated_image_1778867677539.jpg";
 
-const HERO_SLIDES = [
-  heroImage2,
-  heroImage3
-];
-
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [announcements, setAnnouncements] = useState<string[]>(["ВІДКРИТО НАБІР НА МАГІСТРАТУРУ 2026"]);
-  const [slides, setSlides] = useState<string[]>([heroImage2, heroImage3]);
+  const { theme } = useTheme();
+  const { t } = useCms();
 
-  useEffect(() => {
-    // Fetch Announcements
-    const qAnnouncements = query(collection(db, 'announcements'));
-    const unsubAnnouncements = onSnapshot(qAnnouncements, (snapshot) => {
-      if (!snapshot.empty) {
-        const texts: string[] = [];
-        snapshot.forEach(doc => texts.push(doc.data().text));
-        setAnnouncements(texts);
-      }
-    }, (error) => {
-      handleFirestoreError(error, OperationType.GET, 'announcements');
-    });
-
-    // Fetch Hero Slides
-    const qSlides = query(collection(db, 'heroSlides'));
-    const unsubSlides = onSnapshot(qSlides, (snapshot) => {
-      if (!snapshot.empty) {
-        const urls: string[] = [];
-        snapshot.forEach(doc => urls.push(doc.data().image));
-        setSlides(urls);
-      }
-    }, (error) => {
-      handleFirestoreError(error, OperationType.GET, 'heroSlides');
-    });
-
-    return () => {
-      unsubAnnouncements();
-      unsubSlides();
-    };
-  }, []);
+  const slides = [heroImage2, heroImage3];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,8 +20,6 @@ export default function Home() {
     }, 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
-
-  const { theme } = useTheme();
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -80,12 +41,9 @@ export default function Home() {
                 alt="Hero Background"
                 className="w-full h-full object-cover"
               />
-              {/* Blue Overlay / Decorative Background Layer */}
               <div className="absolute inset-0 bg-accent-blue/10 pointer-events-none mix-blend-overlay"></div>
             </motion.div>
           </AnimatePresence>
-          
-          {/* Decorative blue geometric block */}
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-blue/20 blur-[100px] rounded-full z-[1]"></div>
         </div>
 
@@ -101,11 +59,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance ${theme === "dark" ? "text-white" : "text-black"}`}
+                className={`text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line ${theme === "dark" ? "text-white" : "text-black"}`}
               >
-                Візуальний<br />
-                Дизайн і<br />
-                Мистецтво.
+                {t("home_hero_title")}
               </motion.h1>
             </div>
           </div>
@@ -123,15 +79,12 @@ export default function Home() {
         <div className="absolute inset-0 z-20 pointer-events-none">
           <div className="grid grid-cols-1 lg:grid-cols-12 w-full min-h-[85vh] h-full">
             <div className="lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
-              {/* Sync with the stencil text height using a ghost invisible header */}
               <div className="mt-12 md:mt-24">
                 <h2 
-                  className="text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none"
+                  className="text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line"
                   aria-hidden="true"
                 >
-                  Візуальний<br />
-                  Дизайн і<br />
-                  Мистецтво.
+                  {t("home_hero_title")}
                 </h2>
               </div>
 
@@ -141,7 +94,7 @@ export default function Home() {
                     to="/applicants" 
                     className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-sm hover:bg-accent-yellow hover:text-text-main transition-all duration-500 focus-ring shadow-2xl pointer-events-auto relative z-40"
                   >
-                    Вступна кампанія 
+                    {t("home_btn_apply")}
                     <ArrowUpRight className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                   </Link>
                 </div>
@@ -157,23 +110,23 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y-2 md:divide-y-0 md:divide-x-2 divide-border-main">
           
           <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair">
-            <span className="font-mono text-xs text-text-dim block mb-6">01. ПІДХІД</span>
-            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none">Синтез<br />Традицій</h2>
-            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed">
-              Академічна база поєднується з цифровою добою. Ми формуємо фахівців, здатних проєктувати складні інформаційні системи та естетичні простори.
+            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f1_label")}</span>
+            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none whitespace-pre-line">{t("home_f1_title")}</h2>
+            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed whitespace-pre-line">
+              {t("home_f1_desc")}
             </p>
           </div>
 
           <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair bg-surface-mut">
-            <span className="font-mono text-xs text-text-dim block mb-6">02. ПРАКТИКА</span>
-            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none">Проєктно-<br />Базоване<br />Навчання</h2>
-            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed">
-              Жодної теорії заради теорії. Студенти розв'язують реальні комунікаційні проблеми замовників ще під час навчання.
+            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f2_label")}</span>
+            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none whitespace-pre-line">{t("home_f2_title")}</h2>
+            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed whitespace-pre-line">
+              {t("home_f2_desc")}
             </p>
           </div>
 
           <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair">
-            <span className="font-mono text-xs text-text-dim block mb-6">03. ДИСЦИПЛІНИ</span>
+            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f3_label")}</span>
             <ul className="space-y-3 font-medium text-lg tracking-tight uppercase">
               <li className="flex justify-between border-b border-border-soft pb-1"><span>UX / UI Дизайн</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
               <li className="flex justify-between border-b border-border-soft pb-1"><span>Типографіка</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
@@ -193,7 +146,7 @@ export default function Home() {
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
           className="flex space-x-8 font-mono text-sm font-bold uppercase text-text-main"
         >
-           {Array(20).fill(announcements).flat().map((text, i) => (
+           {Array(20).fill([t("home_marquee")]).flat().map((text, i) => (
              <span key={i} className="flex items-center">
                <span>{text}</span>
                <span className="w-2 h-2 bg-text-main rounded-full mx-8"></span>
