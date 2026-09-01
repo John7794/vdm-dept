@@ -19,11 +19,17 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { data, lang, setLang, t } = useCms();
 
-  const logoDataLight = (data?.multimedia || []).find((item: any) => item.Category === "LogoLight" && item.Url && item.Url.trim() !== "");
-  const logoDataDark = (data?.multimedia || []).find((item: any) => item.Category === "LogoDark" && item.Url && item.Url.trim() !== "");
+  const logoDataLight = (data?.multimedia || []).find((item: any) => {
+    const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+    return item.Category === "LogoLight" && url !== "";
+  });
+  const logoDataDark = (data?.multimedia || []).find((item: any) => {
+    const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+    return item.Category === "LogoDark" && url !== "";
+  });
 
-  const logoLightUrl = logoDataLight ? formatDriveLink(logoDataLight.Url) : null;
-  const logoDarkUrl = logoDataDark ? formatDriveLink(logoDataDark.Url) : null;
+  const logoLightUrl = logoDataLight ? formatDriveLink((logoDataLight.Image || logoDataLight.image || logoDataLight.img || logoDataLight.Media || logoDataLight.media || logoDataLight.Url || logoDataLight.url).trim()) : null;
+  const logoDarkUrl = logoDataDark ? formatDriveLink((logoDataDark.Image || logoDataDark.image || logoDataDark.img || logoDataDark.Media || logoDataDark.media || logoDataDark.Url || logoDataDark.url).trim()) : null;
   
   // LogoLight = White logo (for dark theme)
   // LogoDark = Black logo (for light theme)

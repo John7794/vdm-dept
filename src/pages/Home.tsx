@@ -19,9 +19,24 @@ export default function Home() {
   ];
 
   const cmsBanners = (data?.multimedia || [])
-    .filter((item: any) => item.Category === "HeroBanner" && item.Url && item.Url.trim() !== "")
-    .map((item: any) => formatDriveLink(item.Url))
+    .filter((item: any) => {
+      const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+      return item.Category === "HeroBanner" && url !== "";
+    })
+    .map((item: any) => {
+      const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+      return formatDriveLink(url);
+    })
     .filter((url: string) => url !== "");
+
+  const getSectionImage = (id: string) => {
+    const item = (data?.multimedia || []).find((m: any) => m.ID === id);
+    if (item) {
+      const url = (item.Image || item.image || item.img || item.Media || item.media || item.Url || item.url || "").trim();
+      if (url) return formatDriveLink(url);
+    }
+    return "";
+  };
 
   const baseSlides = cmsBanners.length > 0 ? cmsBanners : defaultSlides;
   // Clone the first slide at the end to allow a seamless transition back to start
@@ -123,43 +138,106 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Info Dashboard Pattern */}
-      <section className="border-b-2 border-border-main bg-page-bg">
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y-2 md:divide-y-0 md:divide-x-2 divide-border-main">
-          
-          <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair">
-            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f1_label")}</span>
-            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none whitespace-pre-line">{t("home_f1_title")}</h2>
-            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed whitespace-pre-line">
-              {t("home_f1_desc")}
-            </p>
-          </div>
+      {/* Vertical Alternating Dashboard Pattern */}
+      <section className="flex flex-col w-full border-b-2 border-border-main">
+        {[
+          {
+            num: "01.",
+            title: t("nav_programs", "Програми"),
+            desc: t("home_section_programs_desc", "Бакалаврські та магістерські програми з візуального дизайну та мистецтва. Дізнайтеся про наші напрямки підготовки."),
+            link: "/programs",
+            btnLabel: t("home_section_programs_btn", "Усі програми"),
+            bgClass: "bg-page-bg",
+            image: getSectionImage("home_programs")
+          },
+          {
+            num: "02.",
+            title: t("nav_team", "Команда"),
+            desc: t("home_section_team_desc", "Викладачі та фахівці-практики, які формують нове покоління дизайнерів. Познайомтеся з нашими менторами."),
+            link: "/team",
+            btnLabel: t("home_section_team_btn", "Склад кафедри"),
+            bgClass: "bg-surface-mut",
+            image: getSectionImage("home_team")
+          },
+          {
+            num: "03.",
+            title: t("nav_portfolio", "Портфоліо"),
+            desc: t("home_section_portfolio_desc", "Найкращі студентські проєкти, курсові та дипломні дослідження. Наочний результат нашого підходу до навчання."),
+            link: "/portfolio",
+            btnLabel: t("home_section_portfolio_btn", "Відкрити портфоліо"),
+            bgClass: "bg-page-bg",
+            image: getSectionImage("home_portfolio")
+          },
+          {
+            num: "04.",
+            title: t("nav_news", "Новини"),
+            desc: t("home_section_news_desc", "Актуальні події, анонси, виставки, лекції та життя нашої кафедри. Залишайтеся в курсі останніх новин."),
+            link: "/news",
+            btnLabel: t("home_section_news_btn", "Переглянути новини"),
+            bgClass: "bg-surface-mut",
+            image: getSectionImage("home_news")
+          },
+          {
+            num: "05.",
+            title: t("nav_entrants", "Вступнику"),
+            desc: t("home_section_entrants_desc", "Умови вступу, творчі конкурси, вимоги до портфоліо та підготовчі курси для майбутніх студентів кафедри."),
+            link: "/entrants",
+            btnLabel: t("home_section_entrants_btn", "Для вступників"),
+            bgClass: "bg-page-bg",
+            image: getSectionImage("home_entrants")
+          },
+          {
+            num: "06.",
+            title: t("nav_about", "Про нас"),
+            desc: t("home_section_about_desc", "Історія кафедри, наші досягнення, лабораторії та партнери. Про філософію та візію нашого освітнього простору."),
+            link: "/about",
+            btnLabel: t("home_section_about_btn", "Більше про кафедру"),
+            bgClass: "bg-surface-mut",
+            image: getSectionImage("home_about")
+          }
+        ].map((item, idx) => {
+          const isEven = idx % 2 === 0;
+          return (
+            <div 
+              key={idx} 
+              className={`flex flex-col border-b-2 border-border-main last:border-b-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+            >
+              {/* Text Pane */}
+              <div className={`w-full md:w-1/2 p-8 md:p-12 lg:p-24 flex flex-col justify-center ${item.bgClass} ${isEven ? 'md:border-r-2 border-border-main' : 'md:border-l-2 border-border-main'}`}>
+                <div>
+                  <span className="font-mono text-xs text-text-dim block mb-6">{item.num} {item.title}</span>
+                  <h2 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-6 leading-none text-balance">{item.title}</h2>
+                  <p className="text-text-dim font-light text-lg leading-relaxed mb-10 max-w-xl text-balance">
+                    {item.desc}
+                  </p>
+                </div>
+                <div>
+                  <Link 
+                    to={item.link} 
+                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-xs hover:bg-accent-yellow hover:text-ink transition-all duration-500 focus-ring shadow-xl w-full md:w-auto justify-center"
+                  >
+                    {item.btnLabel}
+                    <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                  </Link>
+                </div>
+              </div>
 
-          <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair bg-surface-mut">
-            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f2_label")}</span>
-            <h2 className="text-3xl font-bold uppercase tracking-tight mb-4 leading-none whitespace-pre-line">{t("home_f2_title")}</h2>
-            <p className="text-text-dim font-light mt-4 text-sm leading-relaxed whitespace-pre-line">
-              {t("home_f2_desc")}
-            </p>
-          </div>
-
-          <div className="p-8 md:p-12 hover:bg-surface-main transition-colors cursor-crosshair">
-            <span className="font-mono text-xs text-text-dim block mb-6">{t("home_f3_label")}</span>
-            <div className="max-h-[220px] overflow-y-auto pr-4 custom-scrollbar">
-              <ul className="space-y-3 font-medium text-lg tracking-tight uppercase">
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_ux_ui") || "UX / UI Дизайн"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_typography") || "Типографіка"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_branding") || "Брендинг"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_motion") || "Motion & 3D"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_art_direction") || "Арт-дирекшн"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_illustration") || "Ілюстрація"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_game_design") || "Game Design"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-                <li className="flex justify-between border-b border-border-soft pb-1"><span>{t("disc_new_media") || "Нові Медіа"}</span> <ArrowUpRight className="w-4 h-4 text-text-dim" /></li>
-              </ul>
+              {/* Image Pane */}
+              <div className="w-full md:w-1/2 relative min-h-[350px] md:min-h-[450px] bg-ink overflow-hidden group border-t-2 md:border-t-0 border-border-main flex items-center justify-center">
+                {item.image ? (
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 mix-blend-screen dark:mix-blend-normal"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="text-page-bg/20 font-mono text-sm uppercase tracking-widest">{item.title}</span>
+                )}
+              </div>
             </div>
-          </div>
-          
-        </div>
+          );
+        })}
       </section>
       
       {/* Dynamic News Ticker / Marquee abstraction */}

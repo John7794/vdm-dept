@@ -1,11 +1,32 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
 import { useCms } from "../contexts/CmsContext";
 import { Link } from "react-router-dom";
+import ResponsiveImage from "../components/ResponsiveImage";
+import { formatDriveLink } from "../lib/utils";
 
 export default function News() {
   const { data, lang, t } = useCms();
-  const newsItems = data?.news || [];
+  const newsItemsRaw = data?.news || [];
+  const [activeFilter, setActiveFilter] = useState("ALL");
+
+  const filters = useMemo(() => {
+    const types = new Set<string>();
+    newsItemsRaw.forEach((p: any) => {
+      const type = p[`Type_${lang}`] || p.Type_UA || p.type || p.Type || "";
+      if (type) {
+        type.split(/[,;]/).forEach((tStr: string) => types.add(tStr.trim()));
+      }
+    });
+    return ["ALL", ...Array.from(types).filter(Boolean)];
+  }, [newsItemsRaw, lang]);
+
+  const newsItems = newsItemsRaw.filter((item: any) => {
+    if (activeFilter === "ALL") return true;
+    const type = item[`Type_${lang}`] || item.Type_UA || item.type || item.Type || "";
+    return type.includes(activeFilter);
+  });
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -21,8 +42,19 @@ export default function News() {
             {t("news_page_title")}
           </motion.h1>
           <div className="mt-8 flex flex-wrap gap-4">
-            <span className="font-mono text-xs uppercase tracking-widest border border-border-main px-3 py-1 bg-text-main text-page-bg">{t("news_tag_latest")}</span>
-            <span className="font-mono text-xs uppercase tracking-widest border border-border-main px-3 py-1">{t("news_tag_announcements")}</span>
+            {filters.map(filter => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`font-mono text-xs uppercase tracking-widest border border-border-main px-3 py-1 transition-colors cursor-pointer focus-ring outline-none ${
+                  activeFilter === filter 
+                    ? "bg-text-main text-page-bg" 
+                    : "bg-surface-main text-text-main hover:bg-surface-mut"
+                }`}
+              >
+                {filter === "ALL" ? t("news_tag_latest", "ОСТАННІ НОВИНИ") : filter}
+              </button>
+            ))}
           </div>
         </div>
       </section>
@@ -44,12 +76,43 @@ export default function News() {
                 transition={{ delay: idx * 0.1 }}
                 className="relative p-6 md:p-12 group hover:bg-surface-main transition-colors cursor-crosshair flex flex-col md:flex-row gap-8"
               >
-                <div className="w-full md:w-48 flex-shrink-0 flex flex-col">
-                  <span className="font-mono text-xl font-bold tracking-tighter text-text-main">{date}</span>
-                  {type && <span className="inline-block mt-2 font-mono text-xs text-text-dim border border-border-soft px-2 py-1 w-max uppercase">{type}</span>}
+                <div className="w-full md:w-48 flex-shrink-0 flex flex-col gap-4">
+                  <div>
+                    <span className="font-mono text-xl font-bold tracking-tighter text-text-main">{date}</span>
+                    {type && <span className="inline-block mt-2 font-mono text-xs text-text-dim border border-border-soft px-2 py-1 w-max uppercase">{type}</span>}
+                  </div>
+                  
+                  {(item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Image_2x || item.Image_Mobile || item.Image_Mobile_2x || item.Image_Tablet || item.Image_Tablet_2x) && (
+                    <div className="w-full aspect-square md:aspect-[4/3] border border-border-main bg-surface-mut overflow-hidden hidden md:block">
+                      <ResponsiveImage 
+                        desktopUrl={item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || ""}
+                        desktopUrl2x={item.Image_2x || item.image_2x || item.Media_2x || item.media_2x || ""}
+                        tabletUrl={item.Image_Tablet || item.image_Tablet || item.Media_Tablet || item.media_Tablet || ""}
+                        tabletUrl2x={item.Image_Tablet_2x || item.image_Tablet_2x || item.Media_Tablet_2x || item.media_Tablet_2x || ""}
+                        mobileUrl={item.Image_Mobile || item.image_Mobile || item.Media_Mobile || item.media_Mobile || ""}
+                        mobileUrl2x={item.Image_Mobile_2x || item.image_Mobile_2x || item.Media_Mobile_2x || item.media_Mobile_2x || ""}
+                        alt={title}
+                        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                      />
+                    </div>
+                  )}
                 </div>
                 
-                <div className="flex-grow">
+                <div className="flex-grow flex flex-col">
+                  {(item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Image_2x || item.Image_Mobile || item.Image_Mobile_2x || item.Image_Tablet || item.Image_Tablet_2x) && (
+                    <div className="w-full aspect-[16/9] border border-border-main bg-surface-mut overflow-hidden mb-6 md:hidden">
+                      <ResponsiveImage 
+                        desktopUrl={item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || ""}
+                        desktopUrl2x={item.Image_2x || item.image_2x || item.Media_2x || item.media_2x || ""}
+                        tabletUrl={item.Image_Tablet || item.image_Tablet || item.Media_Tablet || item.media_Tablet || ""}
+                        tabletUrl2x={item.Image_Tablet_2x || item.image_Tablet_2x || item.Media_Tablet_2x || item.media_Tablet_2x || ""}
+                        mobileUrl={item.Image_Mobile || item.image_Mobile || item.Media_Mobile || item.media_Mobile || ""}
+                        mobileUrl2x={item.Image_Mobile_2x || item.image_Mobile_2x || item.Media_Mobile_2x || item.media_Mobile_2x || ""}
+                        alt={title}
+                        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                      />
+                    </div>
+                  )}
                   <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight leading-none mb-4 group-hover:text-accent-blue transition-colors text-balance text-text-main">
                     {title}
                   </h3>
@@ -65,27 +128,35 @@ export default function News() {
               </motion.article>
             );
           })}
+          
+          {newsItems.length === 0 && (
+             <div className="p-12 text-center opacity-50 font-mono text-xs uppercase tracking-widest">
+               No news found
+             </div>
+          )}
         </div>
         
         {/* Sidebar */}
-        <aside className="md:col-span-4 lg:col-span-3 bg-surface-main p-6 md:p-12 border-t-2 md:border-t-0 border-border-main">
-           <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">{t("news_subscribe_lbl")}</span>
-           <h3 className="text-xl font-bold uppercase mb-4 text-text-main">{t("news_subscribe_title")}</h3>
-           <p className="font-light text-sm text-text-main opacity-80 mb-6">{t("news_subscribe_desc")}</p>
-           <form className="flex flex-col gap-4 relative z-20">
-             <input 
-               type="email" 
-               placeholder={t("news_subscribe_placeholder")}
-               className="w-full border-2 border-border-main p-3 font-mono text-xs uppercase focus-ring outline-none bg-transparent placeholder-text-dim"
-               required
-             />
-             <button type="submit" className="w-full bg-text-main text-page-bg font-bold uppercase tracking-widest text-sm p-4 hover:bg-accent-blue hover:text-paper transition-colors focus-ring outline-none">
-               {t("news_subscribe_btn")}
-             </button>
-           </form>
-           
-           <div className="mt-16 brutal-grid h-32 w-full opacity-50 border-t-2 border-border-main"></div>
-        </aside>
+        <div className="md:col-span-4 lg:col-span-3 border-t-2 md:border-t-0 border-border-main relative">
+          <aside className="sticky top-20 bg-surface-main p-6 md:p-12 h-max">
+             <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">{t("news_subscribe_lbl")}</span>
+             <h3 className="text-xl font-bold uppercase mb-4 text-text-main">{t("news_subscribe_title")}</h3>
+             <p className="font-light text-sm text-text-main opacity-80 mb-6">{t("news_subscribe_desc")}</p>
+             <form className="flex flex-col gap-4 relative z-20">
+               <input 
+                 type="email" 
+                 placeholder={t("news_subscribe_placeholder")}
+                 className="w-full border-2 border-border-main p-3 font-mono text-xs uppercase focus-ring outline-none bg-transparent placeholder-text-dim text-text-main"
+                 required
+               />
+               <button type="submit" className="w-full bg-text-main text-page-bg font-bold uppercase tracking-widest text-sm p-4 hover:bg-accent-blue hover:text-paper transition-colors focus-ring outline-none cursor-pointer">
+                 {t("news_subscribe_btn")}
+               </button>
+             </form>
+             
+             <div className="mt-16 brutal-grid h-32 w-full opacity-50 border-t-2 border-border-main"></div>
+          </aside>
+        </div>
       </section>
     </div>
   );

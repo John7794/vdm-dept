@@ -3,6 +3,7 @@ import { ArrowUpRight, Mail, Linkedin, Instagram, Globe, Palette, User } from "l
 import { useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink } from "../lib/utils";
+import ResponsiveImage from "../components/ResponsiveImage";
 
 const GROUP_ORDER = [
   "Керівництво",
@@ -102,11 +103,11 @@ export default function Staff() {
                 const role = member[`Role_${lang}`] || member.Role_UA || member.role || "";
                 const degree = member[`Degree_${lang}`] || member.Degree_UA || member.degree || "";
                 
-                // Parse interests if they come as a comma-separated string from Google Sheets
-                let interests = [];
+                // Parse interests if they come as a semicolon or comma-separated string from Google Sheets
+                let interests: string[] = [];
                 const interestsRaw = member[`Interests_${lang}`] || member.Interests_UA || member.interests;
                 if (typeof interestsRaw === 'string' && interestsRaw.trim() !== '') {
-                  interests = interestsRaw.split(',').map(i => i.trim());
+                  interests = interestsRaw.split(/[;,]/).map(i => i.trim()).filter(Boolean);
                 } else if (Array.isArray(interestsRaw)) {
                   interests = interestsRaw;
                 }
@@ -130,12 +131,16 @@ export default function Staff() {
                     <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 uppercase w-full">{t("staff_lbl_employee")}</span>
                     {/* Staff Photo */}
                     <div className="w-32 h-32 md:w-48 md:h-48 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main group-hover:border-page-bg transition-colors flex items-center justify-center">
-                      {member.Image || member.image ? (
-                        <img 
-                          src={formatDriveLink(member.Image || member.image)} 
-                          srcSet={member.Image_2x ? `${formatDriveLink(member.Image_2x)} 2x` : undefined}
-                          alt={name} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      {(member.Image || member.image || member.Image_2x || member.Image_Mobile || member.Image_Tablet || member.Image_Tablet_2x || member.Image_Mobile_2x) ? (
+                        <ResponsiveImage
+                          desktopUrl={member.Image || member.image || ""}
+                          desktopUrl2x={member.Image_2x || member.image_2x || member.Media_2x || member.media_2x || ""}
+                          tabletUrl={member.Image_Tablet || member.image_Tablet || member.Media_Tablet || member.media_Tablet || ""}
+                          tabletUrl2x={member.Image_Tablet_2x || member.image_Tablet_2x || member.Media_Tablet_2x || member.media_Tablet_2x || ""}
+                          mobileUrl={member.Image_Mobile || member.image_Mobile || member.Media_Mobile || member.media_Mobile || ""}
+                          mobileUrl2x={member.Image_Mobile_2x || member.image_Mobile_2x || member.Media_Mobile_2x || member.media_Mobile_2x || ""}
+                          alt={name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-text-dim bg-surface-mut transition-colors">

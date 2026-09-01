@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
 import { Link } from "react-router-dom";
+import ResponsiveImage from "../components/ResponsiveImage";
 
 export default function Projects() {
   const { data, lang, t } = useCms();
@@ -28,6 +29,30 @@ export default function Projects() {
     const type = project[`Type_${lang}`] || project.Type_UA || project.type || project.Type || "";
     return type.includes(activeFilter);
   });
+
+  // Bento grid pattern generator
+  const getBentoClasses = (idx: number, total: number) => {
+    // If only one project is shown, make it span the entire grid 
+    if (total === 1) return "md:col-span-2 md:row-span-2 lg:col-span-4 lg:row-span-2";
+    
+    // If exactly two projects are shown, make them evenly split the space
+    if (total === 2) return "md:col-span-1 md:row-span-1 lg:col-span-2 lg:row-span-2";
+    
+    const i = idx % 7;
+    // Mobile: 1 col, auto height (base classes)
+    // Tablet (md): 2 cols
+    // Desktop (lg): 4 cols
+    switch (i) {
+      case 0: return "md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2";
+      case 1: return "md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1";
+      case 2: return "md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1";
+      case 3: return "md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1";
+      case 4: return "md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1";
+      case 5: return "md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1";
+      case 6: return "md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1";
+      default: return "";
+    }
+  };
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -61,13 +86,13 @@ export default function Projects() {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main border-b-2 border-border-main">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[400px] lg:auto-rows-[450px] gap-[2px] bg-border-main border-b-2 border-border-main">
         {filteredProjects.map((project: any, idx: number) => {
           const title = project[`Title_${lang}`] || project.Title_UA || project.title || "";
           const type = project[`Type_${lang}`] || project.Type_UA || project.type || project.Type || "";
           const student = project[`Student_${lang}`] || project.Student_UA || project.student || "";
           const year = project.Year || project.year || "";
-          const img = project.Image || project.image || project.img || "";
+          const img = project.Image || project.image || project.img || project.Media || project.media || "";
 
           return (
             <motion.article 
@@ -75,43 +100,54 @@ export default function Projects() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: idx * 0.1 }}
-              className="relative group flex flex-col bg-surface-main cursor-crosshair border-b-2 lg:border-b-0 lg:border-b-[transparent] border-border-main lg:[&:nth-last-child(-n+3)]:border-b-0 lg:[&:not(:nth-last-child(-n+3))]:border-b-2"
+              className={`relative group flex flex-col bg-surface-main cursor-crosshair overflow-hidden ${getBentoClasses(idx, filteredProjects.length)}`}
             >
-              {/* Image Placeholder */}
-              <div className="aspect-[4/3] w-full bg-ink overflow-hidden relative border-b-2 border-border-main">
-                {img ? (
-                  <img 
-                    src={img} 
-                    alt={title} 
-                    className="w-full h-full object-cover grayscale opacity-70 mix-blend-screen group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 ease-out"
+              <div className="flex-grow w-full bg-ink overflow-hidden relative">
+                {(project.Image || project.image || project.img || project.Media || project.media || project.Image_2x || project.Image_Mobile || project.Image_Mobile_2x || project.Image_Tablet || project.Image_Tablet_2x) ? (
+                  <ResponsiveImage 
+                    desktopUrl={project.Image || project.image || project.img || project.Media || project.media || ""}
+                    desktopUrl2x={project.Image_2x || project.image_2x || project.Media_2x || project.media_2x || ""}
+                    tabletUrl={project.Image_Tablet || project.image_Tablet || project.Media_Tablet || project.media_Tablet || ""}
+                    tabletUrl2x={project.Image_Tablet_2x || project.image_Tablet_2x || project.Media_Tablet_2x || project.media_Tablet_2x || ""}
+                    mobileUrl={project.Image_Mobile || project.image_Mobile || project.Media_Mobile || project.media_Mobile || ""}
+                    mobileUrl2x={project.Image_Mobile_2x || project.image_Mobile_2x || project.Media_Mobile_2x || project.media_Mobile_2x || ""}
+                    alt={title}
+                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 mix-blend-screen group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 ease-out"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center font-mono text-xs text-paper/50 uppercase tracking-widest">
                     No Image
                   </div>
                 )}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-ink/20 backdrop-blur-sm">
-                  <span className="bg-text-main text-page-bg p-4 rounded-full pointer-events-none">
+                
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <span className="bg-text-main text-page-bg p-4 rounded-full">
                     <ArrowUpRight className="w-6 h-6" />
                   </span>
                 </div>
               </div>
               
-              {/* Meta */}
-              <div className="p-6 md:p-8 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="font-mono text-[10px] text-text-dim border border-border-soft px-2 py-1 uppercase">{type}</span>
-                  <span className="font-mono text-[10px] text-text-main uppercase font-bold">{year}</span>
+              {/* Meta overlaid on bottom */}
+              <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end pointer-events-none z-10">
+                <div className="flex justify-between items-start mb-auto">
+                  <span className="font-mono text-[10px] text-text-main bg-page-bg px-2 py-1 uppercase">{type}</span>
+                  <span className="font-mono text-[10px] text-page-bg bg-text-main px-2 py-1 uppercase font-bold">{year}</span>
                 </div>
-                <h3 className="text-2xl font-bold uppercase tracking-tight leading-none mb-2 group-hover:text-accent-blue transition-colors text-balance text-text-main">
-                  {title}
-                </h3>
-                <p className="font-light text-sm text-text-main mt-auto pt-4 uppercase tracking-wider">
-                  {t("proj_lbl_author")} <span className="font-bold">{student}</span>
-                </p>
+                
+                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <h3 className="text-2xl lg:text-3xl font-bold uppercase tracking-tight leading-none mb-2 text-white">
+                    {title}
+                  </h3>
+                  <p className="font-light text-sm text-white/80 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    {t("proj_lbl_author")} <span className="font-bold">{student}</span>
+                  </p>
+                </div>
               </div>
 
-              <Link to={`/projects/${project.ID || project.id}`} className="absolute inset-0 z-10" aria-label={`${t("proj_read_more")} ${title}`} />
+              <Link to={`/projects/${project.ID || project.id}`} className="absolute inset-0 z-30" aria-label={`${t("proj_read_more")} ${title}`} />
             </motion.article>
           );
         })}

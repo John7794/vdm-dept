@@ -13,11 +13,17 @@ export default function Footer() {
   const location = useLocation();
   const { data, t } = useCms();
 
-  const logoDataLight = (data?.multimedia || []).find((item: any) => item.Category === "LogoLight" && item.Url && item.Url.trim() !== "");
-  const logoDataDark = (data?.multimedia || []).find((item: any) => item.Category === "LogoDark" && item.Url && item.Url.trim() !== "");
+  const logoDataLight = (data?.multimedia || []).find((item: any) => {
+    const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+    return item.Category === "LogoLight" && url !== "";
+  });
+  const logoDataDark = (data?.multimedia || []).find((item: any) => {
+    const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
+    return item.Category === "LogoDark" && url !== "";
+  });
   
-  const lightUrl = logoDataLight ? formatDriveLink(logoDataLight.Url) : null;
-  const darkUrl = logoDataDark ? formatDriveLink(logoDataDark.Url) : null;
+  const lightUrl = logoDataLight ? formatDriveLink((logoDataLight.Image || logoDataLight.image || logoDataLight.img || logoDataLight.Media || logoDataLight.media || logoDataLight.Url || logoDataLight.url).trim()) : null;
+  const darkUrl = logoDataDark ? formatDriveLink((logoDataDark.Image || logoDataDark.image || logoDataDark.img || logoDataDark.Media || logoDataDark.media || logoDataDark.Url || logoDataDark.url).trim()) : null;
   
   // Footer is always dark background, so prefer the light (white) logo
   const currentLogoUrl = lightUrl || darkUrl;

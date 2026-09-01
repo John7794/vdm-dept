@@ -1,29 +1,100 @@
-import { motion } from "motion/react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, ArrowUpRight, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDriveLink } from "../lib/utils";
 
 export default function About() {
   const { t, data } = useCms();
 
-  const headerBgRaw = data?.multimedia?.find((m: any) => m.Category === "AboutHeader")?.Url;
+  const politeImagesRaw = data?.multimedia?.filter((m: any) => m.Category === "GalleryPolite") || [];
+  const galleryImages = politeImagesRaw.length > 0 
+    ? politeImagesRaw.map((m: any) => formatDriveLink(m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "")).filter((u: string) => u !== "")
+    : [
+        "https://picsum.photos/seed/polite1/1200/800",
+        "https://picsum.photos/seed/polite2/1200/800",
+        "https://picsum.photos/seed/polite3/1200/800"
+      ];
+
+  const groomImagesRaw = data?.multimedia?.filter((m: any) => m.Category === "GalleryGroom") || [];
+  const groomImages = groomImagesRaw.length > 0
+    ? groomImagesRaw.map((m: any) => formatDriveLink(m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "")).filter((u: string) => u !== "")
+    : [
+        "https://picsum.photos/seed/groom1/1200/800",
+        "https://picsum.photos/seed/groom2/1200/800",
+        "https://picsum.photos/seed/groom3/1200/800"
+      ];
+
+  const partnerImagesRaw = data?.multimedia?.filter((m: any) => m.Category === "Partner") || [];
+  const partnerImages = partnerImagesRaw.length > 0
+    ? partnerImagesRaw.map((m: any) => formatDriveLink(m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "")).filter((u: string) => u !== "")
+    : [
+        "https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Partner+1",
+        "https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Partner+2",
+        "https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Partner+3",
+        "https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Partner+4",
+        "https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Partner+5",
+      ];
+
+  const [currentGalleryIdx, setCurrentGalleryIdx] = useState(0);
+  const [isGalleryHovered, setIsGalleryHovered] = useState(false);
+  
+  const [currentGroomIdx, setCurrentGroomIdx] = useState(0);
+  const [isGroomHovered, setIsGroomHovered] = useState(false);
+
+  const [lightboxData, setLightboxData] = useState<{ images: string[], index: number } | null>(null);
+
+  useEffect(() => {
+    if (isGalleryHovered || lightboxData) return;
+    const timer = setInterval(() => {
+      setCurrentGalleryIdx((prev) => (prev + 1) % galleryImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isGalleryHovered, lightboxData]);
+
+  useEffect(() => {
+    if (isGroomHovered || lightboxData) return;
+    const timer = setInterval(() => {
+      setCurrentGroomIdx((prev) => (prev + 1) % groomImages.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [isGroomHovered, lightboxData]);
+
+  const handlePrevImage = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!lightboxData) return;
+    setLightboxData(prev => prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : null);
+  }, [lightboxData]);
+
+  const handleNextImage = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!lightboxData) return;
+    setLightboxData(prev => prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : null);
+  }, [lightboxData]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxData) return;
+      if (e.key === "ArrowLeft") {
+        setLightboxData(prev => prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : null);
+      } else if (e.key === "ArrowRight") {
+        setLightboxData(prev => prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : null);
+      } else if (e.key === "Escape") {
+        setLightboxData(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxData]);
+
+  const headerBgItem = data?.multimedia?.find((m: any) => m.Category === "AboutHeader");
+  const headerBgRaw = headerBgItem ? (headerBgItem.Image || headerBgItem.image || headerBgItem.img || headerBgItem.Media || headerBgItem.media || headerBgItem.Url || headerBgItem.url || "") : null;
   const headerBgUrl = headerBgRaw ? formatDriveLink(headerBgRaw) : null;
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
       {/* Page Header */}
-      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden pt-32 lg:pt-40 min-h-[50vh] flex flex-col justify-end">
-        {headerBgUrl && (
-          <>
-            <div 
-              className="absolute inset-0 bg-cover bg-center z-0"
-              style={{ backgroundImage: `url(${headerBgUrl})` }}
-            />
-            {/* Dark/Light overlay to ensure text contrast */}
-            <div className="absolute inset-0 bg-page-bg/60 z-0 backdrop-blur-[2px]" />
-          </>
-        )}
-        
+      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden pt-32 lg:pt-40 flex flex-col justify-end">
         <div className="max-w-[1000px] z-10 relative">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -43,76 +114,161 @@ export default function About() {
       <section className="grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main border-b-2 border-border-main">
         
         {/* Left Column: History & Achievements */}
-        <div className="lg:col-span-7 xl:col-span-8 bg-surface-main">
-          <div className="p-6 md:p-12 lg:p-16 max-w-4xl space-y-16">
+        <div className="lg:col-span-7 xl:col-span-8 bg-surface-main flex flex-col">
+          
+          {/* History Section */}
+          <div className="p-6 md:p-12 lg:p-16 lg:pb-8 max-w-4xl">
+            <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
+              {t("about_history_label", "Історія")}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-8 leading-none">
+              {t("about_history_title", "Спадщина та Авангард")}
+            </h2>
+          </div>
+
+          {headerBgUrl && (
+            <div className="w-full border-y-2 border-border-main bg-surface-mut overflow-hidden">
+              <img src={headerBgUrl} alt="History" className="w-full h-auto object-cover" />
+            </div>
+          )}
+
+          <div className="p-6 md:p-12 lg:p-16 lg:pt-8 max-w-4xl">
+            <div className="space-y-6 text-lg font-light leading-relaxed text-text-main text-balance">
+              <p>
+                {t("about_history_p1", "Кафедра візуального дизайну і мистецтва є невід'ємною частиною Інституту архітектури та дизайну Національного університету «Львівська політехніка». Ми базуємося на глибоких традиціях львівської архітектурної школи, трансформуючи їх у мову сучасного візуального проєктування.")}
+              </p>
+              <p>
+                {t("about_history_p2", "Наш підхід полягає у відмові від суто художнього оздоблення на користь функціонального комунікативного дизайну. Ми вчимо не просто створювати зображення, а проєктувати інформаційні системи, керувати увагою та формувати сенси через візуальну мову.")}
+              </p>
+            </div>
+          </div>
+
+          <hr className="border-border-main border-t-2" />
+
+          {/* Gallery Polite Section */}
+          <div className="p-6 md:p-12 lg:p-16 lg:pb-8 max-w-4xl">
+            <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
+              {t("about_gallery_label", "Арт-простір")}
+            </span>
             
-            {/* History Section */}
-            <div>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-8 leading-none">
+              {t("about_gallery_title", "Галерея «Політе»")}
+            </h2>
+            
+            <div className="space-y-6 text-lg font-light leading-relaxed text-text-main text-balance">
+              <p>
+                {t("about_gallery_p1", "Галерея «Політе» — це новостворений арт-простір для мистецтва, зустрічей, експериментів та живого діалогу, який діє на базі нашої кафедри. Ми створили платформу, де перетинаються глибокі академічні традиції та сучасні творчі практики.")}
+              </p>
+            </div>
+          </div>
+
+          {/* Mini Gallery Carousel */}
+          <div 
+            className="w-full relative border-y-2 border-border-main bg-ink overflow-hidden h-[40vh] md:h-[60vh] flex items-center justify-center cursor-pointer group"
+            onMouseEnter={() => setIsGalleryHovered(true)}
+            onMouseLeave={() => setIsGalleryHovered(false)}
+            onClick={() => setLightboxData({ images: galleryImages, index: currentGalleryIdx })}
+          >
+            <AnimatePresence mode="popLayout">
+              <motion.img 
+                key={currentGalleryIdx}
+                src={galleryImages[currentGalleryIdx]}
+                alt="Галерея Політе"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute inset-0 w-full h-full object-cover grayscale mix-blend-screen opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:mix-blend-normal group-hover:opacity-100"
+              />
+            </AnimatePresence>
+          </div>
+
+          <div className="p-6 md:p-12 lg:p-16 lg:pt-8 max-w-4xl">
+            <div className="space-y-6 text-lg font-light leading-relaxed text-text-main text-balance">
+              <p>
+                {t("about_gallery_p2", "Першою експозицією простору став проєкт відомого представника української «Нової хвилі» Олега Тістола під назвою «Тіні вибору \"Анґіарі\"». Художник досліджує досвід вибору, пам'ять та відповідальність через мотив тіні, безпосередньо залучаючи до творчого процесу українських захисників.")}
+              </p>
+            </div>
+          </div>
+
+          <hr className="border-border-main border-t-2" />
+
+          {/* G-room Section */}
+          <div className="p-6 md:p-12 lg:p-16 lg:pb-8 max-w-4xl">
+            <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
+              {t("about_groom_label", "Лабораторія")}
+            </span>
+            
+            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-8 leading-none">
+              {t("about_groom_title", "Мультимедійна лабораторія G-room")}
+            </h2>
+          </div>
+
+          {/* Mini Gallery Carousel */}
+          <div 
+            className="w-full relative border-y-2 border-border-main bg-ink overflow-hidden h-[40vh] md:h-[60vh] flex items-center justify-center cursor-pointer group"
+            onMouseEnter={() => setIsGroomHovered(true)}
+            onMouseLeave={() => setIsGroomHovered(false)}
+            onClick={() => setLightboxData({ images: groomImages, index: currentGroomIdx })}
+          >
+            <AnimatePresence mode="popLayout">
+              <motion.img 
+                key={currentGroomIdx}
+                src={groomImages[currentGroomIdx]}
+                alt="Галерея G-room"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute inset-0 w-full h-full object-cover grayscale mix-blend-screen opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:mix-blend-normal group-hover:opacity-100"
+              />
+            </AnimatePresence>
+          </div>
+
+          <div className="p-6 md:p-12 lg:p-16 lg:pt-8 max-w-4xl">
+            <div className="space-y-6 text-lg font-light leading-relaxed text-text-main text-balance">
+              <p>
+                {t("about_groom_p1", "Мультимедійна лабораторія G-room (також відома як Garmonia Room) — це творчий та експериментальний простір для студентів спеціальності «Дизайн». Тут вони вивчають та створюють передові проєкти у сферах графічного, мультимедійного та інтерактивного дизайну.")}
+              </p>
+              <p>
+                {t("about_groom_p2", "Лабораторія забезпечує практичну базу для розробки сучасних візуальних медіапроєктів. Простір оснащений передовим світловим, музичним та екранним обладнанням для створення масштабних проєкційних інсталяцій (відеомепінг) та концептуальних аудіовізуальних перформансів.")}
+              </p>
+            </div>
+          </div>
+
+          <hr className="border-border-main border-t-2" />
+
+          {/* Partners Section */}
+          <div className="py-6 md:py-12 lg:py-16 w-full overflow-hidden">
+            <div className="px-6 md:px-12 lg:px-16 max-w-4xl mb-8">
               <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
-                {t("about_history_label", "Історія")}
+                {t("about_partners_label", "Співпраця")}
               </span>
               
-              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-8 leading-none">
-                {t("about_history_title", "Спадщина та Авангард")}
+              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight leading-none">
+                {t("about_partners_title", "З ким ми співпрацюємо")}
               </h2>
-              
-              <div className="space-y-6 text-lg font-light leading-relaxed text-text-main text-balance">
-                <p>
-                  {t("about_history_p1", "Кафедра візуального дизайну і мистецтва є невід'ємною частиною Інституту архітектури та дизайну Національного університету «Львівська політехніка». Ми базуємося на глибоких традиціях львівської архітектурної школи, трансформуючи їх у мову сучасного візуального проєктування.")}
-                </p>
-                <p>
-                  {t("about_history_p2", "Наш підхід полягає у відмові від суто художнього оздоблення на користь функціонального комунікативного дизайну. Ми вчимо не просто створювати зображення, а проєктувати інформаційні системи, керувати увагою та формувати сенси через візуальну мову.")}
-                </p>
-              </div>
             </div>
-
-            {/* Achievements Section */}
-            <div>
-              <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
-                {t("about_achievements_label", "Досягнення")}
-              </span>
-              
-              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-8 leading-none">
-                {t("about_achievements_title", "Наші результати")}
-              </h2>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
-                  <div className="text-4xl md:text-5xl font-bold font-mono mb-2">20+</div>
-                  <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
-                    {t("about_achievements_1", "Років досвіду")}
-                  </div>
-                </div>
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
-                  <div className="text-4xl md:text-5xl font-bold font-mono mb-2">500+</div>
-                  <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
-                    {t("about_achievements_2", "Випускників")}
-                  </div>
-                </div>
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
-                  <div className="text-4xl md:text-5xl font-bold font-mono mb-2">50+</div>
-                  <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
-                    {t("about_achievements_3", "Нагород на конкурсах")}
-                  </div>
-                </div>
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-blue shadow-[var(--theme-glow)]"></div>
-                  <div className="text-4xl md:text-5xl font-bold font-mono mb-2">100%</div>
-                  <div className="text-sm font-bold uppercase tracking-widest text-text-dim">
-                    {t("about_achievements_4", "Проєктне навчання")}
-                  </div>
+            
+            <div className="w-full relative flex py-4">
+              <div className="flex animate-marquee min-w-max gap-8 md:gap-12 hover:animation-play-state-paused">
+                {[...partnerImages, ...partnerImages, ...partnerImages, ...partnerImages].map((imgUrl, idx) => (
+                    <div key={idx} className="w-[160px] md:w-[200px] flex-shrink-0 flex items-center justify-center group cursor-default">
+                      <img 
+                        src={imgUrl} 
+                        alt={`Partner ${idx + 1}`} 
+                        className="max-w-full max-h-[70px] md:max-h-[90px] object-contain transition-all duration-300 partner-logo"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
           </div>
         </div>
 
         {/* Right Column: Contacts & Map */}
-        <div className="lg:col-span-5 xl:col-span-4 bg-ink text-paper flex flex-col">
+        <div className="lg:col-span-5 xl:col-span-4 bg-ink text-paper flex flex-col lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar">
           <div className="p-6 md:p-12 flex-grow">
             <span className="font-mono text-xs text-paper/50 block mb-8 uppercase tracking-widest">
               {t("nav_contacts", "Контакти")}
@@ -177,6 +333,59 @@ export default function About() {
         </div>
 
       </section>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-ink/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 cursor-zoom-out group/lightbox"
+            onClick={() => setLightboxData(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 text-paper/70 hover:text-accent-yellow transition-colors focus-ring outline-none z-[110]"
+              onClick={(e) => { e.stopPropagation(); setLightboxData(null); }}
+              aria-label="Close"
+            >
+              <X className="w-10 h-10" />
+            </button>
+
+            {/* Left Nav */}
+            <button 
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
+              onClick={handlePrevImage}
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-12 h-12 md:w-16 md:h-16" />
+            </button>
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={lightboxData.index}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                src={lightboxData.images[lightboxData.index]}
+                alt="Expanded view"
+                className="max-w-full max-h-[90vh] object-contain shadow-2xl cursor-default"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </AnimatePresence>
+
+            {/* Right Nav */}
+            <button 
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
+              onClick={handleNextImage}
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-12 h-12 md:w-16 md:h-16" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
