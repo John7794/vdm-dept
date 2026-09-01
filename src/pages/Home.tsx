@@ -86,11 +86,11 @@ export default function Home() {
 
         {/* The Stencil Overlay Layer */}
         <div 
-          className={`relative z-10 grid grid-cols-1 lg:grid-cols-12 min-h-[85vh] pointer-events-none divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main transition-colors duration-500
+          className={`relative z-10 flex flex-col lg:grid lg:grid-cols-12 min-h-[calc(100vh-80px)] lg:min-h-[85vh] pointer-events-none lg:divide-x-2 divide-border-main transition-colors duration-500
             ${theme === "dark" ? "mix-blend-multiply" : "mix-blend-screen"}`}
         >
           {/* Left Column (Masking BG) */}
-          <div className={`lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start transition-colors duration-500 ${theme === "dark" ? "bg-ink" : "bg-paper"}`}>
+          <div className={`flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start transition-colors duration-500 ${theme === "dark" ? "bg-ink" : "bg-paper"}`}>
             <div className="mt-12 md:mt-24">
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
@@ -103,15 +103,15 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column (Pure Hole) */}
-          <div className={`lg:col-span-4 flex items-end p-12 transition-colors duration-500 ${theme === "dark" ? "bg-white" : "bg-black"}`}>
+          {/* Right Column / Bottom Hole */}
+          <div className={`flex-1 lg:col-span-4 flex items-end p-12 transition-colors duration-500 ${theme === "dark" ? "bg-white" : "bg-black"}`}>
           </div>
         </div>
 
         {/* Standard UI Overlay (Always visible, no blend) */}
         <div className="absolute inset-0 z-20 pointer-events-none">
-          <div className="grid grid-cols-1 lg:grid-cols-12 w-full min-h-[85vh] h-full">
-            <div className="lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
+          <div className="flex flex-col lg:grid lg:grid-cols-12 w-full h-full min-h-[calc(100vh-80px)] lg:min-h-[85vh]">
+            <div className="flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
               <div className="mt-12 md:mt-24">
                 <h2 
                   className="text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line break-words hyphens-auto"
@@ -121,19 +121,9 @@ export default function Home() {
                 </h2>
               </div>
 
-              <div className="mt-8 md:mt-16 mb-12 max-w-xl group relative z-30">
-                <div className="mt-4 md:mt-12">
-                  <Link 
-                    to="/applicants" 
-                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-sm hover:bg-accent-yellow hover:text-ink transition-all duration-500 focus-ring shadow-2xl pointer-events-auto relative z-40"
-                  >
-                    {t("home_btn_apply")}
-                    <ArrowUpRight className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
+
             </div>
-            <div className="lg:col-span-4 border-l-2 border-border-main hidden lg:block"></div>
+            <div className="flex-1 lg:col-span-4 border-t-2 lg:border-t-0 lg:border-l-2 border-border-main"></div>
           </div>
         </div>
       </section>
@@ -152,18 +142,18 @@ export default function Home() {
           },
           {
             num: "02.",
-            title: t("nav_team", "Команда"),
+            title: t("nav_staff", "Команда"),
             desc: t("home_section_team_desc", "Викладачі та фахівці-практики, які формують нове покоління дизайнерів. Познайомтеся з нашими менторами."),
-            link: "/team",
+            link: "/staff",
             btnLabel: t("home_section_team_btn", "Склад кафедри"),
             bgClass: "bg-surface-mut",
             image: getSectionImage("home_team")
           },
           {
             num: "03.",
-            title: t("nav_portfolio", "Портфоліо"),
+            title: t("nav_projects", "Портфоліо"),
             desc: t("home_section_portfolio_desc", "Найкращі студентські проєкти, курсові та дипломні дослідження. Наочний результат нашого підходу до навчання."),
-            link: "/portfolio",
+            link: "/projects",
             btnLabel: t("home_section_portfolio_btn", "Відкрити портфоліо"),
             bgClass: "bg-page-bg",
             image: getSectionImage("home_portfolio")
@@ -179,9 +169,9 @@ export default function Home() {
           },
           {
             num: "05.",
-            title: t("nav_entrants", "Вступнику"),
+            title: t("nav_applicants", "Вступнику"),
             desc: t("home_section_entrants_desc", "Умови вступу, творчі конкурси, вимоги до портфоліо та підготовчі курси для майбутніх студентів кафедри."),
-            link: "/entrants",
+            link: "/applicants",
             btnLabel: t("home_section_entrants_btn", "Для вступників"),
             bgClass: "bg-page-bg",
             image: getSectionImage("home_entrants")
@@ -200,14 +190,14 @@ export default function Home() {
           return (
             <div 
               key={idx} 
-              className={`flex flex-col border-b-2 border-border-main last:border-b-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+              className={`flex flex-col-reverse min-h-[calc(100vh-80px)] md:min-h-0 border-b-2 border-border-main last:border-b-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
             >
               {/* Text Pane */}
-              <div className={`w-full md:w-1/2 p-8 md:p-12 lg:p-24 flex flex-col justify-center ${item.bgClass} ${isEven ? 'md:border-r-2 border-border-main' : 'md:border-l-2 border-border-main'}`}>
+              <div className={`flex-1 md:flex-none w-full md:w-1/2 p-6 py-8 md:p-12 lg:p-24 flex flex-col justify-center ${item.bgClass} border-t-2 md:border-t-0 border-border-main ${isEven ? 'md:border-r-2' : 'md:border-l-2'}`}>
                 <div>
-                  <span className="font-mono text-xs text-text-dim block mb-6">{item.num} {item.title}</span>
-                  <h2 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-6 leading-none text-balance">{item.title}</h2>
-                  <p className="text-text-dim font-light text-lg leading-relaxed mb-10 max-w-xl text-balance">
+                  <span className="font-mono text-[10px] md:text-xs text-text-dim block mb-4 md:mb-6">{item.num} {item.title}</span>
+                  <h2 className="text-3xl lg:text-5xl font-bold uppercase tracking-tight mb-4 md:mb-6 leading-none text-balance">{item.title}</h2>
+                  <p className="text-text-dim font-light text-base md:text-lg leading-relaxed mb-6 md:mb-10 max-w-xl text-balance">
                     {item.desc}
                   </p>
                 </div>
@@ -223,12 +213,12 @@ export default function Home() {
               </div>
 
               {/* Image Pane */}
-              <div className="w-full md:w-1/2 relative min-h-[350px] md:min-h-[450px] bg-ink overflow-hidden group border-t-2 md:border-t-0 border-border-main flex items-center justify-center">
+              <div className="w-full md:w-1/2 relative h-[40vh] min-h-[220px] md:h-auto md:min-h-[450px] bg-ink overflow-hidden group flex items-center justify-center">
                 {item.image ? (
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 mix-blend-screen dark:mix-blend-normal"
+                    className="absolute inset-0 w-full h-full object-cover grayscale-0 opacity-100 md:grayscale md:opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 mix-blend-screen dark:mix-blend-normal"
                     loading="lazy"
                   />
                 ) : (

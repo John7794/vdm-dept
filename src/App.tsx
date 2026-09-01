@@ -12,6 +12,7 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Applicants from "./pages/Applicants";
 import Contacts from "./pages/Contacts";
+import NotFound from "./pages/NotFound";
 import AccessGate from "./components/AccessGate";
 import Admin from "./pages/Admin";
 import { useCms } from "./contexts/CmsContext";
@@ -71,6 +72,7 @@ export default function App() {
             <Route path="projects/:id" element={<ProjectDetail />} />
             <Route path="applicants" element={<Applicants />} />
             <Route path="contacts" element={<Contacts />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="/admin" element={<Admin />} />
         </Routes>

@@ -194,26 +194,30 @@ export default function Navbar() {
         </nav>
       </div>
 
+      {/* Mobile Lang Dropdown */}
+      <motion.div 
+        initial={false}
+        animate={{ height: isLangOpen ? "auto" : 0, borderBottomWidth: isLangOpen ? "2px" : "0px" }}
+        className="lg:hidden overflow-hidden bg-page-bg border-border-main flex divide-x-2 divide-border-main"
+      >
+        {langs.map(l => (
+          <button
+            key={l}
+            onClick={() => { setLang(l); setIsLangOpen(false); }}
+            className={`flex-1 py-4 flex items-center justify-center gap-2 text-sm font-bold uppercase ${lang === l ? 'bg-text-main text-page-bg' : 'text-text-main hover:bg-surface-mut'}`}
+          >
+            <img src={flagMap[l]} alt={l} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
+            <span>{l}</span>
+          </button>
+        ))}
+      </motion.div>
+
       {/* Mobile Nav */}
       <motion.div 
         initial={false}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        className="lg:hidden overflow-hidden bg-page-bg border-b-2 border-border-main divide-y-2 divide-border-main"
+        animate={{ height: isOpen ? "auto" : 0, borderBottomWidth: isOpen ? "2px" : "0px" }}
+        className="lg:hidden overflow-hidden bg-page-bg border-border-main divide-y-2 divide-border-main"
       >
-        {isLangOpen && (
-          <div className="flex divide-x-2 divide-border-main border-b-2 border-border-main">
-            {langs.map(l => (
-              <button
-                key={l}
-                onClick={() => { setLang(l); setIsLangOpen(false); }}
-                className={`flex-1 py-4 flex items-center justify-center gap-2 text-sm font-bold uppercase ${lang === l ? 'bg-text-main text-page-bg' : 'text-text-main hover:bg-surface-mut'}`}
-              >
-                <img src={flagMap[l]} alt={l} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
-                <span>{l}</span>
-              </button>
-            ))}
-          </div>
-        )}
         <div className="flex flex-col">
           {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
