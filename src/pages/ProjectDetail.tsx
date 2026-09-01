@@ -24,12 +24,21 @@ export default function ProjectDetail() {
 
   const title = projectRaw[`Title_${lang}`] || projectRaw.Title_UA || projectRaw.title || "";
   const type = projectRaw[`Type_${lang}`] || projectRaw.Type_UA || projectRaw.type || projectRaw.Type || "";
-  const student = projectRaw[`Student_${lang}`] || projectRaw.Student_UA || projectRaw.student || "";
+  const student = projectRaw[`Student_${lang}`] || projectRaw.Student_UA || projectRaw.student || projectRaw.Student || "";
   const year = projectRaw.Year || projectRaw.year || "";
   const description = projectRaw[`Desc_${lang}`] || projectRaw.Desc_UA || projectRaw.description || "";
-  const course = projectRaw[`Course_${lang}`] || projectRaw.Course_UA || projectRaw.course || "";
-  const curator = projectRaw[`Curator_${lang}`] || projectRaw.Curator_UA || projectRaw.curator || "";
+  const course = projectRaw[`Course_${lang}`] || projectRaw.Course_UA || projectRaw.course || projectRaw.Course || "";
+  const curator = projectRaw[`Curator_${lang}`] || projectRaw.Curator_UA || projectRaw.curator || projectRaw.Curator || "";
+  const supervisor = projectRaw[`Supervisor_${lang}`] || projectRaw.Supervisor_UA || projectRaw.supervisor || projectRaw.Supervisor || "";
   const quote = projectRaw[`Quote_${lang}`] || projectRaw.Quote_UA || projectRaw.quote || "";
+
+  // Helper to render multiple items split by comma
+  const renderMetaItems = (value: string) => {
+    if (!value) return null;
+    return value.split(',').map(s => s.trim()).filter(Boolean).map((item, i) => (
+      <span key={i} className="block font-bold mb-1 last:mb-0">{item}</span>
+    ));
+  };
 
   // Support both legacy gallery structure and new unified media lookup
   const mediaItems = data?.multimedia?.filter((m: any) => 
@@ -64,21 +73,35 @@ export default function ProjectDetail() {
             {title}
           </motion.h1>
           
-          <div className="flex flex-col sm:flex-row gap-8 font-mono text-sm uppercase tracking-widest border-t-2 border-border-main pt-8">
-            <div>
-              <span className="text-text-dim block mb-1">{t("proj_detail_student", "Студент(ка)")}</span>
-              <span className="font-bold">{student}</span>
-            </div>
-            {course && (
+          <div className="flex flex-wrap gap-8 md:gap-16 font-mono text-sm uppercase tracking-widest border-t-2 border-border-main pt-8">
+            {student && (
               <div>
-                <span className="text-text-dim block mb-1">{t("proj_detail_course", "Дисципліна")}</span>
-                <span className="font-bold">{course}</span>
+                <span className="text-text-dim block mb-2">{t("proj_detail_student", "Студент(и)")}</span>
+                {renderMetaItems(student)}
+              </div>
+            )}
+            {supervisor && (
+              <div>
+                <span className="text-text-dim block mb-2">{t("proj_detail_supervisor", "Керівник")}</span>
+                {renderMetaItems(supervisor)}
               </div>
             )}
             {curator && (
               <div>
-                <span className="text-text-dim block mb-1">{t("proj_detail_curator", "Куратор")}</span>
-                <span className="font-bold">{curator}</span>
+                <span className="text-text-dim block mb-2">{t("proj_detail_curator", "Куратор")}</span>
+                {renderMetaItems(curator)}
+              </div>
+            )}
+            {type && (
+              <div>
+                <span className="text-text-dim block mb-2">{t("proj_detail_type", "Тип роботи")}</span>
+                {renderMetaItems(type)}
+              </div>
+            )}
+            {course && (
+              <div>
+                <span className="text-text-dim block mb-2">{t("proj_detail_course", "Дисципліна")}</span>
+                {renderMetaItems(course)}
               </div>
             )}
           </div>
