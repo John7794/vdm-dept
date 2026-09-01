@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowUpRight, Mail, Linkedin, Instagram, Globe, Palette, User } from "lucide-react";
+import { ArrowUpRight, Mail, Linkedin, Instagram, Globe, Palette, User, BookOpen, GraduationCap, IdCard } from "lucide-react";
 import { useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink } from "../lib/utils";
@@ -11,7 +11,7 @@ const GROUP_ORDER = [
   "Доценти",
   "Старші викладачі",
   "Асистенти",
-  "Адміністративно-господарський персонал"
+  "Фахівці та інженери"
 ];
 
 const GROUP_TRANSLATION_KEYS: Record<string, string> = {
@@ -20,17 +20,21 @@ const GROUP_TRANSLATION_KEYS: Record<string, string> = {
   "Доценти": "group_docents",
   "Старші викладачі": "group_senior_lecturers",
   "Асистенти": "group_assistants",
-  "Адміністративно-господарський персонал": "group_admin"
+  "Фахівці та інженери": "group_specialists_engineers"
 };
 
 function getGroupFromRole(role: string): string {
   const r = role.toLowerCase();
-  if (r.includes("завідувач") || r.includes("керівник") || r.includes("декан")) return "Керівництво";
+  
+  if (r.includes("завідувач") || r.includes("голова") || r.includes("керівник")) return "Керівництво";
   if (r.includes("професор")) return "Професура";
   if (r.includes("доцент")) return "Доценти";
   if (r.includes("старший викладач")) return "Старші викладачі";
   if (r.includes("асистент")) return "Асистенти";
-  return "Адміністративно-господарський персонал";
+  if (r.includes("фахівець") || r.includes("інженер")) return "Фахівці та інженери";
+  
+  // Fallback for anyone else
+  return "Фахівці та інженери";
 }
 
 export default function Staff() {
@@ -48,7 +52,33 @@ export default function Staff() {
     });
 
     return Object.entries(groups)
-      .map(([name, members]) => ({ name, members }))
+      .map(([name, members]) => {
+        const sortedMembers = [...members].sort((a, b) => {
+          const roleA = (a.Role_UA || a.role || "").toLowerCase();
+          const roleB = (b.Role_UA || b.role || "").toLowerCase();
+          
+          // Function to determine internal hierarchy rank
+          const getRank = (r: string) => {
+            if (r.includes("завідувач") && !r.includes("заступник")) return 1; // Завідувач (без "заступник")
+            if (r.includes("заступник") && r.includes("завідувач")) return 2; // Заступник завідувача
+            if (r.includes("голова")) return 3; // Голова
+            return 4; // Всі інші
+          };
+
+          const rankA = getRank(roleA);
+          const rankB = getRank(roleB);
+
+          if (rankA !== rankB) {
+            return rankA - rankB;
+          }
+
+          // Fallback to alphabetical sorting if ranks are the same
+          const nameA = (a.Name_UA || a.name || "").toLowerCase();
+          const nameB = (b.Name_UA || b.name || "").toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+        return { name, members: sortedMembers };
+      })
       .sort((a, b) => {
         const indexA = GROUP_ORDER.indexOf(a.name);
         const indexB = GROUP_ORDER.indexOf(b.name);
@@ -83,10 +113,13 @@ export default function Staff() {
         {groupedStaff.map((group, gIdx) => (
           <div key={gIdx} className="border-b-2 border-border-main last:border-0">
             {/* Group Header */}
-            <div className="bg-page-bg px-6 py-8 md:px-12 border-b-2 border-border-main sticky top-0 z-10">
+            <div className="bg-page-bg px-6 py-8 md:px-12 border-b-2 border-border-main sticky top-[82px] z-10 flex items-center justify-between gap-4">
               <h2 className="text-2xl font-bold uppercase tracking-widest text-text-main">
                 {GROUP_TRANSLATION_KEYS[group.name] ? t(GROUP_TRANSLATION_KEYS[group.name]) : group.name}
               </h2>
+              <span className="font-mono text-sm md:text-base text-text-dim bg-surface-mut px-3 py-1 md:px-4 md:py-1.5 border border-border-soft rounded-full flex-shrink-0 flex items-center justify-center" title={t("staff_lbl_count", "Кількість")}>
+                {group.members.length}
+              </span>
             </div>
             
             <div className="grid grid-cols-1 divide-y-2 divide-border-main">
@@ -118,6 +151,10 @@ export default function Staff() {
                 const instagram = member.Instagram || member.instagram || "";
                 const behance = member.Behance || member.behance || "";
                 const website = member.Website || member.website || member.Link || member.link || "";
+                const scopus = member.Scopus || member.scopus || "";
+                const orcid = member.Orcid || member.orcid || member.ORCID || "";
+                const scholar = member.Scholar || member.scholar || member.GoogleScholar || "";
+                const title = member[`Title_${lang}`] || member.Title_UA || member.title || "";
 
                 return (
                 <motion.div 
@@ -125,12 +162,13 @@ export default function Staff() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="group grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-soft lg:divide-border-main hover:bg-text-main hover:text-page-bg transition-colors pb-6 lg:pb-0"
+                  className="group grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-soft lg:divide-border-main lg:hover:bg-text-main lg:hover:text-page-bg transition-colors pb-6 lg:pb-0"
                 >
-                  <div className="col-span-5 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 uppercase w-full">{t("staff_lbl_employee")}</span>
-                    {/* Staff Photo */}
-                    <div className="w-32 h-32 md:w-48 md:h-48 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main group-hover:border-page-bg transition-colors flex items-center justify-center">
+                  <div className="col-span-5 p-6 flex flex-col gap-4 sm:gap-6 justify-center">
+                    <span className="font-mono text-[10px] text-text-dim lg:hidden uppercase w-full">{t("staff_lbl_employee")}</span>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                      {/* Staff Photo */}
+                      <div className="w-32 h-32 md:w-48 md:h-48 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main lg:group-hover:border-page-bg transition-colors flex items-center justify-center">
                       {(member.Image || member.image || member.Image_2x || member.Image_Mobile || member.Image_Tablet || member.Image_Tablet_2x || member.Image_Mobile_2x) ? (
                         <ResponsiveImage
                           desktopUrl={member.Image || member.image || ""}
@@ -140,7 +178,7 @@ export default function Staff() {
                           mobileUrl={member.Image_Mobile || member.image_Mobile || member.Media_Mobile || member.media_Mobile || ""}
                           mobileUrl2x={member.Image_Mobile_2x || member.image_Mobile_2x || member.Media_Mobile_2x || member.media_Mobile_2x || ""}
                           alt={name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-500 lg:group-hover:scale-110"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-text-dim bg-surface-mut transition-colors">
@@ -149,62 +187,96 @@ export default function Staff() {
                       )}
                     </div>
                     <div className="flex flex-col justify-center">
-                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none group-hover:text-accent-yellow dark:group-hover:text-ink transition-colors">
+                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none lg:group-hover:text-accent-yellow dark:lg:group-hover:text-ink transition-colors">
                         {name}
                       </h3>
-                      <p className="font-mono text-xs mt-2 text-text-dim group-hover:text-page-bg/70 whitespace-pre-line">{role}</p>
+                      <p className="font-mono text-xs mt-2 text-text-dim lg:group-hover:text-page-bg/70 whitespace-pre-line">{role}</p>
                       
                       {/* Social Links */}
-                      {(email || linkedin || instagram || behance || website) && (
+                      {(email || linkedin || instagram || behance || website || scopus || orcid || scholar) && (
                         <div className="flex flex-wrap gap-4 mt-6">
                           {email && (
-                            <a href={`mailto:${email}`} className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Email">
+                            <a href={`mailto:${email}`} className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Email">
                               <Mail className="w-5 h-5" />
                             </a>
                           )}
                           {linkedin && (
-                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="LinkedIn">
+                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="LinkedIn">
                               <Linkedin className="w-5 h-5" />
                             </a>
                           )}
                           {instagram && (
-                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Instagram">
+                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Instagram">
                               <Instagram className="w-5 h-5" />
                             </a>
                           )}
                           {behance && (
-                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Behance / Portfolio">
+                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Behance / Portfolio">
                               <Palette className="w-5 h-5" />
                             </a>
                           )}
                           {website && (
-                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Website / Profile">
+                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Website / Profile">
                               <Globe className="w-5 h-5" />
+                            </a>
+                          )}
+                          {scopus && (
+                            <a href={scopus} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Scopus">
+                              <BookOpen className="w-5 h-5" />
+                            </a>
+                          )}
+                          {orcid && (
+                            <a href={orcid} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="ORCID">
+                              <IdCard className="w-5 h-5" />
+                            </a>
+                          )}
+                          {scholar && (
+                            <a href={scholar} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Google Scholar">
+                              <GraduationCap className="w-5 h-5" />
                             </a>
                           )}
                         </div>
                       )}
                     </div>
                   </div>
-                  
-                  <div className="col-span-3 p-6 flex items-center">
-                    <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 block uppercase w-full">{t("staff_lbl_degree")}</span>
-                    <p className="font-medium text-sm lg:text-base">{degree}</p>
                   </div>
                   
-                  <div className="col-span-4 p-6 flex flex-col justify-center">
-                    <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 uppercase">{t("staff_lbl_interests")}</span>
-                    <div className="flex flex-wrap gap-2">
-                      {interests.map((interest: string, i: number) => (
-                        <span 
-                          key={i} 
-                          className="inline-block px-2 py-1 text-xs border border-border-soft group-hover:border-page-bg/30 whitespace-nowrap rounded-sm"
-                        >
-                          {interest}
-                        </span>
-                      ))}
+                  {(degree || title) ? (
+                    <div className="col-span-3 p-6 flex flex-col justify-center gap-4">
+                      {degree && (
+                        <div>
+                          <span className="font-mono text-[10px] text-text-dim lg:hidden mb-1 block uppercase w-full">{t("staff_lbl_academic_degree", "Науковий ступінь")}</span>
+                          <p className="font-medium text-sm lg:text-base">{degree}</p>
+                        </div>
+                      )}
+                      {title && (
+                        <div>
+                          <span className="font-mono text-[10px] text-text-dim lg:hidden mb-1 block uppercase w-full">{t("staff_lbl_academic_title", "Вчене звання")}</span>
+                          <p className="font-mono text-xs text-text-dim lg:group-hover:text-page-bg/70 transition-colors">{title}</p>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  ) : (
+                    <div className="col-span-3 hidden lg:block p-6"></div>
+                  )}
+                  
+                  {interests.length > 0 ? (
+                    <div className="col-span-4 p-6 flex flex-col justify-center">
+                      <span className="font-mono text-[10px] text-text-dim lg:hidden mb-2 uppercase">{t("staff_lbl_interests")}</span>
+                      <div className="flex flex-wrap gap-2">
+                        {interests.map((interest: string, i: number) => (
+                          <span 
+                            key={i} 
+                            className="inline-block px-2 py-1 text-xs border border-border-soft lg:group-hover:border-page-bg/30 whitespace-nowrap rounded-sm"
+                          >
+                            {interest}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-span-4 hidden lg:block p-6"></div>
+                  )}
                 </motion.div>
               );
               })}

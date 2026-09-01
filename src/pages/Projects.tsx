@@ -112,7 +112,7 @@ export default function Projects() {
                     mobileUrl={project.Image_Mobile || project.image_Mobile || project.Media_Mobile || project.media_Mobile || ""}
                     mobileUrl2x={project.Image_Mobile_2x || project.image_Mobile_2x || project.Media_Mobile_2x || project.media_Mobile_2x || ""}
                     alt={title}
-                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 mix-blend-screen group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover grayscale-0 opacity-100 mix-blend-normal md:grayscale md:opacity-70 md:mix-blend-screen lg:group-hover:scale-105 lg:group-hover:grayscale-0 lg:group-hover:opacity-100 lg:group-hover:mix-blend-normal transition-all duration-700 ease-out"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center font-mono text-xs text-paper/50 uppercase tracking-widest">
@@ -121,9 +121,9 @@ export default function Projects() {
                 )}
                 
                 {/* Gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-80 md:opacity-60 lg:group-hover:opacity-80 transition-opacity"></div>
 
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
+                <div className="hidden lg:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
                   <span className="bg-text-main text-page-bg p-4 rounded-full">
                     <ArrowUpRight className="w-6 h-6" />
                   </span>
@@ -137,11 +137,11 @@ export default function Projects() {
                   <span className="font-mono text-[10px] text-page-bg bg-text-main px-2 py-1 uppercase font-bold">{year}</span>
                 </div>
                 
-                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500">
                   <h3 className="text-2xl lg:text-3xl font-bold uppercase tracking-tight leading-none mb-2 text-white">
                     {title}
                   </h3>
-                  <p className="font-light text-sm text-white/80 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                  <p className="font-light text-sm text-white/80 uppercase tracking-wider opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 delay-100">
                     {t("proj_lbl_author")} <span className="font-bold">{student}</span>
                   </p>
                 </div>

@@ -204,10 +204,10 @@ export default function Home() {
                 <div>
                   <Link 
                     to={item.link} 
-                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-xs hover:bg-accent-yellow hover:text-ink transition-all duration-500 focus-ring shadow-xl w-full md:w-auto justify-center"
+                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-xs lg:hover:bg-accent-yellow lg:hover:text-ink transition-all duration-500 focus-ring shadow-xl w-full md:w-auto justify-center"
                   >
                     {item.btnLabel}
-                    <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                    <ArrowUpRight className="w-5 h-5 lg:group-hover/btn:translate-x-1 lg:group-hover/btn:-translate-y-1 transition-transform" />
                   </Link>
                 </div>
               </div>
@@ -218,7 +218,7 @@ export default function Home() {
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    className="absolute inset-0 w-full h-full object-cover grayscale-0 opacity-100 md:grayscale md:opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 mix-blend-screen dark:mix-blend-normal"
+                    className="absolute inset-0 w-full h-full object-cover grayscale-0 opacity-100 md:grayscale md:opacity-70 lg:group-hover:grayscale-0 lg:group-hover:opacity-100 transition-all duration-700 mix-blend-screen dark:mix-blend-normal"
                     loading="lazy"
                   />
                 ) : (
