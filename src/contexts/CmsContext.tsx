@@ -45,6 +45,10 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    document.documentElement.lang = lang.toLowerCase();
+  }, [lang]);
+
+  useEffect(() => {
     const fetchDirectlyFromSheets = async () => {
       try {
         // Check session storage cache first

@@ -58,7 +58,7 @@ export default function Programs() {
         
         {/* Bachelor Dashboard */}
         <div className="flex flex-col">
-          <div className="bg-ink text-paper p-6 flex justify-between items-center">
+          <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
             <h2 className="text-2xl font-bold uppercase tracking-widest">{t("prog_bachelor")}</h2>
             <span className="font-mono text-sm">LEVEL 1</span>
           </div>
@@ -165,7 +165,7 @@ export default function Programs() {
       {/* PhD Dashboard */}
       <section className="grid grid-cols-1 border-b-2 border-border-main">
         <div className="flex flex-col">
-          <div className="bg-ink text-paper p-6 flex justify-between items-center border-b-2 border-ink">
+          <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
             <h2 className="text-2xl font-bold uppercase tracking-widest">{t("prog_phd")}</h2>
             <span className="font-mono text-sm">LEVEL 3</span>
           </div>

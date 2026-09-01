@@ -94,7 +94,7 @@ export default function About() {
   return (
     <div className="flex flex-col w-full bg-page-bg">
       {/* Page Header */}
-      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden pt-32 lg:pt-40 flex flex-col justify-end">
+      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}

@@ -96,7 +96,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line ${theme === "dark" ? "text-white" : "text-black"}`}
+                className={`text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line break-words hyphens-auto ${theme === "dark" ? "text-white" : "text-black"}`}
               >
                 {t("home_hero_title")}
               </motion.h1>
@@ -114,7 +114,7 @@ export default function Home() {
             <div className="lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
               <div className="mt-12 md:mt-24">
                 <h2 
-                  className="text-[clamp(3.5rem,10vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line"
+                  className="text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line break-words hyphens-auto"
                   aria-hidden="true"
                 >
                   {t("home_hero_title")}
