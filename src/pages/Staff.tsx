@@ -149,7 +149,7 @@ export default function Staff() {
                       )}
                     </div>
                     <div className="flex flex-col justify-center">
-                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none group-hover:text-accent-yellow transition-colors">
+                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none group-hover:text-accent-yellow dark:group-hover:text-ink transition-colors">
                         {name}
                       </h3>
                       <p className="font-mono text-xs mt-2 text-text-dim group-hover:text-page-bg/70 whitespace-pre-line">{role}</p>
@@ -158,27 +158,27 @@ export default function Staff() {
                       {(email || linkedin || instagram || behance || website) && (
                         <div className="flex flex-wrap gap-4 mt-6">
                           {email && (
-                            <a href={`mailto:${email}`} className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow transition-colors" title="Email">
+                            <a href={`mailto:${email}`} className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Email">
                               <Mail className="w-5 h-5" />
                             </a>
                           )}
                           {linkedin && (
-                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow transition-colors" title="LinkedIn">
+                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="LinkedIn">
                               <Linkedin className="w-5 h-5" />
                             </a>
                           )}
                           {instagram && (
-                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow transition-colors" title="Instagram">
+                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Instagram">
                               <Instagram className="w-5 h-5" />
                             </a>
                           )}
                           {behance && (
-                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow transition-colors" title="Behance / Portfolio">
+                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Behance / Portfolio">
                               <Palette className="w-5 h-5" />
                             </a>
                           )}
                           {website && (
-                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow transition-colors" title="Website / Profile">
+                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim group-hover:text-page-bg/60 hover:!text-accent-yellow dark:hover:!text-ink transition-colors" title="Website / Profile">
                               <Globe className="w-5 h-5" />
                             </a>
                           )}
