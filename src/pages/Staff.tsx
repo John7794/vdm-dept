@@ -242,19 +242,17 @@ export default function Staff() {
                   </div>
                   
                   {(degree || title) ? (
-                    <div className="col-span-3 p-6 flex flex-col justify-center gap-4">
-                      {degree && (
-                        <div>
-                          <span className="font-mono text-[10px] text-text-dim lg:hidden mb-1 block uppercase w-full">{t("staff_lbl_academic_degree", "Науковий ступінь")}</span>
-                          <p className="font-medium text-sm lg:text-base">{degree}</p>
-                        </div>
-                      )}
-                      {title && (
-                        <div>
-                          <span className="font-mono text-[10px] text-text-dim lg:hidden mb-1 block uppercase w-full">{t("staff_lbl_academic_title", "Вчене звання")}</span>
-                          <p className="font-mono text-xs text-text-dim lg:group-hover:text-page-bg/70 transition-colors">{title}</p>
-                        </div>
-                      )}
+                    <div className="col-span-3 p-6 flex flex-col justify-center">
+                      <p className="font-medium text-sm lg:text-base lg:group-hover:text-page-bg/90 transition-colors">
+                        {degree && title ? (
+                          <>
+                            {degree} / <br />
+                            {title}
+                          </>
+                        ) : (
+                          degree || title
+                        )}
+                      </p>
                     </div>
                   ) : (
                     <div className="col-span-3 hidden lg:block p-6"></div>
@@ -290,9 +288,8 @@ export default function Staff() {
         )}
       </section>
       
-      {/* Footer Info */}
-      <section className="p-6 md:p-12 border-t-2 border-border-main bg-surface-mut text-text-main font-mono text-xs uppercase tracking-widest text-center">
-        {t("staff_footer_note")}
+      {/* Footer Spacer */}
+      <section className="h-16 md:h-24 lg:h-32 border-t-2 border-border-main bg-page-bg">
       </section>
     </div>
   );
