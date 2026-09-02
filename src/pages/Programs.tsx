@@ -43,7 +43,7 @@ export default function Programs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line"
+            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line break-words hyphens-auto"
           >
             {t("prog_page_title")}
           </motion.h1>
@@ -59,7 +59,7 @@ export default function Programs() {
         {/* Bachelor Dashboard */}
         <div className="flex flex-col">
           <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-            <h2 className="text-2xl font-bold uppercase tracking-widest">{t("prog_bachelor")}</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_bachelor")}</h2>
             <span className="font-mono text-sm">LEVEL 1</span>
           </div>
           
@@ -111,7 +111,7 @@ export default function Programs() {
         {/* Master Dashboard */}
         <div className="flex flex-col">
           <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-            <h2 className="text-2xl font-bold uppercase tracking-widest">{t("prog_master")}</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_master")}</h2>
             <span className="font-mono text-sm">LEVEL 2</span>
           </div>
           
@@ -166,7 +166,7 @@ export default function Programs() {
       <section className="grid grid-cols-1 border-b-2 border-border-main">
         <div className="flex flex-col">
           <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-            <h2 className="text-2xl font-bold uppercase tracking-widest">{t("prog_phd")}</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_phd")}</h2>
             <span className="font-mono text-sm">LEVEL 3</span>
           </div>
           

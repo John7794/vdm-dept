@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../components/ThemeProvider";
 import { useCms } from "../contexts/CmsContext";
@@ -39,47 +39,58 @@ export default function Home() {
   };
 
   const baseSlides = cmsBanners.length > 0 ? cmsBanners : defaultSlides;
-  // Clone the first slide at the end to allow a seamless transition back to start
-  const slides = [...baseSlides, baseSlides[0]];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIsTransitioning(true);
       setCurrentSlide((prev) => prev + 1);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  // When we reach the cloned slide at the end, wait for the animation to finish,
-  // then instantly snap back to the first slide without a transition.
-  useEffect(() => {
-    if (currentSlide === baseSlides.length) {
-      const snapTimer = setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentSlide(0);
-      }, 1200); // 1200ms matches the transition duration
-      return () => clearTimeout(snapTimer);
+  const slideIndex = currentSlide % baseSlides.length;
+  const directionType = currentSlide % 4; // 0, 1, 2, 3
+
+  const variants = {
+    enter: (direction) => {
+      switch(direction) {
+        case 0: return { x: '100%', y: 0 };
+        case 1: return { x: 0, y: '100%' };
+        case 2: return { x: '-100%', y: 0 };
+        case 3: return { x: 0, y: '-100%' };
+        default: return { x: '100%', y: 0 };
+      }
+    },
+    center: { x: 0, y: 0, zIndex: 1 },
+    exit: (direction) => {
+      switch(direction) {
+        case 0: return { x: '-100%', y: 0, zIndex: 0 };
+        case 1: return { x: 0, y: '-100%', zIndex: 0 };
+        case 2: return { x: '100%', y: 0, zIndex: 0 };
+        case 3: return { x: 0, y: '100%', zIndex: 0 };
+        default: return { x: '-100%', y: 0, zIndex: 0 };
+      }
     }
-  }, [currentSlide, baseSlides.length]);
+  };
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
       {/* Hero Section - Stencil Effect with Slider */}
       <section className="relative flex flex-col w-full border-b-2 border-border-main overflow-hidden bg-page-bg">
         {/* The Base Slider Layer */}
-        <div className="absolute inset-0 z-0">
-          <div 
-            className={`flex w-full h-full ${isTransitioning ? "transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.25,1)]" : ""}`}
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {slides.map((src, i) => (
-              <div 
-                key={i} 
-                className="w-full h-full flex-shrink-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${src})` }}
-              />
-            ))}
-          </div>
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <AnimatePresence initial={false} custom={directionType}>
+            <motion.div
+              key={currentSlide}
+              custom={directionType}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 1.2, ease: [0.25, 1, 0.25, 1] }}
+              className="absolute inset-0 w-full h-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${baseSlides[slideIndex]})` }}
+            />
+          </AnimatePresence>
           <div className="absolute inset-0 bg-accent-blue/10 pointer-events-none mix-blend-overlay"></div>
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-blue/20 blur-[100px] rounded-full z-[1]"></div>
         </div>
@@ -196,8 +207,8 @@ export default function Home() {
               <div className={`flex-1 md:flex-none w-full md:w-1/2 p-6 py-8 md:p-12 lg:p-24 flex flex-col justify-center ${item.bgClass} border-t-2 md:border-t-0 border-border-main ${isEven ? 'md:border-r-2' : 'md:border-l-2'}`}>
                 <div>
                   <span className="font-mono text-[10px] md:text-xs text-text-dim block mb-4 md:mb-6">{item.num} {item.title}</span>
-                  <h2 className="text-3xl lg:text-5xl font-bold uppercase tracking-tight mb-4 md:mb-6 leading-none text-balance">{item.title}</h2>
-                  <p className="text-text-dim font-light text-base md:text-lg leading-relaxed mb-6 md:mb-10 max-w-xl text-balance">
+                  <h2 className="text-3xl lg:text-5xl font-bold uppercase tracking-tight mb-4 md:mb-6 leading-none text-balance break-words hyphens-auto">{item.title}</h2>
+                  <p className="text-text-dim font-light text-base md:text-lg leading-relaxed mb-6 md:mb-10 max-w-xl text-balance break-words hyphens-auto">
                     {item.desc}
                   </p>
                 </div>

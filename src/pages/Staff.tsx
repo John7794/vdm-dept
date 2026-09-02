@@ -98,7 +98,7 @@ export default function Staff() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line"
+            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line break-words hyphens-auto"
           >
             {t("staff_page_title")}
           </motion.h1>
@@ -114,7 +114,7 @@ export default function Staff() {
           <div key={gIdx} className="border-b-2 border-border-main last:border-0">
             {/* Group Header */}
             <div className="bg-page-bg px-6 py-8 md:px-12 border-b-2 border-border-main sticky top-[82px] z-10 flex items-center justify-between gap-4">
-              <h2 className="text-2xl font-bold uppercase tracking-widest text-text-main">
+              <h2 className="text-2xl font-bold uppercase tracking-widest text-text-main break-words hyphens-auto">
                 {GROUP_TRANSLATION_KEYS[group.name] ? t(GROUP_TRANSLATION_KEYS[group.name]) : group.name}
               </h2>
               <span className="font-mono text-sm md:text-base text-text-dim bg-surface-mut px-3 py-1 md:px-4 md:py-1.5 border border-border-soft rounded-full flex-shrink-0 flex items-center justify-center" title={t("staff_lbl_count", "Кількість")}>
