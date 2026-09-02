@@ -18,7 +18,7 @@ async function fetchCmsData() {
     return cmsCache.data;
   }
 
-  const sheets = ["Static", "News", "Staff", "Programs", "Projects"];
+  const sheets = ["Static", "News", "Staff", "Programs", "Projects", "Disciplines"];
   const data: any = {};
 
   for (const sheet of sheets) {

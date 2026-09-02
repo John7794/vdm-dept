@@ -1,38 +1,130 @@
 import { motion } from "motion/react";
-import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
+
+function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, disciplines: any[], lang: string, t: any }) {
+  let progDisciplines = [];
+  const level = prog.Level_UA || prog.Level || prog.level || prog.Degree_UA || "";
+  
+  if (level.includes("Бакалавр")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Бакалаврат") || String(d.Degree_UA).includes("Бакалавр"));
+  } else if (level.includes("Магістр")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Магістратура") || String(d.Degree_UA).includes("Магістр"));
+  } else if (level.includes("Аспірант") || level.includes("PhD")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Аспірантура") || String(d.Degree_UA).includes("Аспірант"));
+  }
+  
+  if (!progDisciplines || progDisciplines.length === 0) return null;
+
+  function extractCourse(semesterStr: string) {
+    if (!semesterStr) return 1;
+    const matches = String(semesterStr).match(/\d+/g);
+    if (matches && matches.length > 0) {
+      const firstNum = parseInt(matches[0], 10);
+      return Math.ceil(firstNum / 2);
+    }
+    return 1;
+  }
+
+  const grouped = progDisciplines.reduce((acc, d) => {
+    const course = extractCourse(d.Semester_UA || d.Semester_EN || d.semester || "");
+    if (!acc[course]) acc[course] = [];
+    acc[course].push(d);
+    return acc;
+  }, {} as Record<number, any[]>);
+
+  const courses = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+
+  return (
+    <div className="mt-8">
+      <div className="p-4 border-b border-border-soft flex justify-between items-center bg-surface-mut">
+        <h4 className="font-bold text-sm tracking-widest uppercase">{t("prog_lbl_disciplines", "Дисципліни")}</h4>
+        <a href="#" className="font-mono text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue">Завантажити програму (PDF)</a>
+      </div>
+      <div className="p-0 space-y-12 mt-6">
+        {courses.map(course => (
+          <div key={course} className="space-y-4">
+            <h5 className="font-mono font-bold text-sm text-accent-blue uppercase tracking-widest pl-4 border-l-2 border-accent-blue">{course} {lang === "UA" ? "Курс" : "Course"}</h5>
+            <div className="overflow-x-auto bg-surface-main/30 border border-border-soft">
+              <table className="w-full text-left text-sm min-w-[600px]">
+                <thead className="font-mono text-xs text-text-dim border-b border-border-soft bg-surface-mut/50">
+                  <tr>
+                    <th className="p-4 font-normal">{lang === "UA" ? "Назва дисципліни" : "Discipline"}</th>
+                    <th className="p-4 font-normal w-32 text-center">{lang === "UA" ? "Семестр" : "Semester"}</th>
+                    <th className="p-4 font-normal w-48">{lang === "UA" ? "Тип контролю" : "Control Type"}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-soft/30">
+                  {grouped[course].map((d: any, i: number) => {
+                    const nameUA = d.Name_UA || d.Name_EN || Object.values(d)[0] || "";
+                    const nameStr = lang === "UA" ? nameUA : (d[`Name_${lang}`] || d[`Name_${lang}_1`] || nameUA);
+                    
+                    const semUA = d.Semester_UA || d.Semester_EN || d.semester || "";
+                    const semStr = lang === "UA" ? semUA : (d[`Semester_${lang}`] || semUA);
+                    
+                    const ctrlUA = d.Control_Type_UA || d.Control_Type_EN || d.control || "";
+                    const ctrlStr = lang === "UA" ? ctrlUA : (d[`Control_Type_${lang}`] || ctrlUA);
+
+                    return (
+                      <tr key={i} className="hover:bg-surface-mut transition-colors group">
+                        <td className="p-4">{nameStr}</td>
+                        <td className="p-4 text-center font-mono text-xs whitespace-nowrap">{semStr}</td>
+                        <td className="p-4 font-mono text-xs text-text-dim leading-tight">{ctrlStr}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Programs() {
   const { data, lang, t } = useCms();
   const programs = data?.programs || [];
+  const disciplines = data?.Disciplines || data?.disciplines || [];
 
   const bPrograms = useMemo(() => programs.filter((p: any) => 
-    (p.Level_UA || p.Level || p.level) === "Бакалавріат"
-  ), [programs]);
+    (p.Level_UA || p.Level || p.level) === "Бакалавріат" || (p.Level_UA || p.Level || p.level) === "Бакалавр"
+  ).map((p: any) => {
+    const title = p.Title_UA || p.title || p.Title || "";
+    if (title.toLowerCase().includes("образотворче мистецтво")) {
+      return {
+        ...p,
+        Title_UA: "Інтер'єр та просторовий дизайн",
+        Title_EN: "Interior and Spatial Design",
+        Title_DE: "Interieur und räumliches Design",
+        Title_PL: "Architektura wnętrz i projektowanie przestrzenne",
+        Code: "B2 Дизайн",
+        progId: "prog_2"
+      };
+    } else {
+      return {
+        ...p,
+        Code: "B2 Дизайн",
+        progId: "prog_1"
+      }
+    }
+  }), [programs]);
   
   const mPrograms = useMemo(() => programs.filter((p: any) => 
     (p.Level_UA || p.Level || p.level) === "Магістратура"
-  ), [programs]);
+  ).map((p: any) => ({
+    ...p,
+    progId: "prog_3"
+  })), [programs]);
   
   const phdPrograms = useMemo(() => programs.filter((p: any) => 
     (p.Level_UA || p.Level || p.level) === "Аспірантура"
-  ), [programs]);
-
-  const parseCompetencies = (prog: any) => {
-    if (!prog) return [];
-    const compRaw = prog[`Competencies_${lang}`] || prog.Competencies_UA || prog.competencies;
-    if (typeof compRaw === 'string' && compRaw.trim() !== '') {
-      return compRaw.split(';').map(c => c.trim()).filter(Boolean);
-    } else if (Array.isArray(compRaw)) {
-      return compRaw;
-    }
-    return [];
-  };
-
-  const bCompetencies = bPrograms.length > 0 ? parseCompetencies(bPrograms[0]) : [];
-  const mCompetencies = mPrograms.length > 0 ? parseCompetencies(mPrograms[0]) : [];
-  const phdCompetencies = phdPrograms.length > 0 ? parseCompetencies(phdPrograms[0]) : [];
+  ).map((p: any) => ({
+    ...p,
+    progId: "prog_4"
+  })), [programs]);
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -53,12 +145,12 @@ export default function Programs() {
         </div>
       </section>
 
-      {/* Dashboard Grid */}
-      <section className="grid grid-cols-1 divide-y-2 divide-border-main border-b-2 border-border-main">
-        
-        {/* Bachelor Dashboard */}
+      <div className="flex flex-col lg:flex-row w-full items-stretch">
+        <div className="flex-grow lg:w-[75%] xl:w-[80%] flex flex-col border-r-0 lg:border-r-2 border-border-main">
+          {/* Bachelor Dashboard */}
+      <section id="bachelor" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
         <div className="flex flex-col">
-          <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
+          <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
             <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_bachelor")}</h2>
             <span className="font-mono text-sm">LEVEL 1</span>
           </div>
@@ -86,31 +178,22 @@ export default function Programs() {
                     <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
                     <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
+                  <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
               )) : (
                 <div className="text-text-dim font-mono text-xs uppercase">{t("prog_loading")}</div>
               )}
             </div>
-            
-            {bCompetencies.length > 0 && (
-              <div className="mt-16 bg-page-bg p-8 border border-border-soft">
-                <h4 className="font-bold uppercase tracking-widest mb-6">{t("prog_lbl_comp_bachelor")}</h4>
-                <ul className="space-y-4">
-                  {bCompetencies.map((skill: string, i: number) => (
-                    <li key={i} className="flex gap-4 items-start">
-                      <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                      <span className="leading-snug">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
+      </section>
 
-        {/* Master Dashboard */}
+
+
+      {/* Master Dashboard */}
+      <section id="master" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
         <div className="flex flex-col">
-          <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
+          <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
             <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_master")}</h2>
             <span className="font-mono text-sm">LEVEL 2</span>
           </div>
@@ -138,40 +221,26 @@ export default function Programs() {
                     <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
                     <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
+                  <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
               )) : (
                  <div className="text-text-dim font-mono text-xs uppercase">{t("prog_loading")}</div>
               )}
             </div>
-            
-            {mCompetencies.length > 0 && (
-              <div className="mt-16 bg-surface-main p-8 border border-border-soft">
-                <h4 className="font-bold uppercase tracking-widest mb-6">{t("prog_lbl_comp_master")}</h4>
-                <ul className="space-y-4">
-                  {mCompetencies.map((skill: string, i: number) => (
-                    <li key={i} className="flex gap-4 items-start">
-                      <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-blue" />
-                      <span className="leading-snug">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
-
       </section>
 
       {/* PhD Dashboard */}
-      <section className="grid grid-cols-1 border-b-2 border-border-main">
+      <section id="phd" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
         <div className="flex flex-col">
-          <div className="bg-surface-mut text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
+          <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
             <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_phd")}</h2>
             <span className="font-mono text-sm">LEVEL 3</span>
           </div>
           
-          <div className="p-6 md:p-12 bg-surface-main">
-            <div className="space-y-12 max-w-3xl">
+          <div className="p-6 md:p-12 flex-grow bg-surface-main">
+            <div className="space-y-12">
               {phdPrograms.length > 0 ? phdPrograms.map((prog: any, idx: number) => (
                 <div key={idx} className="group cursor-crosshair">
                 <div className="flex items-start justify-between border-b-2 border-border-soft pb-4 transition-colors group-hover:border-border-main">
@@ -193,28 +262,31 @@ export default function Programs() {
                   <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
                   <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                 </div>
+                <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
               </div>
               )) : (
                 <div className="text-text-dim font-mono text-xs uppercase">{t("prog_loading")}</div>
               )}
             </div>
-            
-            {phdCompetencies.length > 0 && (
-              <div className="mt-16 bg-surface-mut p-8 border border-border-soft max-w-3xl">
-                <h4 className="font-bold uppercase tracking-widest mb-6">{t("prog_lbl_comp_phd")}</h4>
-                <ul className="space-y-4">
-                  {phdCompetencies.map((skill: string, i: number) => (
-                    <li key={i} className="flex gap-4 items-start">
-                      <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-blue" />
-                      <span className="leading-snug">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
       </section>
+        </div>
+        
+        {/* Navigation Sidebar */}
+        <aside className="hidden lg:block lg:w-[25%] xl:w-[20%] bg-surface-main relative">
+          <div className="sticky top-[120px] p-8 xl:p-12">
+             <nav className="flex flex-col space-y-8">
+                <h4 className="font-mono text-sm tracking-widest text-text-dim uppercase">{t("prog_lbl_navigation", "Навігація")}</h4>
+                <ul className="space-y-6">
+                  <li><a href="#bachelor" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_bachelor")}</a></li>
+                  <li><a href="#master" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_master")}</a></li>
+                  <li><a href="#phd" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_phd")}</a></li>
+                </ul>
+             </nav>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

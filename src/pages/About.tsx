@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
-import { MapPin, Phone, Mail, ArrowUpRight, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Phone, Mail, ArrowUpRight, Facebook, Instagram, Globe, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDriveLink } from "../lib/utils";
 
 export default function About() {
@@ -265,6 +265,29 @@ export default function About() {
                 </div>
               </div>
           </div>
+
+          <hr className="border-border-main border-t-2" />
+
+          {/* Social Links Section */}
+          <div className="py-8 md:py-12 lg:py-16 w-full">
+            <div className="px-6 md:px-12 lg:px-16 max-w-4xl">
+              <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
+                {t("about_social_label", "Ми в мережі")}
+              </span>
+              
+              <div className="flex gap-6">
+                <a href="https://lpnu.ua/vdm" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label="Сайт Львівської політехніки">
+                  <Globe className="w-8 h-8" />
+                </a>
+                <a href="https://www.facebook.com/visualdesignandart" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label="Facebook">
+                  <Facebook className="w-8 h-8" />
+                </a>
+                <a href="https://www.instagram.com/vdm_lpnu/" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label="Instagram">
+                  <Instagram className="w-8 h-8" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: Contacts & Map */}
@@ -315,6 +338,8 @@ export default function About() {
                 </div>
               </li>
             </ul>
+            
+
           </div>
           
           {/* Embedded Map */}

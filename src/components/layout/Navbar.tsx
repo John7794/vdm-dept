@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../ThemeProvider";
 import { useCms } from "../../contexts/CmsContext";
@@ -15,6 +15,19 @@ const LogoText = ({ className }: { className?: string }) => (
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { data, lang, setLang, t } = useCms();
@@ -152,7 +165,7 @@ export default function Navbar() {
           })}
           
           {/* Lang Switcher (Desktop) */}
-          <div className="relative flex items-center">
+          <div className="relative flex items-center" ref={langDropdownRef}>
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)}
               className="h-full px-6 flex items-center gap-2 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none"

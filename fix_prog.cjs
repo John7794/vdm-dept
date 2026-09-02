@@ -1,9 +1,22 @@
 const fs = require('fs');
 let content = fs.readFileSync('src/pages/Programs.tsx', 'utf8');
 
-content = content.replace(
-  '<section className="grid grid-cols-1 lg:grid-cols-2 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main border-b-2 border-border-main">',
-  '<section className="grid grid-cols-1 divide-y-2 divide-border-main border-b-2 border-border-main">'
-);
+// 1. Fix the t() calls for prog_lbl_disciplines
+content = content.replace(/t\("prog_lbl_disciplines"\) \|\| "Дисципліни"/g, 't("prog_lbl_disciplines", "Дисципліни")');
+
+// 2. Fix the progDisciplines filtering logic
+const oldFilter = 'const progDisciplines = disciplines.filter(d => String(d.Type_Programme).trim() === String(prog.progId).trim());';
+const newFilter = `let progDisciplines = [];
+  const level = prog.Level_UA || prog.Level || prog.level || prog.Degree_UA || "";
+  
+  if (level.includes("Бакалавр")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Бакалаврат") || String(d.Degree_UA).includes("Бакалавр"));
+  } else if (level.includes("Магістр")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Магістратура") || String(d.Degree_UA).includes("Магістр"));
+  } else if (level.includes("Аспірант") || level.includes("PhD")) {
+    progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes("Аспірантура") || String(d.Degree_UA).includes("Аспірант"));
+  }`;
+
+content = content.replace(oldFilter, newFilter);
 
 fs.writeFileSync('src/pages/Programs.tsx', content);
