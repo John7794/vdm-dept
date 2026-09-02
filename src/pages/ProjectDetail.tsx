@@ -1,5 +1,6 @@
-import { motion } from "motion/react";
-import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink } from "../lib/utils";
@@ -47,6 +48,34 @@ export default function ProjectDetail() {
     m.Category === id || 
     m.ID === id
   ) || [];
+
+  // 1. Collect all valid image URLs for the gallery
+  const allImageUrls = [];
+  const mainImageDesktop = (projectRaw.Image || projectRaw.image || projectRaw.img || projectRaw.Media || projectRaw.media || "").trim();
+  if (mainImageDesktop) {
+    allImageUrls.push(formatDriveLink(mainImageDesktop));
+  }
+
+  mediaItems.forEach((m) => {
+    const urlDesktop = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || "").trim();
+    const isVideo = m.Type?.toLowerCase() === "video" || urlDesktop.includes("youtube.com") || urlDesktop.includes("youtu.be");
+    if (urlDesktop && !isVideo) {
+      allImageUrls.push(formatDriveLink(urlDesktop));
+    }
+  });
+
+  const [lightboxData, setLightboxData] = useState<{ index: number } | null>(null);
+
+  const handlePrevImage = (e: any) => {
+    e.stopPropagation();
+    setLightboxData(prev => prev ? { index: (prev.index - 1 + allImageUrls.length) % allImageUrls.length } : null);
+  };
+  
+  const handleNextImage = (e: any) => {
+    e.stopPropagation();
+    setLightboxData(prev => prev ? { index: (prev.index + 1) % allImageUrls.length } : null);
+  };
+
 
   return (
     <div className="flex flex-col w-full bg-page-bg text-text-main min-h-screen">
@@ -122,6 +151,7 @@ export default function ProjectDetail() {
               mobileUrl2x={projectRaw.Image_Mobile_2x || projectRaw.image_Mobile_2x || projectRaw.Media_Mobile_2x || projectRaw.media_Mobile_2x || ""}
               alt={title}
               className="w-full h-auto border-2 border-border-main object-cover"
+              onClick={() => { if (mainImageDesktop) setLightboxData({ index: 0 }) }}
             />
           ) : (
             <div className="aspect-video w-full border-2 border-border-main flex items-center justify-center bg-surface-main">
@@ -181,6 +211,10 @@ export default function ProjectDetail() {
                      mobileUrl2x={urlMobile2x}
                      alt={`${title} media ${idx}`}
                      className="w-full h-auto object-cover border-2 border-border-main"
+                     onClick={() => {
+                       const gIdx = allImageUrls.indexOf(formatDriveLink(urlDesktop));
+                       if (gIdx !== -1) setLightboxData({ index: gIdx });
+                     }}
                    />
                  );
                })}
@@ -202,6 +236,63 @@ export default function ProjectDetail() {
           </div>
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxData && allImageUrls.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-ink/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 cursor-zoom-out group/lightbox"
+            onClick={() => setLightboxData(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 text-paper/70 hover:text-accent-yellow transition-colors focus-ring outline-none z-[110]"
+              onClick={(e) => { e.stopPropagation(); setLightboxData(null); }}
+              aria-label="Close"
+            >
+              <X className="w-10 h-10" />
+            </button>
+
+            {/* Left Nav */}
+            {allImageUrls.length > 1 && (
+              <button 
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
+                onClick={handlePrevImage}
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-12 h-12 md:w-16 md:h-16" />
+              </button>
+            )}
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={lightboxData.index}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                src={allImageUrls[lightboxData.index]}
+                alt="Expanded view"
+                className="max-w-full max-h-[90vh] object-contain shadow-2xl cursor-default"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </AnimatePresence>
+
+            {/* Right Nav */}
+            {allImageUrls.length > 1 && (
+              <button 
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
+                onClick={handleNextImage}
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-12 h-12 md:w-16 md:h-16" />
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

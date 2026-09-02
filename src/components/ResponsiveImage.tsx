@@ -9,13 +9,14 @@ interface ResponsiveImageProps {
   mobileUrl2x?: string;
   alt: string;
   className?: string;
+  onClick?: (e: any) => void;
 }
 
 export default function ResponsiveImage({ 
   desktopUrl, desktopUrl2x, 
   tabletUrl, tabletUrl2x, 
   mobileUrl, mobileUrl2x, 
-  alt, className = "" 
+  alt, className = "", onClick 
 }: ResponsiveImageProps) {
   // Helper to build a srcSet with optional 1x and 2x versions
   const buildSrcSet = (url1x?: string, url2x?: string) => {
@@ -42,7 +43,7 @@ export default function ResponsiveImage({
   const fallbackUrl = (desktopUrl || desktopUrl2x || tabletUrl || tabletUrl2x || mobileUrl || mobileUrl2x || "").trim();
 
   return (
-    <picture className={`block ${className}`}>
+    <picture className={`block ${className} ${onClick ? "cursor-pointer" : ""}`} onClick={onClick}>
       {/* Mobile devices (max-width: 640px) */}
       {mSrcSet && <source media="(max-width: 640px)" srcSet={mSrcSet} />}
       
