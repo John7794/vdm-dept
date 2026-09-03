@@ -38,7 +38,7 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
 
   return (
     <div className="mt-8">
-      <div className="p-4 border-b border-border-soft flex justify-between items-center bg-surface-mut">
+      <div className="p-4 border-b border-border-soft flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 bg-surface-mut">
         <h4 className="font-bold text-sm tracking-widest uppercase">{t("prog_lbl_disciplines", "Дисципліни")}</h4>
         <a href="#" className="font-mono text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue">Завантажити програму (PDF)</a>
       </div>
@@ -46,16 +46,13 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
         {courses.map(course => (
           <div key={course} className="space-y-4">
             <h5 className="font-mono font-bold text-sm text-accent-blue uppercase tracking-widest pl-4 border-l-2 border-accent-blue">{course} {lang === "UA" ? "Курс" : "Course"}</h5>
-            <div className="overflow-x-auto bg-surface-main/30 border border-border-soft">
-              <table className="w-full text-left text-sm min-w-[600px]">
-                <thead className="font-mono text-xs text-text-dim border-b border-border-soft bg-surface-mut/50">
-                  <tr>
-                    <th className="p-4 font-normal">{lang === "UA" ? "Назва дисципліни" : "Discipline"}</th>
-                    <th className="p-4 font-normal w-32 text-center">{lang === "UA" ? "Семестр" : "Semester"}</th>
-                    <th className="p-4 font-normal w-48">{lang === "UA" ? "Тип контролю" : "Control Type"}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-soft/30">
+            <div className="bg-surface-main/30 border border-border-soft">
+                <div className="hidden sm:grid grid-cols-[1fr_120px_180px] font-mono text-xs text-text-dim border-b border-border-soft bg-surface-mut/50 p-4">
+    <div>{lang === "UA" ? "Назва дисципліни" : "Discipline"}</div>
+    <div className="text-center">{lang === "UA" ? "Семестр" : "Semester"}</div>
+    <div>{lang === "UA" ? "Тип контролю" : "Control Type"}</div>
+  </div>
+                <div className="divide-y divide-border-soft/30">
                   {grouped[course].map((d: any, i: number) => {
                     const nameUA = d.Name_UA || d.Name_EN || Object.values(d)[0] || "";
                     const nameStr = lang === "UA" ? nameUA : (d[`Name_${lang}`] || d[`Name_${lang}_1`] || nameUA);
@@ -67,15 +64,23 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
                     const ctrlStr = lang === "UA" ? ctrlUA : (d[`Control_Type_${lang}`] || ctrlUA);
 
                     return (
-                      <tr key={i} className="hover:bg-surface-mut transition-colors group">
-                        <td className="p-4">{nameStr}</td>
-                        <td className="p-4 text-center font-mono text-xs whitespace-nowrap">{semStr}</td>
-                        <td className="p-4 font-mono text-xs text-text-dim leading-tight">{ctrlStr}</td>
-                      </tr>
+                      <div key={i} className="hover:bg-surface-mut transition-colors group p-4">
+                      <div className="text-sm mb-3 sm:hidden text-text-main leading-snug pr-4">{nameStr}</div>
+                      
+                      <div className="hidden sm:grid sm:grid-cols-[1fr_120px_180px] sm:items-center">
+                        <div className="text-sm pr-4">{nameStr}</div>
+                        <div className="text-center font-mono text-xs">{semStr}</div>
+                        <div className="font-mono text-xs text-text-dim leading-tight">{ctrlStr}</div>
+                      </div>
+
+                      <div className="flex sm:hidden items-center gap-4 text-xs font-mono text-text-dim">
+                        <span className="bg-surface-mut px-2 py-1 border border-border-soft whitespace-nowrap">{semStr}</span>
+                        <span className="leading-tight">{ctrlStr}</span>
+                      </div>
+                    </div>
                     );
                   })}
-                </tbody>
-              </table>
+                </div>
             </div>
           </div>
         ))}
@@ -174,9 +179,9 @@ export default function Programs() {
                       <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                     )}
                   </div>
-                  <div className="flex gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
+                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
                   <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
@@ -217,9 +222,9 @@ export default function Programs() {
                       <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                     )}
                   </div>
-                  <div className="flex gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
+                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
                   <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
@@ -258,9 +263,9 @@ export default function Programs() {
                     <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                   )}
                 </div>
-                <div className="flex gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                  <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                  <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
+                  <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                  <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                 </div>
                 <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
               </div>
