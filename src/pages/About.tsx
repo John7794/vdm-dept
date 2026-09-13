@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
-import { MapPin, Phone, Mail, ArrowUpRight, Facebook, Instagram, Globe, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, ArrowUpRight, Facebook, Instagram, Globe, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDriveLink } from "../lib/utils";
 
 export default function About() {
@@ -326,30 +326,6 @@ export default function About() {
                   <p className="font-light text-base leading-relaxed whitespace-pre-line">
                     {t("about_address_full", "вул. Січових Стрільців, 7\nм. Львів\nУкраїна, 79000")}
                   </p>
-                </div>
-              </li>
-              
-              <li className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-accent-yellow shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-mono text-sm tracking-widest uppercase mb-2 text-paper/70">
-                    {t("about_phone_label", "Телефон")}
-                  </h3>
-                  <a href="tel:+380322582672" className="font-light text-base leading-relaxed hover:text-accent-yellow transition-colors focus-ring outline-none">
-                    {t("about_phone", "+38 (032) 258 26 72")}
-                  </a>
-                </div>
-              </li>
-              
-              <li className="flex items-start gap-4">
-                <Mail className="w-6 h-6 text-accent-yellow shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-mono text-sm tracking-widest uppercase mb-2 text-paper/70">
-                    {t("footer_email_label", "Електронна пошта")}
-                  </h3>
-                  <a href="mailto:vd.dept@lpnu.ua" className="font-light text-base leading-relaxed hover:text-accent-yellow transition-colors focus-ring outline-none">
-                    {t("footer_email", "vd.dept@lpnu.ua")}
-                  </a>
                 </div>
               </li>
             </ul>
