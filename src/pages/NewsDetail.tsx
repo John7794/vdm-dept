@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useCms } from "../contexts/CmsContext";
-import { formatDriveLink } from "../lib/utils";
+import { formatDriveLink, cleanHtml } from "../lib/utils";
 import ResponsiveImage from "../components/ResponsiveImage";
 import { useState, useEffect, useCallback } from "react";
 
@@ -152,7 +152,7 @@ export default function NewsDetail() {
             )}
             
             {content && (
-              <div dangerouslySetInnerHTML={{ __html: content }} className="prose prose-invert max-w-none prose-p:text-text-main prose-headings:text-text-main prose-a:text-accent-blue pb-8" />
+              <div dangerouslySetInnerHTML={{ __html: cleanHtml(content) }} className="prose prose-invert max-w-none prose-p:text-text-main prose-headings:text-text-main prose-a:text-accent-blue pb-8" />
             )}
 
             {quote && (

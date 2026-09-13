@@ -1,4 +1,4 @@
-import { formatDriveLink } from "../lib/utils";
+import { formatDriveLink, cleanHtml } from "../lib/utils";
 import ResponsiveImage from "./ResponsiveImage";
 
 export default function RichContentBlocks({ blocks, lang }: { blocks: any[], lang: string }) {
@@ -24,7 +24,7 @@ export default function RichContentBlocks({ blocks, lang }: { blocks: any[], lan
               <div 
                 key={idx} 
                 className="prose prose-invert max-w-none prose-p:text-text-main prose-headings:text-text-main prose-a:text-accent-blue font-light leading-relaxed text-lg lg:text-xl text-balance whitespace-pre-line"
-                dangerouslySetInnerHTML={{ __html: text }} 
+                dangerouslySetInnerHTML={{ __html: cleanHtml(text) }} 
               />
             );
           
