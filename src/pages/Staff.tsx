@@ -243,7 +243,7 @@ export default function Staff() {
                   
                   {(degree || title) ? (
                     <div className="col-span-3 p-6 flex flex-col justify-center">
-                      <p className="font-medium text-sm lg:text-base lg:group-hover:text-page-bg/90 transition-colors">
+                      <p className="font-medium text-sm lg:text-base lg:group-hover:text-page-bg/90 transition-colors whitespace-pre-line break-words">
                         {degree && title ? (
                           <>
                             {degree} / <br />
