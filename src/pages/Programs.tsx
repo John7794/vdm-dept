@@ -38,9 +38,9 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
 
   return (
     <div className="mt-8">
-      <div className="p-4 border-b border-border-soft flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 bg-surface-mut">
+      <div className="p-4 border-b border-border-soft flex justify-between items-center gap-2 bg-surface-mut">
         <h4 className="font-bold text-sm tracking-widest uppercase">{t("prog_lbl_disciplines", "Дисципліни")}</h4>
-        <a href="#" className="font-mono text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue">Завантажити програму (PDF)</a>
+        <a href="#" className="font-mono text-[10px] sm:text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue text-right leading-tight">Завантажити програму (PDF)</a>
       </div>
       <div className="p-0 space-y-12 mt-6">
         {courses.map(course => (
@@ -179,9 +179,9 @@ export default function Programs() {
                       <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                     )}
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                  <div className="flex flex-row justify-between sm:justify-start gap-4 sm:gap-8 mt-4 font-mono text-[10px] sm:text-sm tracking-widest uppercase text-text-main">
+                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
                   <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
@@ -222,9 +222,9 @@ export default function Programs() {
                       <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                     )}
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                  <div className="flex flex-row justify-between sm:justify-start gap-4 sm:gap-8 mt-4 font-mono text-[10px] sm:text-sm tracking-widest uppercase text-text-main">
+                    <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                    <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                   </div>
                   <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
                 </div>
@@ -263,9 +263,9 @@ export default function Programs() {
                     <ArrowUpRight className="w-8 h-8 text-text-dim/30 flex-shrink-0 cursor-not-allowed" />
                   )}
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 font-mono text-sm tracking-widest uppercase text-text-main">
-                  <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
-                  <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block sm:inline mt-1 sm:mt-0">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
+                <div className="flex flex-row justify-between sm:justify-start gap-4 sm:gap-8 mt-4 font-mono text-[10px] sm:text-sm tracking-widest uppercase text-text-main">
+                  <span className="text-text-dim">{t("prog_lbl_duration")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Duration_${lang}`] || prog.Duration_UA || prog.duration}</span></span>
+                  <span className="text-text-dim">{t("prog_lbl_degree")} <span className="text-text-main block mt-1 sm:mt-0 sm:inline sm:ml-2">{prog[`Degree_${lang}`] || prog.Degree_UA || prog.degree}</span></span>
                 </div>
                 <ProgramDisciplines prog={prog} disciplines={disciplines} lang={lang} t={t} />
               </div>

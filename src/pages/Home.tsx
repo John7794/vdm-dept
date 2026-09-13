@@ -144,57 +144,38 @@ export default function Home() {
         {[
           {
             num: "01.",
-            title: t("nav_programs", "Програми"),
-            desc: t("home_section_programs_desc", "Бакалаврські та магістерські програми з візуального дизайну та мистецтва. Дізнайтеся про наші напрямки підготовки."),
-            link: "/programs",
-            btnLabel: t("home_section_programs_btn", "Усі програми"),
+            title: t("home_area_1_title", ""),
+            desc: t("home_area_1_desc", ""),
             bgClass: "bg-page-bg",
-            image: getSectionImage("home_programs")
+            image: getSectionImage("home_area_1")
           },
           {
             num: "02.",
-            title: t("nav_staff", "Команда"),
-            desc: t("home_section_team_desc", "Викладачі та фахівці-практики, які формують нове покоління дизайнерів. Познайомтеся з нашими менторами."),
-            link: "/staff",
-            btnLabel: t("home_section_team_btn", "Склад кафедри"),
+            title: t("home_area_2_title", ""),
+            desc: t("home_area_2_desc", ""),
             bgClass: "bg-surface-mut",
-            image: getSectionImage("home_team")
+            image: getSectionImage("home_area_2")
           },
           {
             num: "03.",
-            title: t("nav_projects", "Портфоліо"),
-            desc: t("home_section_portfolio_desc", "Найкращі студентські проєкти, курсові та дипломні дослідження. Наочний результат нашого підходу до навчання."),
-            link: "/projects",
-            btnLabel: t("home_section_portfolio_btn", "Відкрити портфоліо"),
+            title: t("home_area_3_title", ""),
+            desc: t("home_area_3_desc", ""),
             bgClass: "bg-page-bg",
-            image: getSectionImage("home_portfolio")
+            image: getSectionImage("home_area_3")
           },
           {
             num: "04.",
-            title: t("nav_news", "Новини"),
-            desc: t("home_section_news_desc", "Актуальні події, анонси, виставки, лекції та життя нашої кафедри. Залишайтеся в курсі останніх новин."),
-            link: "/news",
-            btnLabel: t("home_section_news_btn", "Переглянути новини"),
+            title: t("home_area_4_title", ""),
+            desc: t("home_area_4_desc", ""),
             bgClass: "bg-surface-mut",
-            image: getSectionImage("home_news")
+            image: getSectionImage("home_area_4")
           },
           {
             num: "05.",
-            title: t("nav_applicants", "Вступнику"),
-            desc: t("home_section_entrants_desc", "Умови вступу, творчі конкурси, вимоги до портфоліо та підготовчі курси для майбутніх студентів кафедри."),
-            link: "/applicants",
-            btnLabel: t("home_section_entrants_btn", "Для вступників"),
+            title: t("home_area_5_title", ""),
+            desc: t("home_area_5_desc", ""),
             bgClass: "bg-page-bg",
-            image: getSectionImage("home_entrants")
-          },
-          {
-            num: "06.",
-            title: t("nav_about", "Про нас"),
-            desc: t("home_section_about_desc", "Історія кафедри, наші досягнення, лабораторії та партнери. Про філософію та візію нашого освітнього простору."),
-            link: "/about",
-            btnLabel: t("home_section_about_btn", "Більше про кафедру"),
-            bgClass: "bg-surface-mut",
-            image: getSectionImage("home_about")
+            image: getSectionImage("home_area_5")
           }
         ].map((item, idx) => {
           const isEven = idx % 2 === 0;
@@ -211,15 +192,6 @@ export default function Home() {
                   <p className="text-text-dim font-light text-base md:text-lg leading-relaxed mb-6 md:mb-10 max-w-xl text-balance break-words hyphens-auto">
                     {item.desc}
                   </p>
-                </div>
-                <div>
-                  <Link 
-                    to={item.link} 
-                    className="group/btn inline-flex items-center gap-6 bg-text-main text-page-bg px-8 py-5 font-bold uppercase tracking-widest text-xs lg:hover:bg-accent-yellow lg:hover:text-ink transition-all duration-500 focus-ring shadow-xl w-full md:w-auto justify-center"
-                  >
-                    {item.btnLabel}
-                    <ArrowUpRight className="w-5 h-5 lg:group-hover/btn:translate-x-1 lg:group-hover/btn:-translate-y-1 transition-transform" />
-                  </Link>
                 </div>
               </div>
 
