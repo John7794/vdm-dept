@@ -112,23 +112,26 @@ export default function Staff() {
       <section className="bg-surface-main">
         {groupedStaff.map((group, gIdx) => (
           <div key={gIdx} className="border-b-2 border-border-main last:border-0">
-            {/* Group Header */}
-            <div className="bg-page-bg px-6 py-8 md:px-12 border-b-2 border-border-main sticky top-[82px] z-10 flex items-center justify-between gap-4">
-              <h2 className="text-2xl font-bold uppercase tracking-widest text-text-main break-words hyphens-auto">
-                {GROUP_TRANSLATION_KEYS[group.name] ? t(GROUP_TRANSLATION_KEYS[group.name]) : group.name}
-              </h2>
-              <span className="font-mono text-sm md:text-base text-text-dim bg-surface-mut px-3 py-1 md:px-4 md:py-1.5 border border-border-soft rounded-full flex-shrink-0 flex items-center justify-center" title={t("staff_lbl_count", "Кількість")}>
-                {group.members.length}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 divide-y-2 divide-border-main">
+            {/* Group Header & Columns Header (Sticky) */}
+            <div className="sticky top-[80px] z-20 flex flex-col bg-page-bg/95 backdrop-blur-md shadow-[0_2px_0_var(--border-main)]">
+              <div className="px-6 py-8 md:px-12 flex items-center justify-between gap-4 border-b-2 border-border-main">
+                <h2 className="text-2xl font-bold uppercase tracking-widest text-text-main break-words hyphens-auto">
+                  {GROUP_TRANSLATION_KEYS[group.name] ? t(GROUP_TRANSLATION_KEYS[group.name]) : group.name}
+                </h2>
+                <span className="font-mono text-sm md:text-base text-text-dim bg-surface-mut px-3 py-1 md:px-4 md:py-1.5 border border-border-soft rounded-full flex-shrink-0 flex items-center justify-center" title={t("staff_lbl_count", "Кількість")}>
+                  {group.members.length}
+                </span>
+              </div>
+              
               {/* Header Row (Desktop) */}
-              <div className="hidden lg:grid grid-cols-12 divide-x-2 divide-border-main font-mono text-xs uppercase tracking-widest bg-page-bg/50">
+              <div className="hidden lg:grid grid-cols-12 divide-x-2 divide-border-main font-mono text-xs uppercase tracking-widest border-b-2 border-border-main">
                 <div className="col-span-5 p-4 text-text-dim">{t("staff_col_name")}</div>
                 <div className="col-span-3 p-4 text-text-dim">{t("staff_col_degree")}</div>
                 <div className="col-span-4 p-4 text-text-dim">{t("staff_col_interests")}</div>
               </div>
+            </div>
+            
+            <div className="grid grid-cols-1 divide-y-2 divide-border-main">
               
               {/* Staff Rows */}
               {group.members.map((member: any, idx: number) => {
