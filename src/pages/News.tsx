@@ -61,7 +61,7 @@ export default function News() {
 
       {/* Dynamic News Feed */}
       <section className="grid grid-cols-1 md:grid-cols-12 bg-page-bg border-b-2 border-border-main">
-        <div className="md:col-span-8 lg:col-span-9 divide-y-2 lg:border-r-2 border-border-main divide-border-main">
+        <div className="md:col-span-12 divide-y-2 border-border-main divide-border-main">
           {newsItems.map((item: any, idx: number) => {
             const title = item[`Title_${lang}`] || item.Title_UA || item.title || "";
             const desc = item[`Desc_${lang}`] || item.Desc_UA || item.desc || item.excerpt || "";
@@ -136,27 +136,7 @@ export default function News() {
           )}
         </div>
         
-        {/* Sidebar */}
-        <div className="md:col-span-4 lg:col-span-3 border-t-2 md:border-t-0 border-border-main relative">
-          <aside className="sticky top-20 bg-surface-main p-6 md:p-12 h-max">
-             <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">{t("news_subscribe_lbl")}</span>
-             <h3 className="text-xl font-bold uppercase mb-4 text-text-main">{t("news_subscribe_title")}</h3>
-             <p className="font-light text-sm text-text-main opacity-80 mb-6">{t("news_subscribe_desc")}</p>
-             <form className="flex flex-col gap-4 relative z-20">
-               <input 
-                 type="email" 
-                 placeholder={t("news_subscribe_placeholder")}
-                 className="w-full border-2 border-border-main p-3 font-mono text-xs uppercase focus-ring outline-none bg-transparent placeholder-text-dim text-text-main"
-                 required
-               />
-               <button type="submit" className="w-full bg-text-main text-page-bg font-bold uppercase tracking-widest text-sm p-4 hover:bg-accent-blue hover:text-paper transition-colors focus-ring outline-none cursor-pointer">
-                 {t("news_subscribe_btn")}
-               </button>
-             </form>
-             
-             <div className="mt-16 brutal-grid h-32 w-full opacity-50 border-t-2 border-border-main"></div>
-          </aside>
-        </div>
+        
       </section>
     </div>
   );
