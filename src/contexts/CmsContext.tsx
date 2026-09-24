@@ -46,7 +46,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    document.documentElement.lang = lang.toLowerCase();
+    document.documentElement.lang = lang === "UA" ? "uk" : lang.toLowerCase();
   }, [lang]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink, cleanHtml } from "../lib/utils";
 import ResponsiveImage from "../components/ResponsiveImage";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 export default function NewsDetail() {
   const { id } = useParams();
@@ -191,7 +191,10 @@ export default function NewsDetail() {
             
             {!content && mediaItems.length === 0 && !quote && (
               <p className="text-text-dim mt-8">
-                Повний текст новини очікує на публікацію. Наша пресслужба працює над підготовкою детальних матеріалів та фотозвіту з цієї події.
+                {t(
+                  "news_pending_content",
+                  "Повний текст новини очікує на публікацію. Наша пресслужба працює над підготовкою детальних матеріалів та фотозвіту з цієї події."
+                )}
               </p>
             )}
           </div>

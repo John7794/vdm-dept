@@ -20,10 +20,10 @@ export default function Applicants() {
             transition={{ duration: 0.5 }}
             className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line break-words hyphens-auto"
           >
-            {t("app_page_title") || "ВСТУПНИКУ\n2026."}
+            {t("app_page_title", "ВСТУПНИКУ\n2026.")}
           </motion.h1>
           <p className="mt-8 text-xl max-w-2xl font-light leading-relaxed text-text-main whitespace-pre-line">
-            {t("app_page_desc") || "Чіткий алгоритм вступу на програми бакалавріату та магістратури. Терміни, вимоги до творчого конкурсу, документація."}
+            {t("app_page_desc", "Чіткий алгоритм вступу на програми бакалавріату та магістратури. Терміни, вимоги до творчого конкурсу, документація.")}
           </p>
         </div>
       </section>
@@ -33,9 +33,11 @@ export default function Applicants() {
         
         {/* Left Column: Algorithm */}
         <div className="lg:col-span-8 bg-surface-main p-6 md:p-12 lg:p-16">
-           <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">{t("app_algorithm_lbl") || "Алгоритм"}</span>
+           <span className="font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest">
+             {t("app_algorithm_lbl", "Алгоритм")}
+           </span>
            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-12 leading-none text-text-main">
-             {t("app_steps_title") || "Кроки до зарахування"}
+             {t("app_steps_title", "Кроки до зарахування")}
            </h2>
            
            <div className="space-y-12">
@@ -56,7 +58,7 @@ export default function Applicants() {
                  </div>
                );
              }) : (
-               <div className="text-text-dim font-mono text-xs">{t("app_loading") || "Завантаження..."}</div>
+               <div className="text-text-dim font-mono text-xs">{t("app_loading", "Завантаження...")}</div>
              )}
            </div>
         </div>
@@ -64,8 +66,12 @@ export default function Applicants() {
         {/* Right Column: Key info and Downloads */}
         <div className="lg:col-span-4 bg-page-bg">
           <div className="p-6 md:p-12 border-b-2 border-border-main">
-             <span className="font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest">{t("app_docs_lbl") || "Документація"}</span>
-             <h3 className="text-xl font-bold uppercase tracking-tight mb-6 text-text-main">{t("app_docs_title") || "Матеріали для завантаження"}</h3>
+             <span className="font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest">
+               {t("app_docs_lbl", "Документація")}
+             </span>
+             <h3 className="text-xl font-bold uppercase tracking-tight mb-6 text-text-main">
+               {t("app_docs_title", "Матеріали для завантаження")}
+             </h3>
              
              <div className="space-y-4">
                {documents.length > 0 ? documents.map((doc: any, idx: number) => {
@@ -83,21 +89,27 @@ export default function Applicants() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-between w-full border-2 border-border-main p-4 hover:bg-text-main hover:text-page-bg text-text-main transition-colors focus-ring outline-none group text-left"
                       >
-                        <span className="font-bold uppercase tracking-widest text-sm">{t("app_docs_download") || "Завантажити"} {type}</span>
+                        <span className="font-bold uppercase tracking-widest text-sm">
+                          {t("app_docs_download", "Завантажити")} {type}
+                        </span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </a>
                       {info && <p className="font-mono text-[10px] text-text-dim mt-2 uppercase">{info}</p>}
                    </div>
                  );
                }) : (
-                 <div className="text-text-dim font-mono text-xs">{t("app_docs_empty") || "Немає доступних документів."}</div>
+                 <div className="text-text-dim font-mono text-xs">{t("app_docs_empty", "Немає доступних документів.")}</div>
                )}
              </div>
           </div>
           
           <div className="p-6 md:p-12 text-text-main">
-             <span className="font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest">{t("app_checklist_lbl") || "Чек-лист"}</span>
-             <h3 className="text-xl font-bold uppercase tracking-tight mb-6">{t("app_checklist_title") || "Обов'язкові документи"}</h3>
+             <span className="font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest">
+               {t("app_checklist_lbl", "Чек-лист")}
+             </span>
+             <h3 className="text-xl font-bold uppercase tracking-tight mb-6">
+               {t("app_checklist_title", "Обов'язкові документи")}
+             </h3>
              <ul className="space-y-4">
                {checklist.length > 0 ? checklist.map((item: any, i: number) => {
                  const text = item[`Text_${lang}`] || item.Text_UA || item.text || item.Text || "";
@@ -110,7 +122,7 @@ export default function Applicants() {
                  );
                }) : (
                  <li className="flex gap-4 items-start">
-                   <span className="leading-snug font-medium text-text-dim">{t("app_loading") || "Завантаження..."}</span>
+                   <span className="leading-snug font-medium text-text-dim">{t("app_loading", "Завантаження...")}</span>
                  </li>
                )}
              </ul>
@@ -121,8 +133,12 @@ export default function Applicants() {
       
       {/* Footer Banner */}
       <section className="bg-accent-yellow text-ink p-6 md:p-12 lg:p-16 text-center border-t-2 border-border-main">
-        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4">{t("app_faq_title") || "Маєте запитання щодо вступу?"}</h2>
-        <p className="font-mono text-sm uppercase tracking-widest mb-8">{t("app_faq_desc") || "Звертайтеся до приймальної комісії НУЛП."}</p>
+        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4">
+          {t("app_faq_title", "Маєте запитання щодо вступу?")}
+        </h2>
+        <p className="font-mono text-sm uppercase tracking-widest mb-8">
+          {t("app_faq_desc", "Звертайтеся до приймальної комісії НУЛП.")}
+        </p>
         <a href="tel:+380322582537" className="inline-flex items-center gap-2 border-2 border-ink text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-ink hover:text-paper transition-colors focus-ring">
           +38 (032) 258-25-37
         </a>

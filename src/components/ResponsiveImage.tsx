@@ -1,6 +1,7 @@
 import { formatDriveLink } from "../lib/utils";
 
 interface ResponsiveImageProps {
+  key?: any;
   desktopUrl?: string;
   desktopUrl2x?: string;
   tabletUrl?: string;

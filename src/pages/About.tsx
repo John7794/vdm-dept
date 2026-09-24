@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
 import { MapPin, ArrowUpRight, Facebook, Instagram, Globe, X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -176,7 +176,7 @@ export default function About() {
               <motion.img 
                 key={currentGalleryIdx}
                 src={galleryImages[currentGalleryIdx]}
-                alt="Галерея Політе"
+                alt={t("about_gallery_polite_alt", "Галерея Політе")}
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
@@ -218,7 +218,7 @@ export default function About() {
               <motion.img 
                 key={currentGroomIdx}
                 src={groomImages[currentGroomIdx]}
-                alt="Галерея G-room"
+                alt={t("about_groom_alt", "Галерея G-room")}
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
@@ -291,7 +291,7 @@ export default function About() {
               </span>
               
               <div className="flex gap-6">
-                <a href="https://lpnu.ua/vdm" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label="Сайт Львівської політехніки">
+                <a href="https://lpnu.ua/vdm" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label={t("about_lpnu_site_aria", "Сайт Львівської політехніки")}>
                   <Globe className="w-8 h-8" />
                 </a>
                 <a href="https://www.facebook.com/visualdesignandart" target="_blank" rel="noopener noreferrer" className="p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none" aria-label="Facebook">

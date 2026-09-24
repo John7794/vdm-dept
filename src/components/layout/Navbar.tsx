@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, Eye } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../ThemeProvider";
 import { useCms } from "../../contexts/CmsContext";
+import { useAccessibility } from "../../contexts/AccessibilityContext";
 import { formatDriveLink } from "../../lib/utils";
 
 const LogoText = ({ className }: { className?: string }) => (
@@ -31,6 +32,7 @@ export default function Navbar() {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { data, lang, setLang, t } = useCms();
+  const { toggleToolbar, isCustomized } = useAccessibility();
 
   const logoDataLight = (data?.multimedia || []).find((item: any) => {
     const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
@@ -85,11 +87,11 @@ export default function Navbar() {
       <div className="flex h-20 w-full">
         <div className="flex-shrink-0 flex items-center border-r-2 border-border-main px-6 w-full lg:w-auto lg:min-w-[320px] justify-between lg:justify-start">
           {location.pathname === "/" ? (
-            <div className="flex items-center" aria-label="Головна сторінка">
+            <div className="flex items-center" aria-label={t("nav_home_aria", "Головна сторінка")}>
               <Logo className="text-text-main" />
             </div>
           ) : (
-            <Link to="/" className="flex items-center focus-ring rounded-sm outline-none" aria-label="Головна сторінка">
+            <Link to="/" className="flex items-center focus-ring rounded-sm outline-none" aria-label={t("nav_home_aria", "Головна сторінка")}>
               <Logo className="text-text-main" />
             </Link>
           )}
@@ -98,15 +100,28 @@ export default function Navbar() {
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)} 
               className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors flex items-center gap-1.5"
-              aria-label="Мова"
+              aria-label={t("nav_lang_aria", "Мова")}
             >
               <img src={flagMap[lang]} alt={lang} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
               <span className="font-bold text-sm uppercase">{lang}</span>
             </button>
             <button 
+              onClick={toggleToolbar} 
+              className={`p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors relative ${
+                isCustomized ? "bg-accent-yellow text-ink border-ink" : ""
+              }`}
+              aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Доступність)")}
+              title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
+            >
+              <Eye className="w-6 h-6 a11y-keep" />
+              {isCustomized && (
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+              )}
+            </button>
+            <button 
               onClick={toggleTheme} 
               className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors"
-              aria-label="Перемикач теми"
+              aria-label={t("nav_theme_aria", "Перемикач теми")}
             >
               {theme === "dark" ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
             </button>
@@ -114,7 +129,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors"
               aria-expanded={isOpen}
-              aria-label="Меню"
+              aria-label={t("nav_menu_aria", "Меню")}
             >
               {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
             </button>
@@ -122,7 +137,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex w-full divide-x-2 divide-border-main" aria-label="Головна навігація">
+        <nav className="hidden lg:flex w-full divide-x-2 divide-border-main" aria-label={t("nav_main_aria", "Головна навігація")}>
             {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
             
@@ -197,10 +212,26 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
+          {/* Accessibility Mode Toggle Button (WCAG 2.1 / ДСТУ EN 301 549) */}
+          <button 
+            onClick={toggleToolbar} 
+            className={`flex items-center justify-center gap-2 px-5 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none flex-shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
+              isCustomized ? "bg-accent-yellow text-ink border-l-2 border-r-2 border-ink" : ""
+            }`}
+            aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Панель доступності)")}
+            title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
+          >
+            <Eye className="w-4 h-4 a11y-keep" />
+            <span className="hidden xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
+            {isCustomized && (
+              <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+            )}
+          </button>
+
           <button 
             onClick={toggleTheme} 
             className="flex items-center justify-center px-6 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none flex-shrink-0"
-            aria-label="Перемикач теми"
+            aria-label={t("nav_theme_aria", "Перемикач теми")}
           >
             {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>

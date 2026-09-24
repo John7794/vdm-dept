@@ -40,17 +40,21 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
     <div className="mt-8">
       <div className="p-4 border-b border-border-soft flex justify-between items-center gap-2 bg-surface-mut">
         <h4 className="font-bold text-sm tracking-widest uppercase">{t("prog_lbl_disciplines", "Дисципліни")}</h4>
-        <a href="#" className="font-mono text-[10px] sm:text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue text-right leading-tight">Завантажити програму (PDF)</a>
+        <a href="#" className="font-mono text-[10px] sm:text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue text-right leading-tight">
+          {t("prog_download_pdf", "Завантажити програму (PDF)")}
+        </a>
       </div>
       <div className="p-0 space-y-12 mt-6">
         {courses.map(course => (
           <div key={course} className="space-y-4">
-            <h5 className="font-mono font-bold text-sm text-accent-blue uppercase tracking-widest pl-4 border-l-2 border-accent-blue">{course} {lang === "UA" ? "Курс" : "Course"}</h5>
+            <h5 className="font-mono font-bold text-sm text-accent-blue uppercase tracking-widest pl-4 border-l-2 border-accent-blue">
+              {course} {t("prog_course_word", "Курс")}
+            </h5>
             <div className="bg-surface-main/30 border border-border-soft">
                 <div className="hidden sm:grid grid-cols-[1fr_120px_180px] font-mono text-xs text-text-dim border-b border-border-soft bg-surface-mut/50 p-4">
-    <div>{lang === "UA" ? "Назва дисципліни" : "Discipline"}</div>
-    <div className="text-center">{lang === "UA" ? "Семестр" : "Semester"}</div>
-    <div>{lang === "UA" ? "Тип контролю" : "Control Type"}</div>
+    <div>{t("prog_th_name", "Назва дисципліни")}</div>
+    <div className="text-center">{t("prog_th_semester", "Семестр")}</div>
+    <div>{t("prog_th_control", "Тип контролю")}</div>
   </div>
                 <div className="divide-y divide-border-soft/30">
                   {grouped[course].map((d: any, i: number) => {

@@ -1,0 +1,884 @@
+{
+  "src/components/AccessGate.tsx": [
+    {
+      "line": 40,
+      "text": "<h1 className=\"text-2xl font-bold uppercase tracking-tight\">Обмежений доступ</h1>"
+    },
+    {
+      "line": 42,
+      "text": "Введіть пароль для перегляду прототипу сайту"
+    },
+    {
+      "line": 52,
+      "text": "placeholder=\"ПАРОЛЬ\""
+    },
+    {
+      "line": 70,
+      "text": "УВІЙТИ"
+    },
+    {
+      "line": 75,
+      "text": "Цей сайт знаходиться в стадії розробки. <br />"
+    },
+    {
+      "line": 76,
+      "text": "Зверніться до адміністратора за паролем."
+    }
+  ],
+  "src/components/AccessibilityToolbar.tsx": [
+    {
+      "line": 56,
+      "text": "Панель доступності"
+    },
+    {
+      "line": 59,
+      "text": "ДСТУ EN 301 549:2022 / WCAG 2.1 (Версія для осіб з порушеннями зору)"
+    },
+    {
+      "line": 66,
+      "text": "aria-label=\"Закрити панель доступності\""
+    },
+    {
+      "line": 73,
+      "text": "{/* 1. Розмір шрифту */}"
+    },
+    {
+      "line": 76,
+      "text": "1. Розмір шрифту (Масштабування тексту)"
+    },
+    {
+      "line": 80,
+      "text": "{ id: \"normal\", label: \"A\", sub: \"100% (Звичайний)\" },"
+    },
+    {
+      "line": 81,
+      "text": "{ id: \"large\", label: \"A+\", sub: \"115% (Збільшений)\" },"
+    },
+    {
+      "line": 82,
+      "text": "{ id: \"xlarge\", label: \"A++\", sub: \"130% (Великий)\" },"
+    },
+    {
+      "line": 104,
+      "text": "{/* 2. Контраст та колірна схема */}"
+    },
+    {
+      "line": 107,
+      "text": "2. Контрастність та колірна схема"
+    },
+    {
+      "line": 113,
+      "text": "label: \"Стандартна\","
+    },
+    {
+      "line": 118,
+      "text": "label: \"Високий контраст\","
+    },
+    {
+      "line": 123,
+      "text": "label: \"Жовтий на чорному\","
+    },
+    {
+      "line": 128,
+      "text": "label: \"Синій на білому\","
+    },
+    {
+      "line": 133,
+      "text": "label: \"Монохром\","
+    },
+    {
+      "line": 155,
+      "text": "{/* 3. Додаткові налаштування сприйняття */}"
+    },
+    {
+      "line": 158,
+      "text": "3. Параметри читабельності та відображення"
+    },
+    {
+      "line": 161,
+      "text": "{/* Інтервал */}"
+    },
+    {
+      "line": 173,
+      "text": "<span>Збільшений інтервал</span>"
+    },
+    {
+      "line": 176,
+      "text": "<span className=\"text-[10px] font-mono\">УВІМК</span>"
+    },
+    {
+      "line": 178,
+      "text": "<span className=\"text-[10px] font-mono text-text-dim\">ВИМК</span>"
+    },
+    {
+      "line": 182,
+      "text": "{/* Підкреслення посилань */}"
+    },
+    {
+      "line": 194,
+      "text": "<span>Підкреслити посилання</span>"
+    },
+    {
+      "line": 197,
+      "text": "<span className=\"text-[10px] font-mono\">УВІМК</span>"
+    },
+    {
+      "line": 199,
+      "text": "<span className=\"text-[10px] font-mono text-text-dim\">ВИМК</span>"
+    },
+    {
+      "line": 203,
+      "text": "{/* Приховати зображення */}"
+    },
+    {
+      "line": 219,
+      "text": "<span>Приховати зображення</span>"
+    },
+    {
+      "line": 222,
+      "text": "<span className=\"text-[10px] font-mono\">СХОВАНО</span>"
+    },
+    {
+      "line": 224,
+      "text": "<span className=\"text-[10px] font-mono text-text-dim\">ВИДИМІ</span>"
+    },
+    {
+      "line": 228,
+      "text": "{/* Синтез голосу */}"
+    },
+    {
+      "line": 244,
+      "text": "<span>Озвучування тексту</span>"
+    },
+    {
+      "line": 247,
+      "text": "<span className=\"text-[10px] font-mono\">АКТИВНО</span>"
+    },
+    {
+      "line": 249,
+      "text": "<span className=\"text-[10px] font-mono text-text-dim\">ВИМК</span>"
+    },
+    {
+      "line": 270,
+      "text": "Скинути налаштування"
+    },
+    {
+      "line": 277,
+      "text": "Застосувати і закрити"
+    }
+  ],
+  "src/components/CookieConsent.tsx": [
+    {
+      "line": 146,
+      "text": "\"Налаштуйте параметри приватності. Необхідні cookie потрібні для функціонування сайту.\""
+    },
+    {
+      "line": 160,
+      "text": "{/* 1. Необхідні (Завжди активні) */}"
+    },
+    {
+      "line": 188,
+      "text": "\"Безпека, перемикання теми та збереження параметрів панелі доступності (ДСТУ EN 301 549).\""
+    },
+    {
+      "line": 194,
+      "text": "{/* 2. Функціональні */}"
+    },
+    {
+      "line": 232,
+      "text": "\"Збереження вибору мови інтерфейсу (UA/EN) та активних фільтрів перегляду проєктів.\""
+    },
+    {
+      "line": 238,
+      "text": "{/* 3. Аналітичні */}"
+    },
+    {
+      "line": 276,
+      "text": "\"Анонімна статистика відвідувань для оптимізації структури навчальних матеріалів.\""
+    },
+    {
+      "line": 282,
+      "text": "{/* 4. Мультимедіа */}"
+    },
+    {
+      "line": 320,
+      "text": "\"Відтворення вбудованих відеопрезентацій (YouTube/Vimeo) та інтерактивних мап.\""
+    }
+  ],
+  "src/components/layout/Footer.tsx": [
+    {
+      "line": 68,
+      "text": "Національний університет «Львівська політехніка»"
+    },
+    {
+      "line": 70,
+      "text": "<p>Інститут архітектури та дизайну</p>"
+    },
+    {
+      "line": 77,
+      "text": "lpnu.ua — Головний портал університету <ExternalLink className=\"w-3.5 h-3.5\" />"
+    },
+    {
+      "line": 124,
+      "text": "<span>Політика конфіденційності</span>"
+    },
+    {
+      "line": 131,
+      "text": "<span>Налаштування файлів cookie</span>"
+    },
+    {
+      "line": 138,
+      "text": "<span>Панель доступності (ДСТУ EN 301 549)</span>"
+    },
+    {
+      "line": 148,
+      "text": "<p>© {currentYear} Кафедра дизайну та візуальних комунікацій НУ «Львівська політехніка»</p>"
+    },
+    {
+      "line": 150,
+      "text": "<p>Всі права захищено (ЗУ № 2811-IX)</p>"
+    },
+    {
+      "line": 153,
+      "text": "Використання матеріалів вебсайту дозволяється за умови обов'язкового відкритого прямого гіперпосилання на офіційне першоджерело."
+    }
+  ],
+  "src/components/layout/Layout.tsx": [
+    {
+      "line": 43,
+      "text": "{/* WCAG 2.1 AA / ДСТУ EN 301 549: Skip to main content link for screen readers and keyboard users */}"
+    }
+  ],
+  "src/components/layout/Navbar.tsx": [
+    {
+      "line": 90,
+      "text": "<div className=\"flex items-center\" aria-label=\"Головна сторінка\">"
+    },
+    {
+      "line": 94,
+      "text": "<Link to=\"/\" className=\"flex items-center focus-ring rounded-sm outline-none\" aria-label=\"Головна сторінка\">"
+    },
+    {
+      "line": 103,
+      "text": "aria-label=\"Мова\""
+    },
+    {
+      "line": 113,
+      "text": "aria-label=\"Версія для людей з порушеннями зору (Доступність)\""
+    },
+    {
+      "line": 114,
+      "text": "title=\"Панель доступності (ДСТУ EN 301 549)\""
+    },
+    {
+      "line": 124,
+      "text": "aria-label=\"Перемикач теми\""
+    },
+    {
+      "line": 132,
+      "text": "aria-label=\"Меню\""
+    },
+    {
+      "line": 140,
+      "text": "<nav className=\"hidden lg:flex w-full divide-x-2 divide-border-main\" aria-label=\"Головна навігація\">"
+    },
+    {
+      "line": 215,
+      "text": "{/* Accessibility Mode Toggle Button (WCAG 2.1 / ДСТУ EN 301 549) */}"
+    },
+    {
+      "line": 221,
+      "text": "aria-label=\"Версія для людей з порушеннями зору (Панель доступності)\""
+    },
+    {
+      "line": 222,
+      "text": "title=\"Панель доступності (ДСТУ EN 301 549)\""
+    },
+    {
+      "line": 225,
+      "text": "<span className=\"hidden xl:inline\">Доступність</span>"
+    },
+    {
+      "line": 234,
+      "text": "aria-label=\"Перемикач теми\""
+    }
+  ],
+  "src/pages/About.tsx": [
+    {
+      "line": 179,
+      "text": "alt=\"Галерея Політе\""
+    },
+    {
+      "line": 192,
+      "text": "{t(\"about_gallery_p2\", \"Першою експозицією простору став проєкт відомого представника української «Нової хвилі» Олега Тістола під назвою «Тіні вибору \\\"Анґіарі\\\"». Художник досліджує досвід вибору, пам'ять та відповідальність через мотив тіні, безпосередньо залучаючи до творчого процесу українських захисників.\")}"
+    },
+    {
+      "line": 221,
+      "text": "alt=\"Галерея G-room\""
+    },
+    {
+      "line": 294,
+      "text": "<a href=\"https://lpnu.ua/vdm\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"p-4 bg-surface-mut rounded-full text-text-main hover:bg-accent-yellow hover:text-ink transition-colors focus-ring outline-none\" aria-label=\"Сайт Львівської політехніки\">"
+    },
+    {
+      "line": 339,
+      "text": "src=\"https://maps.google.com/maps?q=вул.+Січових+Стрільців,+7,+Львів&t=&z=16&ie=UTF8&iwloc=&output=embed\""
+    }
+  ],
+  "src/pages/Applicants.tsx": [
+    {
+      "line": 23,
+      "text": "{t(\"app_page_title\") || \"ВСТУПНИКУ\\n2026.\"}"
+    },
+    {
+      "line": 26,
+      "text": "{t(\"app_page_desc\") || \"Чіткий алгоритм вступу на програми бакалавріату та магістратури. Терміни, вимоги до творчого конкурсу, документація.\"}"
+    },
+    {
+      "line": 36,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest\">{t(\"app_algorithm_lbl\") || \"Алгоритм\"}</span>"
+    },
+    {
+      "line": 38,
+      "text": "{t(\"app_steps_title\") || \"Кроки до зарахування\"}"
+    },
+    {
+      "line": 59,
+      "text": "<div className=\"text-text-dim font-mono text-xs\">{t(\"app_loading\") || \"Завантаження...\"}</div>"
+    },
+    {
+      "line": 67,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest\">{t(\"app_docs_lbl\") || \"Документація\"}</span>"
+    },
+    {
+      "line": 68,
+      "text": "<h3 className=\"text-xl font-bold uppercase tracking-tight mb-6 text-text-main\">{t(\"app_docs_title\") || \"Матеріали для завантаження\"}</h3>"
+    },
+    {
+      "line": 86,
+      "text": "<span className=\"font-bold uppercase tracking-widest text-sm\">{t(\"app_docs_download\") || \"Завантажити\"} {type}</span>"
+    },
+    {
+      "line": 93,
+      "text": "<div className=\"text-text-dim font-mono text-xs\">{t(\"app_docs_empty\") || \"Немає доступних документів.\"}</div>"
+    },
+    {
+      "line": 99,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest\">{t(\"app_checklist_lbl\") || \"Чек-лист\"}</span>"
+    },
+    {
+      "line": 100,
+      "text": "<h3 className=\"text-xl font-bold uppercase tracking-tight mb-6\">{t(\"app_checklist_title\") || \"Обов'язкові документи\"}</h3>"
+    },
+    {
+      "line": 113,
+      "text": "<span className=\"leading-snug font-medium text-text-dim\">{t(\"app_loading\") || \"Завантаження...\"}</span>"
+    },
+    {
+      "line": 124,
+      "text": "<h2 className=\"text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4\">{t(\"app_faq_title\") || \"Маєте запитання щодо вступу?\"}</h2>"
+    },
+    {
+      "line": 125,
+      "text": "<p className=\"font-mono text-sm uppercase tracking-widest mb-8\">{t(\"app_faq_desc\") || \"Звертайтеся до приймальної комісії НУЛП.\"}</p>"
+    }
+  ],
+  "src/pages/Contacts.tsx": [
+    {
+      "line": 46,
+      "text": "Контакти &<br />"
+    },
+    {
+      "line": 47,
+      "text": "Локація."
+    },
+    {
+      "line": 50,
+      "text": "Зв'яжіться з нами для обговорення академічних програм, партнерств або спільних проєктів."
+    },
+    {
+      "line": 62,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest\">Адреса</span>"
+    },
+    {
+      "line": 64,
+      "text": "М. Львів,<br />"
+    },
+    {
+      "line": 65,
+      "text": "Вул. Січових Стрільців, 7<br />"
+    },
+    {
+      "line": 66,
+      "text": "Аудиторія 204"
+    },
+    {
+      "line": 70,
+      "text": "Відкрити в Google Maps <ArrowRight className=\"w-4 h-4\" />"
+    },
+    {
+      "line": 76,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest\">Зв'язок</span>"
+    },
+    {
+      "line": 85,
+      "text": "<span className=\"block font-mono text-[10px] text-text-dim mb-1\">ТЕЛЕФОН:</span>"
+    },
+    {
+      "line": 99,
+      "text": "Локація на мапі"
+    },
+    {
+      "line": 106,
+      "text": "<span className=\"font-mono text-xs text-text-dim block mb-8 uppercase tracking-widest\">Форма</span>"
+    },
+    {
+      "line": 107,
+      "text": "<h2 className=\"text-3xl font-bold uppercase tracking-tight mb-8 leading-none\">Напишіть нам</h2>"
+    },
+    {
+      "line": 111,
+      "text": "<label htmlFor=\"name\" className=\"font-mono text-xs uppercase tracking-widest block mb-2 font-bold opacity-80\">Ім'я</label>"
+    },
+    {
+      "line": 117,
+      "text": "placeholder=\"Введіть ваше ім'я\""
+    },
+    {
+      "line": 135,
+      "text": "<label htmlFor=\"message\" className=\"font-mono text-xs uppercase tracking-widest block mb-2 font-bold opacity-80\">Повідомлення</label>"
+    },
+    {
+      "line": 141,
+      "text": "placeholder=\"Тема вашого звернення...\""
+    },
+    {
+      "line": 155,
+      "text": "Я даю згоду на обробку персональних даних згідно із{\" \"}"
+    },
+    {
+      "line": 157,
+      "text": "Законом України «Про захист персональних даних»"
+    },
+    {
+      "line": 159,
+      "text": "та Політикою конфіденційності."
+    },
+    {
+      "line": 168,
+      "text": "{formState === \"submitting\" ? \"Обробка...\" : formState === \"success\" ? \"Надіслано!\" : formState === \"error\" ? \"Помилка (Спробуйте знов)\" : \"Відправити\"}"
+    }
+  ],
+  "src/pages/NewsDetail.tsx": [
+    {
+      "line": 194,
+      "text": "Повний текст новини очікує на публікацію. Наша пресслужба працює над підготовкою детальних матеріалів та фотозвіту з цієї події."
+    }
+  ],
+  "src/pages/PrivacyPolicy.tsx": [
+    {
+      "line": 24,
+      "text": "Правові засади діяльності"
+    },
+    {
+      "line": 27,
+      "text": "ЗУ № 2297-VI / ЗУ № 2811-IX"
+    },
+    {
+      "line": 31,
+      "text": "Політика конфіденційності та правова інформація"
+    },
+    {
+      "line": 34,
+      "text": "Порядок збирання, використання, захисту персональних даних та умови користування офіційним вебресурсом Кафедри дизайну та візуальних комунікацій Національного університету «Львівська політехніка»."
+    },
+    {
+      "line": 41,
+      "text": "{/* Преамбула */}"
+    },
+    {
+      "line": 44,
+      "text": "<Scale className=\"w-5 h-5 text-accent-blue a11y-keep\" /> 1. Загальні положення та правові підстави"
+    },
+    {
+      "line": 48,
+      "text": "Ця Політика конфіденційності та обробки персональних даних (далі — «Політика») регулює порядок збору, обробки, використання та зберігання персональних даних користувачів офіційного вебсайту Кафедри дизайну та візуальних комунікацій Інституту архітектури та дизайну Національного університету «Львівська політехніка» (далі — «Кафедра», «Володілець даних»)."
+    },
+    {
+      "line": 51,
+      "text": "Обробка даних здійснюється у суворій відповідності до:"
+    },
+    {
+      "line": 54,
+      "text": "<li>Закону України «Про захист персональних даних» від 01.06.2010 № 2297-VI;</li>"
+    },
+    {
+      "line": 55,
+      "text": "<li>Закону України «Про інформацію» від 02.10.1992 № 2657-XII;</li>"
+    },
+    {
+      "line": 56,
+      "text": "<li>Закону України «Про забезпечення функціонування української мови як державної» від 25.04.2019 № 2704-VIII;</li>"
+    },
+    {
+      "line": 57,
+      "text": "<li>Закону України «Про авторське право і суміжні права» від 01.12.2022 № 2811-IX;</li>"
+    },
+    {
+      "line": 58,
+      "text": "<li>ДСТУ EN 301 549:2022 щодо доступності інформаційно-комунікаційних послуг.</li>"
+    },
+    {
+      "line": 63,
+      "text": "{/* 2. Склад персональних даних */}"
+    },
+    {
+      "line": 66,
+      "text": "<Info className=\"w-5 h-5 text-accent-blue a11y-keep\" /> 2. Склад та категорії персональних даних"
+    },
+    {
+      "line": 69,
+      "text": "<p>Кафедра обробляє виключно той мінімальний обсяг даних, який є необхідним для реалізації мети взаємодії:</p>"
+    },
+    {
+      "line": 72,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-2\">Дані форми зворотного зв'язку:</span>"
+    },
+    {
+      "line": 74,
+      "text": "<li>Ім'я (Прізвище, Ім'я, По батькові або звернення);</li>"
+    },
+    {
+      "line": 75,
+      "text": "<li>Адреса електронної пошти (email);</li>"
+    },
+    {
+      "line": 76,
+      "text": "<li>Текст повідомлення чи запитання користувача.</li>"
+    },
+    {
+      "line": 80,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-2\">Технічні та аналітичні дані (Cookies):</span>"
+    },
+    {
+      "line": 82,
+      "text": "<li>Обрана мовна локалізація сайту (UA/EN/DE/PL);</li>"
+    },
+    {
+      "line": 83,
+      "text": "<li>Параметри панелі доступності (розмір шрифту, контрастність);</li>"
+    },
+    {
+      "line": 84,
+      "text": "<li>Технічна інформація пристрою та браузера.</li>"
+    },
+    {
+      "line": 91,
+      "text": "{/* 3. Права суб'єкта персональних даних (ст. 8 ЗУ № 2297-VI) */}"
+    },
+    {
+      "line": 94,
+      "text": "<ShieldCheck className=\"w-5 h-5 text-accent-blue a11y-keep\" /> 3. Права суб'єкта персональних даних (Стаття 8 Закону України № 2297-VI)"
+    },
+    {
+      "line": 98,
+      "text": "Згідно зі статтею 8 Закону України «Про захист персональних даних», як суб'єкт персональних даних, ви маєте невіддільне право:"
+    },
+    {
+      "line": 101,
+      "text": "<li>Знати про джерела збирання, місцезнаходження своїх персональних даних, мету їх обробки та місцезнаходження володільця даних;</li>"
+    },
+    {
+      "line": 102,
+      "text": "<li>Отримувати інформацію про умови надання доступу до персональних даних, зокрема інформацію про третіх осіб, яким передаються ваші дані;</li>"
+    },
+    {
+      "line": 103,
+      "text": "<li>На доступ до своїх персональних даних;</li>"
+    },
+    {
+      "line": 104,
+      "text": "<li>Отримувати не пізніш як за 30 календарних днів з дня надходження запиту відповідь про те, чи обробляються ваші персональні дані, а також отримувати зміст таких даних;</li>"
+    },
+    {
+      "line": 105,
+      "text": "<li>Пред'являти вмотивовану вимогу володільцю персональних даних із запереченням проти обробки своїх персональних даних;</li>"
+    },
+    {
+      "line": 106,
+      "text": "<li>Пред'являти вмотивовану вимогу щодо зміни або знищення своїх персональних даних будь-яким володільцем, якщо ці дані обробляються незаконно чи є недостовірними;</li>"
+    },
+    {
+      "line": 107,
+      "text": "<li>На захист своїх персональних даних від незаконної обробки та випадкової втрати, знищення, пошкодження;</li>"
+    },
+    {
+      "line": 108,
+      "text": "<li>Звертатися із скаргами на обробку своїх персональних даних до Уповноваженого Верховної Ради України з прав людини або до суду;</li>"
+    },
+    {
+      "line": 109,
+      "text": "<li>Застосовувати засоби правового захисту в разі порушення законодавства про захист персональних даних;</li>"
+    },
+    {
+      "line": 110,
+      "text": "<li>Відкликати згоду на обробку персональних даних у будь-який момент.</li>"
+    },
+    {
+      "line": 115,
+      "text": "{/* 4. Файли Cookie */}"
+    },
+    {
+      "line": 118,
+      "text": "<Lock className=\"w-5 h-5 text-accent-blue a11y-keep\" /> 4. Використання файлів cookie"
+    },
+    {
+      "line": 122,
+      "text": "Файли cookie — це невеликі текстові файли, які зберігаються на вашому комп'ютері або мобільному пристрої під час перегляду вебсайту для забезпечення його коректної роботи та персоналізації інтерфейсу."
+    },
+    {
+      "line": 126,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-1\">1. Необхідні (технічні) cookie:</span>"
+    },
+    {
+      "line": 127,
+      "text": "<p className=\"text-xs text-text-dim\">Обов'язкові для навігації, безпеки, збереження теми та налаштувань доступності (ДСТУ EN 301 549).</p>"
+    },
+    {
+      "line": 130,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-1\">2. Функціональні cookie:</span>"
+    },
+    {
+      "line": 131,
+      "text": "<p className=\"text-xs text-text-dim\">Запам'ятовують мовну версію та фільтри проєктів і навчальних програм.</p>"
+    },
+    {
+      "line": 134,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-1\">3. Аналітичні cookie:</span>"
+    },
+    {
+      "line": 135,
+      "text": "<p className=\"text-xs text-text-dim\">Знеособлена статистика перегляду сторінок для оптимізації структури матеріалів.</p>"
+    },
+    {
+      "line": 138,
+      "text": "<span className=\"font-bold text-xs uppercase block text-text-main mb-1\">4. Мультимедійні cookie:</span>"
+    },
+    {
+      "line": 139,
+      "text": "<p className=\"text-xs text-text-dim\">Відтворення вбудованих відеороликів, інтерактивних мап та робіт студентів.</p>"
+    },
+    {
+      "line": 149,
+      "text": "<span>Налаштувати дозволи файлів cookie</span>"
+    },
+    {
+      "line": 155,
+      "text": "{/* 5. Авторське право та використання матеріалів */}"
+    },
+    {
+      "line": 158,
+      "text": "<FileText className=\"w-5 h-5 text-accent-blue a11y-keep\" /> 5. Авторське право та використання матеріалів (ЗУ № 2811-IX)"
+    },
+    {
+      "line": 162,
+      "text": "Усі права на матеріали, розміщені на цьому вебсайті (текстові публікації, фотографії робіт, методичні розробки, навчальні програми, графічні елементи та логотипи), захищені Законом України «Про авторське право і суміжні права»."
+    },
+    {
+      "line": 165,
+      "text": "Використання будь-яких матеріалів сайту дозволяється виключно за умови відкритого та прямого індексованого гіперпосилання на офіційний сайт Кафедри дизайну та візуальних комунікацій не нижче другого абзацу тексту матеріалу. Будь-яке комерційне використання без письмового дозволу Кафедри заборонено."
+    },
+    {
+      "line": 170,
+      "text": "{/* 6. Контакти володільця даних */}"
+    },
+    {
+      "line": 173,
+      "text": "6. Офіційні реквізити та контактні дані"
+    },
+    {
+      "line": 177,
+      "text": "Кафедра дизайну та візуальних комунікацій Інституту архітектури та дизайну НУ «Львівська політехніка»"
+    },
+    {
+      "line": 179,
+      "text": "<p>Адреса: 79000, Україна, м. Львів, вул. Січових Стрільців, 7, корпус 204</p>"
+    },
+    {
+      "line": 180,
+      "text": "<p>Офіційний email: <a href=\"mailto:vdm.dept@lpnu.ua\" className=\"underline hover:text-accent-blue\">vdm.dept@lpnu.ua</a></p>"
+    },
+    {
+      "line": 181,
+      "text": "<p>Головний портал університету: <a href=\"https://lpnu.ua\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline hover:text-accent-blue\">lpnu.ua</a></p>"
+    }
+  ],
+  "src/pages/Programs.tsx": [
+    {
+      "line": 10,
+      "text": "if (level.includes(\"Бакалавр\")) {"
+    },
+    {
+      "line": 11,
+      "text": "progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes(\"Бакалаврат\") || String(d.Degree_UA).includes(\"Бакалавр\"));"
+    },
+    {
+      "line": 12,
+      "text": "} else if (level.includes(\"Магістр\")) {"
+    },
+    {
+      "line": 13,
+      "text": "progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes(\"Магістратура\") || String(d.Degree_UA).includes(\"Магістр\"));"
+    },
+    {
+      "line": 14,
+      "text": "} else if (level.includes(\"Аспірант\") || level.includes(\"PhD\")) {"
+    },
+    {
+      "line": 15,
+      "text": "progDisciplines = disciplines.filter(d => String(d.Degree_UA).includes(\"Аспірантура\") || String(d.Degree_UA).includes(\"Аспірант\"));"
+    },
+    {
+      "line": 43,
+      "text": "<a href=\"#\" className=\"font-mono text-[10px] sm:text-xs hover:text-accent-blue transition-colors underline underline-offset-4 decoration-border-main hover:decoration-accent-blue text-right leading-tight\">Завантажити програму (PDF)</a>"
+    },
+    {
+      "line": 48,
+      "text": "<h5 className=\"font-mono font-bold text-sm text-accent-blue uppercase tracking-widest pl-4 border-l-2 border-accent-blue\">{course} {lang === \"UA\" ? \"Курс\" : \"Course\"}</h5>"
+    },
+    {
+      "line": 51,
+      "text": "<div>{lang === \"UA\" ? \"Назва дисципліни\" : \"Discipline\"}</div>"
+    },
+    {
+      "line": 52,
+      "text": "<div className=\"text-center\">{lang === \"UA\" ? \"Семестр\" : \"Semester\"}</div>"
+    },
+    {
+      "line": 53,
+      "text": "<div>{lang === \"UA\" ? \"Тип контролю\" : \"Control Type\"}</div>"
+    },
+    {
+      "line": 98,
+      "text": "(p.Level_UA || p.Level || p.level) === \"Бакалавріат\" || (p.Level_UA || p.Level || p.level) === \"Бакалавр\""
+    },
+    {
+      "line": 101,
+      "text": "if (title.toLowerCase().includes(\"образотворче мистецтво\")) {"
+    },
+    {
+      "line": 104,
+      "text": "Title_UA: \"Інтер'єр та просторовий дизайн\","
+    },
+    {
+      "line": 108,
+      "text": "Code: \"B2 Дизайн\","
+    },
+    {
+      "line": 114,
+      "text": "Code: \"B2 Дизайн\","
+    },
+    {
+      "line": 121,
+      "text": "(p.Level_UA || p.Level || p.level) === \"Магістратура\""
+    },
+    {
+      "line": 128,
+      "text": "(p.Level_UA || p.Level || p.level) === \"Аспірантура\""
+    }
+  ],
+  "src/pages/Staff.tsx": [
+    {
+      "line": 9,
+      "text": "\"Керівництво\","
+    },
+    {
+      "line": 10,
+      "text": "\"Професура\","
+    },
+    {
+      "line": 11,
+      "text": "\"Доценти\","
+    },
+    {
+      "line": 12,
+      "text": "\"Старші викладачі\","
+    },
+    {
+      "line": 13,
+      "text": "\"Асистенти\","
+    },
+    {
+      "line": 14,
+      "text": "\"Фахівці та інженери\""
+    },
+    {
+      "line": 18,
+      "text": "\"Керівництво\": \"group_management\","
+    },
+    {
+      "line": 19,
+      "text": "\"Професура\": \"group_professors\","
+    },
+    {
+      "line": 20,
+      "text": "\"Доценти\": \"group_docents\","
+    },
+    {
+      "line": 21,
+      "text": "\"Старші викладачі\": \"group_senior_lecturers\","
+    },
+    {
+      "line": 22,
+      "text": "\"Асистенти\": \"group_assistants\","
+    },
+    {
+      "line": 23,
+      "text": "\"Фахівці та інженери\": \"group_specialists_engineers\""
+    },
+    {
+      "line": 29,
+      "text": "if (r.includes(\"завідувач\") || r.includes(\"голова\") || r.includes(\"керівник\")) return \"Керівництво\";"
+    },
+    {
+      "line": 30,
+      "text": "if (r.includes(\"професор\")) return \"Професура\";"
+    },
+    {
+      "line": 31,
+      "text": "if (r.includes(\"доцент\")) return \"Доценти\";"
+    },
+    {
+      "line": 32,
+      "text": "if (r.includes(\"старший викладач\")) return \"Старші викладачі\";"
+    },
+    {
+      "line": 33,
+      "text": "if (r.includes(\"асистент\")) return \"Асистенти\";"
+    },
+    {
+      "line": 34,
+      "text": "if (r.includes(\"фахівець\") || r.includes(\"інженер\")) return \"Фахівці та інженери\";"
+    },
+    {
+      "line": 37,
+      "text": "return \"Фахівці та інженери\";"
+    },
+    {
+      "line": 62,
+      "text": "if (r.includes(\"завідувач\") && !r.includes(\"заступник\")) return 1; // Завідувач (без \"заступник\")"
+    },
+    {
+      "line": 63,
+      "text": "if (r.includes(\"заступник\") && r.includes(\"завідувач\")) return 2; // Заступник завідувача"
+    },
+    {
+      "line": 64,
+      "text": "if (r.includes(\"голова\")) return 3; // Голова"
+    },
+    {
+      "line": 65,
+      "text": "return 4; // Всі інші"
+    }
+  ]
+}
