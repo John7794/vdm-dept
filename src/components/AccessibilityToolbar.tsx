@@ -38,10 +38,13 @@ export default function AccessibilityToolbar() {
     speakText,
     stopSpeech,
     clearActiveSpeech,
+    playTestAudio,
+    stopTestAudio,
+    isPlayingTestAudio,
   } = useAccessibility();
 
   const handleTestSpeech = () => {
-    speakText(
+    playTestAudio(
       t(
         "a11y_speech_sample",
         "Озвучування тексту працює. Виділіть будь-який фрагмент тексту на сайті для прослуховування."
@@ -49,8 +52,8 @@ export default function AccessibilityToolbar() {
     );
   };
 
-  const shouldShowFloatingBar =
-    Boolean(activeSpeechText) || settings.speechEnabled || isSpeaking || isLoadingAudio;
+  // Only show player when text is actively selected and speech mode is on
+  const shouldShowFloatingBar = Boolean(activeSpeechText) && settings.speechEnabled;
 
   return (
     <>
@@ -296,15 +299,24 @@ export default function AccessibilityToolbar() {
                         <button
                           type="button"
                           onClick={handleTestSpeech}
-                          disabled={isLoadingAudio}
-                          className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-text-main text-page-bg hover:opacity-90 text-xs font-mono uppercase font-bold transition-opacity focus-ring disabled:opacity-50"
+                          className={`inline-flex items-center justify-center gap-2 px-3.5 py-1.5 text-xs font-mono uppercase font-bold transition-all focus-ring ${
+                            isPlayingTestAudio
+                              ? "bg-accent-blue text-white ring-2 ring-accent-blue"
+                              : "bg-text-main text-page-bg hover:opacity-90"
+                          }`}
+                          title={isPlayingTestAudio ? t("a11y_btn_stop_test", "Зупинити тестовий зразок") : t("a11y_btn_test_speech", "Прослухати тестовий зразок")}
                         >
-                          {isLoadingAudio ? (
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          {isPlayingTestAudio ? (
+                            <>
+                              <Volume2 className="w-3.5 h-3.5 animate-pulse text-white" />
+                              <span>{t("a11y_btn_testing_speech", "Відтворення зразка...")}</span>
+                            </>
                           ) : (
-                            <Volume2 className="w-3.5 h-3.5 a11y-keep" />
+                            <>
+                              <Volume2 className="w-3.5 h-3.5 a11y-keep" />
+                              <span>{t("a11y_btn_test_speech", "Прослухати тестовий зразок")}</span>
+                            </>
                           )}
-                          <span>{t("a11y_btn_test_speech", "Прослухати тестовий зразок")}</span>
                         </button>
                       </div>
 

@@ -32,6 +32,9 @@ interface AccessibilityContextType {
   toggleSpeech: () => void;
   speakText: (text: string) => void;
   stopSpeech: () => void;
+  playTestAudio: (sampleText: string) => void;
+  stopTestAudio: () => void;
+  isPlayingTestAudio: boolean;
   resetSettings: () => void;
   isCustomized: boolean;
   isSpeaking: boolean;
@@ -76,6 +79,11 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const isManuallyStoppedRef = useRef<boolean>(false);
   const currentSpeakingTextRef = useRef<string | null>(null);
 
+  // Test Speech State (Isolated from selection flow)
+  const [isPlayingTestAudio, setIsPlayingTestAudio] = useState(false);
+  const testAudioRef = useRef<HTMLAudioElement | null>(null);
+  const testUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
   const toggleToolbar = () => setIsOpen((prev) => !prev);
 
   const updateSetting = <K extends keyof AccessibilitySettings>(
@@ -104,11 +112,112 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     updateSetting("speechEnabled", nextState);
     if (!nextState) {
       stopSpeech();
+      stopTestAudio();
     }
+  };
+
+  const stopTestAudio = () => {
+    if (testAudioRef.current) {
+      try {
+        testAudioRef.current.pause();
+        testAudioRef.current.currentTime = 0;
+        testAudioRef.current.src = "";
+      } catch (e) {
+        console.warn("Test audio stop error:", e);
+      }
+      testAudioRef.current = null;
+    }
+    if ("speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        // ignore
+      }
+    }
+    testUtteranceRef.current = null;
+    setIsPlayingTestAudio(false);
+  };
+
+  const playTestAudio = (sampleText: string) => {
+    if (isPlayingTestAudio) {
+      stopTestAudio();
+      return;
+    }
+
+    stopSpeech();
+    stopTestAudio();
+
+    const textToSpeak = sampleText.trim();
+    if (!textToSpeak) return;
+
+    setIsPlayingTestAudio(true);
+
+    let lang = "uk";
+    try {
+      const storedLang = localStorage.getItem("site_lang") || "UA";
+      lang = storedLang.toLowerCase();
+      if (lang === "ua") lang = "uk";
+    } catch (e) {
+      lang = "uk";
+    }
+
+    const audioUrl = `/api/tts?text=${encodeURIComponent(textToSpeak)}&lang=${encodeURIComponent(lang)}`;
+    const audio = new Audio(audioUrl);
+    testAudioRef.current = audio;
+
+    audio.onended = () => {
+      setIsPlayingTestAudio(false);
+      testAudioRef.current = null;
+    };
+
+    audio.onerror = () => {
+      console.warn("Backend TTS stream failed for test audio, fallback to SpeechSynthesis...");
+      if ("speechSynthesis" in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(textToSpeak);
+          utterance.rate = 1.0;
+          const voices = window.speechSynthesis.getVoices();
+          const ukVoice = voices.find(
+            (v) =>
+              v.lang.toLowerCase().startsWith("uk") ||
+              v.name.toLowerCase().includes("ukrain") ||
+              v.name.toLowerCase().includes("україн")
+          );
+          const defaultVoice = voices.find((v) => v.default) || voices[0];
+          const chosen = ukVoice || defaultVoice;
+          if (chosen) {
+            utterance.voice = chosen;
+            utterance.lang = chosen.lang || "uk-UA";
+          }
+          utterance.onend = () => {
+            setIsPlayingTestAudio(false);
+            testUtteranceRef.current = null;
+          };
+          utterance.onerror = () => {
+            setIsPlayingTestAudio(false);
+            testUtteranceRef.current = null;
+          };
+          testUtteranceRef.current = utterance;
+          window.speechSynthesis.speak(utterance);
+        } catch (synthErr) {
+          setIsPlayingTestAudio(false);
+        }
+      } else {
+        setIsPlayingTestAudio(false);
+      }
+    };
+
+    audio.play().catch(() => {
+      setIsPlayingTestAudio(false);
+    });
   };
 
   const resetSettings = () => {
     stopSpeech();
+    stopTestAudio();
+    setActiveSpeechText(null);
+    currentSpeakingTextRef.current = null;
     setSettings(defaultSettings);
     try {
       localStorage.removeItem("vda_accessibility_settings");
@@ -333,9 +442,9 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let timeoutId: any = null;
 
-    const handleSelection = (e: MouseEvent | TouchEvent | KeyboardEvent) => {
-      // Don't re-trigger selection speech if user is clicking or interacting with the floating bar or toolbar
-      const target = e.target as HTMLElement | null;
+    const handleSelection = (e?: Event) => {
+      // Don't re-trigger or clear selection if user is clicking or interacting with the floating bar or toolbar
+      const target = (e?.target as HTMLElement | null) || null;
       if (target && target.closest('[data-a11y-toolbar="true"]')) {
         return;
       }
@@ -344,33 +453,44 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       timeoutId = setTimeout(() => {
         try {
           const selection = window.getSelection();
-          if (!selection || selection.isCollapsed) return;
+          if (!selection || selection.isCollapsed) {
+            // When user removes or clears selection, text must disappear completely from player
+            stopSpeech();
+            setActiveSpeechText(null);
+            currentSpeakingTextRef.current = null;
+            return;
+          }
 
           const text = selection.toString().trim();
-          if (text && text.length >= 2) {
-            // Ignore selection inside form inputs and textareas
-            const activeEl = document.activeElement;
-            const isInput =
-              activeEl &&
-              (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA");
-            if (isInput) return;
+          if (!text || text.length < 2) {
+            stopSpeech();
+            setActiveSpeechText(null);
+            currentSpeakingTextRef.current = null;
+            return;
+          }
 
-            // If the selected text is the same as the currently speaking/stopped text and user has stopped, don't auto-restart
-            if (isManuallyStoppedRef.current && text === currentSpeakingTextRef.current) {
-              return;
-            }
+          // Ignore selection inside form inputs and textareas
+          const activeEl = document.activeElement;
+          const isInput =
+            activeEl &&
+            (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA");
+          if (isInput) return;
 
-            // A new unique selection was made: reset manual stop flag
-            if (text !== currentSpeakingTextRef.current) {
-              isManuallyStoppedRef.current = false;
-            }
+          // If the selected text is the same as the currently speaking/stopped text and user has stopped, don't auto-restart
+          if (isManuallyStoppedRef.current && text === currentSpeakingTextRef.current) {
+            return;
+          }
 
-            setActiveSpeechText(text);
+          // A new unique selection was made: reset manual stop flag
+          if (text !== currentSpeakingTextRef.current) {
+            isManuallyStoppedRef.current = false;
+          }
 
-            // If speech mode is enabled, voice the new selected text!
-            if (settings.speechEnabled && !isManuallyStoppedRef.current) {
-              speakText(text);
-            }
+          setActiveSpeechText(text);
+
+          // If speech mode is enabled, voice the new selected text!
+          if (settings.speechEnabled && !isManuallyStoppedRef.current) {
+            speakText(text);
           }
         } catch (e) {
           console.warn("Selection listener error:", e);
@@ -378,13 +498,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       }, 150);
     };
 
-    // Global keyboard shortcut: Escape immediately stops speech
+    // Global keyboard shortcut: Escape immediately stops speech and test audio
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         stopSpeech();
+        stopTestAudio();
+        setActiveSpeechText(null);
+        currentSpeakingTextRef.current = null;
       }
     };
 
+    document.addEventListener("selectionchange", handleSelection);
     document.addEventListener("mouseup", handleSelection);
     document.addEventListener("touchend", handleSelection);
     document.addEventListener("keyup", handleSelection);
@@ -392,11 +516,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
     return () => {
       clearTimeout(timeoutId);
+      document.removeEventListener("selectionchange", handleSelection);
       document.removeEventListener("mouseup", handleSelection);
       document.removeEventListener("touchend", handleSelection);
       document.removeEventListener("keyup", handleSelection);
       window.removeEventListener("keydown", handleKeyDown);
       stopSpeech();
+      stopTestAudio();
     };
   }, [settings.speechEnabled]);
 
@@ -423,6 +549,9 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         toggleSpeech,
         speakText,
         stopSpeech,
+        playTestAudio,
+        stopTestAudio,
+        isPlayingTestAudio,
         resetSettings,
         isCustomized,
         isSpeaking,

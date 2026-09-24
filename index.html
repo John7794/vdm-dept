@@ -13,6 +13,20 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
     <!-- Apple Touch Icon (Fallback to the largest available) -->
     <link rel="apple-touch-icon" sizes="96x96" href="/favicon-96.png" />
+    
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme') || localStorage.getItem('vda_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
