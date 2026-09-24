@@ -43,7 +43,7 @@ export default function Layout() {
       {/* WCAG 2.1 AA / ДСТУ EN 301 549: Skip to main content link for screen readers and keyboard users */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[9999] focus:px-4 focus:py-3 focus:bg-accent-yellow focus:text-ink focus:font-bold focus:uppercase focus:text-xs focus:tracking-wider focus:border-2 focus:border-ink focus:shadow-2xl outline-none"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[9999] focus:px-4 focus:py-3 focus:bg-accent-yellow focus:text-ink focus:font-bold focus:uppercase focus:text-xs focus:tracking-wider focus:border-2 focus:border-border-main focus:shadow-2xl outline-none"
       >
         {t("skip_to_content", "Перейти до основного вмісту (Enter)")}
       </a>

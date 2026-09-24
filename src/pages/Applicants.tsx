@@ -139,7 +139,7 @@ export default function Applicants() {
         <p className="font-mono text-sm uppercase tracking-widest mb-8">
           {t("app_faq_desc", "Звертайтеся до приймальної комісії НУЛП.")}
         </p>
-        <a href="tel:+380322582537" className="inline-flex items-center gap-2 border-2 border-ink text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-ink hover:text-paper transition-colors focus-ring">
+        <a href="tel:+380322582537" className="inline-flex items-center gap-2 border-2 border-border-main text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-text-main hover:text-page-bg transition-colors focus-ring">
           +38 (032) 258-25-37
         </a>
       </section>

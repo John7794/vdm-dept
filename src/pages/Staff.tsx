@@ -190,7 +190,7 @@ export default function Staff() {
                       )}
                     </div>
                     <div className="flex flex-col justify-center">
-                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none lg:group-hover:text-accent-yellow dark:lg:group-hover:text-ink transition-colors">
+                      <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight leading-none lg:group-hover:text-accent-yellow transition-colors">
                         {name}
                       </h3>
                       <p className="font-mono text-xs mt-2 text-text-dim lg:group-hover:text-page-bg/70 whitespace-pre-line">{role}</p>
@@ -199,42 +199,42 @@ export default function Staff() {
                       {(email || linkedin || instagram || behance || website || scopus || orcid || scholar) && (
                         <div className="flex flex-wrap gap-4 mt-6">
                           {email && (
-                            <a href={`mailto:${email}`} className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Email">
+                            <a href={`mailto:${email}`} className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Email">
                               <Mail className="w-5 h-5" />
                             </a>
                           )}
                           {linkedin && (
-                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="LinkedIn">
+                            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="LinkedIn">
                               <Linkedin className="w-5 h-5" />
                             </a>
                           )}
                           {instagram && (
-                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Instagram">
+                            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Instagram">
                               <Instagram className="w-5 h-5" />
                             </a>
                           )}
                           {behance && (
-                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Behance / Portfolio">
+                            <a href={behance} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Behance / Portfolio">
                               <Palette className="w-5 h-5" />
                             </a>
                           )}
                           {website && (
-                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Website / Profile">
+                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Website / Profile">
                               <Globe className="w-5 h-5" />
                             </a>
                           )}
                           {scopus && (
-                            <a href={scopus} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Scopus">
+                            <a href={scopus} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Scopus">
                               <BookOpen className="w-5 h-5" />
                             </a>
                           )}
                           {orcid && (
-                            <a href={orcid} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="ORCID">
+                            <a href={orcid} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="ORCID">
                               <IdCard className="w-5 h-5" />
                             </a>
                           )}
                           {scholar && (
-                            <a href={scholar} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:!text-accent-yellow dark:lg:hover:!text-ink transition-colors" title="Google Scholar">
+                            <a href={scholar} target="_blank" rel="noopener noreferrer" className="text-text-dim lg:group-hover:text-page-bg/60 lg:hover:text-accent-yellow transition-colors" title="Google Scholar">
                               <GraduationCap className="w-5 h-5" />
                             </a>
                           )}

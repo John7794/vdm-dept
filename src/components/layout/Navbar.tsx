@@ -107,15 +107,17 @@ export default function Navbar() {
             </button>
             <button 
               onClick={toggleToolbar} 
-              className={`p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors relative ${
-                isCustomized ? "bg-accent-yellow text-ink border-ink" : ""
+              className={`p-2 focus-ring border-2 transition-colors relative ${
+                isCustomized
+                  ? "bg-accent-yellow text-ink border-border-main"
+                  : "text-text-main border-transparent hover:border-border-main"
               }`}
               aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Доступність)")}
               title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
             >
               <Eye className="w-6 h-6 a11y-keep" />
               {isCustomized && (
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+                <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-accent-blue animate-pulse"></span>
               )}
             </button>
             <button 
@@ -215,8 +217,10 @@ export default function Navbar() {
           {/* Accessibility Mode Toggle Button (WCAG 2.1 / ДСТУ EN 301 549) */}
           <button 
             onClick={toggleToolbar} 
-            className={`flex items-center justify-center gap-2 px-5 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none flex-shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
-              isCustomized ? "bg-accent-yellow text-ink border-l-2 border-r-2 border-ink" : ""
+            className={`flex items-center justify-center gap-2 px-5 transition-colors focus-ring outline-none flex-shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
+              isCustomized
+                ? "bg-accent-yellow text-ink border-l-2 border-r-2 border-border-main hover:bg-accent-yellow/90"
+                : "text-text-main hover:bg-text-main hover:text-page-bg"
             }`}
             aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Панель доступності)")}
             title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
@@ -224,7 +228,7 @@ export default function Navbar() {
             <Eye className="w-4 h-4 a11y-keep" />
             <span className="hidden xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
             {isCustomized && (
-              <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue animate-pulse"></span>
             )}
           </button>
 
