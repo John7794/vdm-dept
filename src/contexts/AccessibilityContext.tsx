@@ -68,14 +68,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const [activeSpeechText, setActiveSpeechText] = useState<string | null>(null);
 
-  // Request counter to cancel stale in-flight speech requests
-  const currentRequestIdRef = useRef<number>(0);
-  // Remember the last processed text to prevent infinite repeat loops on mouseup
-  const lastHandledTextRef = useRef<string>("");
   // Audio element reference for HTML5 audio streaming
   const activeAudioRef = useRef<HTMLAudioElement | null>(null);
   // Fallback Web Speech reference
   const activeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  // Track if playback was explicitly stopped by the user so we don't accidentally restart on slight selection shifts
+  const isManuallyStoppedRef = useRef<boolean>(false);
+  const currentSpeakingTextRef = useRef<string | null>(null);
 
   const toggleToolbar = () => setIsOpen((prev) => !prev);
 
@@ -155,25 +154,22 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
   }, [settings]);
 
-  // Stop any currently playing audio or speech synthesis immediately
+  // Stop any currently playing audio or speech synthesis
   const stopSpeech = () => {
-    // Invalidate any active or in-flight requests
-    currentRequestIdRef.current++;
+    isManuallyStoppedRef.current = true;
 
     if (activeAudioRef.current) {
       try {
-        const audio = activeAudioRef.current;
-        audio.pause();
-        audio.currentTime = 0;
-        audio.src = "";
-        audio.load(); // Aborts in-flight network requests
+        activeAudioRef.current.pause();
+        activeAudioRef.current.currentTime = 0;
+        activeAudioRef.current.src = "";
       } catch (e) {
         console.warn("Audio stop error:", e);
       }
       activeAudioRef.current = null;
     }
 
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    if ("speechSynthesis" in window) {
       try {
         window.speechSynthesis.cancel();
       } catch (e) {
@@ -182,6 +178,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
 
     activeUtteranceRef.current = null;
+    currentSpeakingTextRef.current = null;
     setIsSpeaking(false);
     setIsLoadingAudio(false);
   };
@@ -189,12 +186,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const clearActiveSpeech = () => {
     stopSpeech();
     setActiveSpeechText(null);
-    lastHandledTextRef.current = "";
+    currentSpeakingTextRef.current = null;
     try {
-      if (typeof window !== "undefined" && window.getSelection) {
-        window.getSelection()?.removeAllRanges();
-      }
-    } catch (_) {}
+      window.getSelection()?.removeAllRanges();
+    } catch (e) {
+      // ignore
+    }
   };
 
   // Speak text using high-fidelity backend TTS audio stream, with SpeechSynthesis fallback
@@ -205,11 +202,30 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    stopSpeech();
-    const reqId = ++currentRequestIdRef.current;
+    // Reset manually stopped flag when explicitly speaking
+    isManuallyStoppedRef.current = false;
+    currentSpeakingTextRef.current = trimmed;
+
+    // Stop previous instance before starting new
+    if (activeAudioRef.current) {
+      try {
+        activeAudioRef.current.pause();
+        activeAudioRef.current.currentTime = 0;
+        activeAudioRef.current.src = "";
+      } catch (e) {
+        console.warn("Audio pause error:", e);
+      }
+      activeAudioRef.current = null;
+    }
+    if ("speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        console.warn("speechSynthesis cancel error:", e);
+      }
+    }
 
     setActiveSpeechText(trimmed);
-    lastHandledTextRef.current = trimmed;
     setIsLoadingAudio(true);
 
     // Detect site language (default uk)
@@ -228,12 +244,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     activeAudioRef.current = audio;
 
     audio.oncanplay = () => {
-      if (currentRequestIdRef.current !== reqId) return;
+      if (isManuallyStoppedRef.current) return;
       setIsLoadingAudio(false);
     };
 
     audio.onplay = () => {
-      if (currentRequestIdRef.current !== reqId) {
+      if (isManuallyStoppedRef.current) {
         audio.pause();
         return;
       }
@@ -242,14 +258,16 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     };
 
     audio.onended = () => {
-      if (currentRequestIdRef.current !== reqId) return;
       setIsSpeaking(false);
       setIsLoadingAudio(false);
       activeAudioRef.current = null;
     };
 
     audio.onerror = (e) => {
-      if (currentRequestIdRef.current !== reqId) return;
+      if (isManuallyStoppedRef.current) {
+        setIsLoadingAudio(false);
+        return;
+      }
       console.warn("Backend TTS stream failed, attempting browser SpeechSynthesis fallback...", e);
       setIsLoadingAudio(false);
 
@@ -278,19 +296,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           }
 
           utterance.onstart = () => {
-            if (currentRequestIdRef.current !== reqId) {
+            if (isManuallyStoppedRef.current) {
               window.speechSynthesis.cancel();
               return;
             }
             setIsSpeaking(true);
           };
           utterance.onend = () => {
-            if (currentRequestIdRef.current !== reqId) return;
             setIsSpeaking(false);
             activeUtteranceRef.current = null;
           };
           utterance.onerror = () => {
-            if (currentRequestIdRef.current !== reqId) return;
             setIsSpeaking(false);
             activeUtteranceRef.current = null;
           };
@@ -308,7 +324,6 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
     // Trigger playback
     audio.play().catch((playErr) => {
-      if (currentRequestIdRef.current !== reqId) return;
       console.warn("Audio play() interrupted or blocked by browser gesture policy:", playErr);
       setIsLoadingAudio(false);
     });
@@ -318,10 +333,10 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let timeoutId: any = null;
 
-    const handleSelection = (e: Event) => {
-      // Don't intercept selection if the user clicked inside any accessibility control
+    const handleSelection = (e: MouseEvent | TouchEvent | KeyboardEvent) => {
+      // Don't re-trigger selection speech if user is clicking or interacting with the floating bar or toolbar
       const target = e.target as HTMLElement | null;
-      if (target && target.closest("[data-a11y-control]")) {
+      if (target && target.closest('[data-a11y-toolbar="true"]')) {
         return;
       }
 
@@ -329,14 +344,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       timeoutId = setTimeout(() => {
         try {
           const selection = window.getSelection();
-          if (!selection || selection.isCollapsed) {
-            // User unselected or clicked outside
-            if (!activeAudioRef.current && !activeUtteranceRef.current) {
-              lastHandledTextRef.current = "";
-              setActiveSpeechText(null);
-            }
-            return;
-          }
+          if (!selection || selection.isCollapsed) return;
 
           const text = selection.toString().trim();
           if (text && text.length >= 2) {
@@ -347,16 +355,20 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
               (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA");
             if (isInput) return;
 
-            // PREVENT INFINITE LOOP: If this is the exact same text that was already selected, do NOT re-speak!
-            if (text === lastHandledTextRef.current) {
+            // If the selected text is the same as the currently speaking/stopped text and user has stopped, don't auto-restart
+            if (isManuallyStoppedRef.current && text === currentSpeakingTextRef.current) {
               return;
             }
 
-            lastHandledTextRef.current = text;
+            // A new unique selection was made: reset manual stop flag
+            if (text !== currentSpeakingTextRef.current) {
+              isManuallyStoppedRef.current = false;
+            }
+
             setActiveSpeechText(text);
 
-            // If speech mode is enabled, immediately voice it!
-            if (settings.speechEnabled) {
+            // If speech mode is enabled, voice the new selected text!
+            if (settings.speechEnabled && !isManuallyStoppedRef.current) {
               speakText(text);
             }
           }
@@ -366,6 +378,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       }, 150);
     };
 
+    // Global keyboard shortcut: Escape immediately stops speech
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         stopSpeech();

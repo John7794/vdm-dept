@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../components/ThemeProvider";
 import { useCms } from "../contexts/CmsContext";
+import { useAccessibility } from "../contexts/AccessibilityContext";
 import { formatDriveLink } from "../lib/utils";
 
 export default function Home() {
@@ -11,6 +12,8 @@ export default function Home() {
   const [isTransitioning, setIsTransitioning] = useState(true);
   const { theme } = useTheme();
   const { data, t } = useCms();
+  const { settings } = useAccessibility();
+  const isA11yContrast = settings.contrast !== "normal";
 
   const defaultSlides = [
     "https://drive.google.com/uc?export=view&id=1n7JNFmicxCNLEm0_AFB_-hg5258z7YmG",
@@ -77,7 +80,7 @@ export default function Home() {
       {/* Hero Section - Stencil Effect with Slider */}
       <section className="relative flex flex-col w-full border-b-2 border-border-main overflow-hidden bg-page-bg">
         {/* The Base Slider Layer */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className={`absolute inset-0 z-0 overflow-hidden a11y-hero-slider ${isA11yContrast ? "hidden" : ""}`}>
           <AnimatePresence initial={false} custom={directionType}>
             <motion.div
               key={currentSlide}
@@ -95,44 +98,66 @@ export default function Home() {
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-blue/20 blur-[100px] rounded-full z-[1]"></div>
         </div>
 
-        {/* The Stencil Overlay Layer */}
+        {/* The Hero Content Layer */}
         <div 
           className={`relative z-10 flex flex-col lg:grid lg:grid-cols-12 min-h-[calc(100vh-80px)] lg:min-h-[85vh] pointer-events-none lg:divide-x-2 divide-border-main transition-colors duration-500
-            ${theme === "dark" ? "mix-blend-multiply" : "mix-blend-screen"}`}
+            ${isA11yContrast ? "" : theme === "dark" ? "mix-blend-screen" : "mix-blend-screen"}`}
         >
-          {/* Left Column (Masking BG) */}
-          <div className={`flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start transition-colors duration-500 ${theme === "dark" ? "bg-ink" : "bg-paper"}`}>
+          {/* Left Column (Masking BG / High-contrast surface) */}
+          <div 
+            className={`flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start transition-colors duration-500 ${
+              isA11yContrast
+                ? "bg-page-bg text-text-main"
+                : theme === "dark"
+                ? "bg-ink"
+                : "bg-paper"
+            }`}
+          >
             <div className="mt-12 md:mt-24">
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line break-words hyphens-auto ${theme === "dark" ? "text-white" : "text-black"}`}
+                className={`text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line break-words hyphens-auto ${
+                  isA11yContrast
+                    ? "text-text-main"
+                    : theme === "dark"
+                    ? "text-white"
+                    : "text-black"
+                }`}
               >
                 {t("home_hero_title")}
               </motion.h1>
             </div>
           </div>
 
-          {/* Right Column / Bottom Hole */}
-          <div className={`flex-1 lg:col-span-4 flex items-end p-12 transition-colors duration-500 ${theme === "dark" ? "bg-white" : "bg-black"}`}>
+          {/* Right Column / Visual Frame */}
+          <div 
+            className={`flex-1 lg:col-span-4 flex items-end p-12 transition-colors duration-500 ${
+              isA11yContrast
+                ? "bg-surface-mut border-t-2 lg:border-t-0 lg:border-l-2 border-border-main"
+                : theme === "dark"
+                ? "bg-black"
+                : "bg-black"
+            }`}
+          >
           </div>
         </div>
 
-        {/* Standard UI Overlay (Always visible, no blend) */}
+        {/* Standard UI Overlay (Always visible) */}
         <div className="absolute inset-0 z-20 pointer-events-none">
           <div className="flex flex-col lg:grid lg:grid-cols-12 w-full h-full min-h-[calc(100vh-80px)] lg:min-h-[85vh]">
             <div className="flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
-              <div className="mt-12 md:mt-24">
-                <h2 
-                  className="text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line break-words hyphens-auto"
-                  aria-hidden="true"
-                >
-                  {t("home_hero_title")}
-                </h2>
-              </div>
-
-
+              {!isA11yContrast && (
+                <div className="mt-12 md:mt-24">
+                  <h2 
+                    className="text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-none whitespace-pre-line break-words hyphens-auto"
+                    aria-hidden="true"
+                  >
+                    {t("home_hero_title")}
+                  </h2>
+                </div>
+              )}
             </div>
             <div className="flex-1 lg:col-span-4 border-t-2 lg:border-t-0 lg:border-l-2 border-border-main"></div>
           </div>

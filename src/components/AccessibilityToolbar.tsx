@@ -50,17 +50,14 @@ export default function AccessibilityToolbar() {
   };
 
   const shouldShowFloatingBar =
-    Boolean(activeSpeechText) || isSpeaking || isLoadingAudio;
+    Boolean(activeSpeechText) || settings.speechEnabled || isSpeaking || isLoadingAudio;
 
   return (
     <>
       {/* 1. Modal Accessibility Configuration Panel */}
       <AnimatePresence>
         {isOpen && (
-          <div 
-            data-a11y-control="true"
-            className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 md:p-10 bg-black/60 backdrop-blur-sm overflow-y-auto"
-          >
+          <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 md:p-10 bg-black/60 backdrop-blur-sm overflow-y-auto">
             {/* Backdrop click to close */}
             <div
               className="absolute inset-0"
@@ -76,6 +73,7 @@ export default function AccessibilityToolbar() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="a11y-title"
+              data-a11y-toolbar="true"
               className="relative w-full max-w-2xl bg-surface-main text-text-main border-2 border-border-main shadow-2xl p-6 sm:p-8 rounded-none my-auto z-10"
             >
               {/* Header */}
@@ -352,9 +350,9 @@ export default function AccessibilityToolbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             role="region"
-            data-a11y-control="true"
+            data-a11y-toolbar="true"
             aria-label={t("a11y_speech_player_aria", "Панель озвучування виділеного тексту")}
-            className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-md bg-surface-main text-text-main border-2 border-border-main shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.8)] p-2.5 sm:p-3 flex items-center justify-between gap-3 text-xs font-sans"
+            className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md bg-surface-main text-text-main border-2 border-border-main shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.8)] p-2.5 sm:p-3 flex items-center justify-between gap-3 text-xs font-sans"
           >
             <div className="flex items-center gap-2.5 min-w-0">
               <div
@@ -376,14 +374,19 @@ export default function AccessibilityToolbar() {
               <div className="min-w-0">
                 {activeSpeechText ? (
                   <>
-                    <span className="text-[10px] font-mono text-text-dim block uppercase font-bold leading-tight truncate">
-                      {isSpeaking
-                        ? t("a11y_speaking_now", "Озвучується:")
-                        : isLoadingAudio
-                        ? t("a11y_loading_audio", "Завантаження звуку...")
-                        : t("a11y_selected_text", "Виділено для читання:")}
-                    </span>
-                    <p className="text-xs font-bold text-text-main truncate max-w-[180px] sm:max-w-[240px]">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-mono text-text-dim block uppercase font-bold leading-tight truncate">
+                        {isSpeaking
+                          ? t("a11y_speaking_now", "Озвучується:")
+                          : isLoadingAudio
+                          ? t("a11y_loading_audio", "Завантаження звуку...")
+                          : t("a11y_selected_text", "Виділено для читання:")}
+                      </span>
+                      <span className="hidden sm:inline-block text-[9px] font-mono text-text-dim/80 border border-border-soft px-1 rounded">
+                        ESC = Стоп
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-text-main truncate max-w-[170px] sm:max-w-[230px]">
                       «{activeSpeechText}»
                     </p>
                   </>
@@ -406,33 +409,28 @@ export default function AccessibilityToolbar() {
                   {isSpeaking || isLoadingAudio ? (
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        stopSpeech();
-                      }}
-                      title={t("a11y_btn_stop", "Зупинити озвучування (Esc)")}
-                      aria-label={t("a11y_btn_stop", "Зупинити озвучування (Esc)")}
-                      className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase transition-colors flex items-center gap-1.5 focus-ring cursor-pointer shadow-sm"
+                      onClick={stopSpeech}
+                      title={t("a11y_btn_stop_hint", "Зупинити аудіопрогравання (Esc)")}
+                      aria-label={t("a11y_btn_stop", "Зупинити озвучування")}
+                      className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase transition-colors flex items-center gap-1.5 focus-ring shadow-sm"
                     >
-                      {isLoadingAudio ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin a11y-keep" />
-                      ) : (
-                        <Square className="w-3 h-3 fill-current a11y-keep" />
-                      )}
+                      <Square className="w-3 h-3 fill-current text-white" />
                       <span>{t("a11y_btn_stop", "Стоп")}</span>
                     </button>
                   ) : (
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
+                        if (!settings.speechEnabled) {
+                          toggleSpeech();
+                        }
                         speakText(activeSpeechText);
                       }}
                       title={t("a11y_btn_replay", "Озвучити виділений текст")}
                       aria-label={t("a11y_btn_replay", "Озвучити виділений текст")}
-                      className="px-3 py-1.5 bg-text-main text-page-bg font-mono text-xs font-bold uppercase hover:opacity-90 transition-opacity flex items-center gap-1.5 focus-ring cursor-pointer"
+                      className="px-3 py-1.5 bg-text-main text-page-bg font-mono text-xs font-bold uppercase hover:opacity-90 transition-opacity flex items-center gap-1.5 focus-ring"
                     >
-                      <Play className="w-3 h-3 fill-current a11y-keep" />
+                      <Play className="w-3 h-3 fill-current" />
                       <span>{t("a11y_btn_replay", "Слухати")}</span>
                     </button>
                   )}
@@ -441,15 +439,12 @@ export default function AccessibilityToolbar() {
 
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  clearActiveSpeech();
-                }}
-                title={t("a11y_btn_dismiss", "Приховати панель")}
+                onClick={clearActiveSpeech}
+                title={t("a11y_btn_dismiss", "Приховати та зняти виділення")}
                 aria-label={t("a11y_btn_dismiss", "Приховати панель")}
-                className="p-1.5 text-text-dim hover:text-text-main hover:bg-surface-mut border border-transparent hover:border-border-main transition-colors focus-ring cursor-pointer"
+                className="p-1.5 text-text-dim hover:text-text-main hover:bg-surface-mut border border-transparent hover:border-border-main transition-colors focus-ring"
               >
-                <X className="w-4 h-4 a11y-keep" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </motion.div>

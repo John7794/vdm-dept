@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, Eye } from "lucide-react";
+import { Menu, X, Moon, Sun, Eye, Square } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../ThemeProvider";
@@ -32,7 +32,7 @@ export default function Navbar() {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { data, lang, setLang, t } = useCms();
-  const { toggleToolbar, isCustomized } = useAccessibility();
+  const { toggleToolbar, isCustomized, isSpeaking, isLoadingAudio, stopSpeech } = useAccessibility();
 
   const logoDataLight = (data?.multimedia || []).find((item: any) => {
     const url = (item.Image || item.image || item.img || item.Media || item.media || item.Media || item.media || item.Url || item.url || "").trim();
@@ -105,11 +105,21 @@ export default function Navbar() {
               <img src={flagMap[lang]} alt={lang} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
               <span className="font-bold text-sm uppercase">{lang}</span>
             </button>
+            {(isSpeaking || isLoadingAudio) && (
+              <button
+                onClick={stopSpeech}
+                className="p-2 bg-red-600 hover:bg-red-700 text-white border-2 border-red-600 focus-ring transition-colors flex items-center justify-center animate-pulse"
+                title={t("a11y_btn_stop_audio", "Зупинити аудіо (Esc)")}
+                aria-label={t("a11y_btn_stop_audio", "Зупинити аудіо")}
+              >
+                <Square className="w-5 h-5 fill-current" />
+              </button>
+            )}
             <button 
               onClick={toggleToolbar} 
               className={`p-2 focus-ring border-2 transition-colors relative ${
-                isCustomized
-                  ? "bg-accent-yellow text-ink border-border-main"
+                isCustomized 
+                  ? "bg-accent-yellow !text-black hover:bg-accent-yellow/90 hover:!text-black border-black" 
                   : "text-text-main border-transparent hover:border-border-main"
               }`}
               aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Доступність)")}
@@ -117,7 +127,7 @@ export default function Navbar() {
             >
               <Eye className="w-6 h-6 a11y-keep" />
               {isCustomized && (
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-accent-blue animate-pulse"></span>
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
               )}
             </button>
             <button 
@@ -214,21 +224,34 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
+          {/* Quick Audio Stop Button if speech is active */}
+          {(isSpeaking || isLoadingAudio) && (
+            <button
+              onClick={stopSpeech}
+              className="flex items-center justify-center gap-2 px-4 bg-red-600 hover:bg-red-700 text-white font-mono text-xs uppercase font-bold tracking-wider transition-colors focus-ring border-l-2 border-r-2 border-red-700 animate-pulse"
+              title={t("a11y_btn_stop_audio", "Зупинити аудіо (Esc)")}
+              aria-label={t("a11y_btn_stop_audio", "Зупинити аудіо")}
+            >
+              <Square className="w-3.5 h-3.5 fill-current" />
+              <span>{t("a11y_btn_stop", "Стоп")}</span>
+            </button>
+          )}
+
           {/* Accessibility Mode Toggle Button (WCAG 2.1 / ДСТУ EN 301 549) */}
           <button 
             onClick={toggleToolbar} 
             className={`flex items-center justify-center gap-2 px-5 transition-colors focus-ring outline-none flex-shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
-              isCustomized
-                ? "bg-accent-yellow text-ink border-l-2 border-r-2 border-border-main hover:bg-accent-yellow/90"
+              isCustomized 
+                ? "bg-accent-yellow !text-black hover:bg-accent-yellow/90 hover:!text-black border-l-2 border-r-2 border-black shadow-inner" 
                 : "text-text-main hover:bg-text-main hover:text-page-bg"
             }`}
             aria-label={t("nav_a11y_aria", "Версія для людей з порушеннями зору (Панель доступності)")}
             title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
           >
-            <Eye className="w-4 h-4 a11y-keep" />
+            <Eye className="w-4 h-4 a11y-keep shrink-0" />
             <span className="hidden xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
             {isCustomized && (
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
             )}
           </button>
 

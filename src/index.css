@@ -101,6 +101,11 @@ body {
   line-height: 1.2;
 }
 
+/* Ensure high contrast black text on yellow background (WCAG AAA) */
+.bg-accent-yellow {
+  color: #000000 !important;
+}
+
 /* Base utility for focus rings (Accessibility WCAG 2.1) */
 .focus-ring {
   @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-text-main focus-visible:ring-offset-2;
@@ -338,48 +343,4 @@ html.a11y-highlight-links a {
   text-underline-offset: 4px !important;
   font-weight: 700 !important;
 }
-
-/* =========================================================
-   UNIVERSAL FONT CONTRAST PRINCIPLE (WCAG 2.1 AA/AAA)
-   Принцип контрастності шрифту на сайті незалежно від місця
-   ========================================================= */
-
-/* 1. Yellow Backgrounds: ALWAYS high-contrast dark ink text across all modes */
-.bg-accent-yellow,
-[class*="bg-accent-yellow"],
-[class*="bg-accent-yellow"]:hover {
-  color: var(--color-ink) !important;
-}
-
-.bg-accent-yellow h1,
-.bg-accent-yellow h2,
-.bg-accent-yellow h3,
-.bg-accent-yellow h4,
-.bg-accent-yellow p,
-.bg-accent-yellow span,
-.bg-accent-yellow a,
-.bg-accent-yellow button,
-.bg-accent-yellow svg,
-[class*="bg-accent-yellow"] h1,
-[class*="bg-accent-yellow"] h2,
-[class*="bg-accent-yellow"] h3,
-[class*="bg-accent-yellow"] h4,
-[class*="bg-accent-yellow"] p,
-[class*="bg-accent-yellow"] span,
-[class*="bg-accent-yellow"] a,
-[class*="bg-accent-yellow"] button,
-[class*="bg-accent-yellow"] svg {
-  color: var(--color-ink) !important;
-}
-
-/* 2. Selection contrast: Selected text is always clear and high contrast */
-::selection {
-  background-color: var(--color-accent-yellow) !important;
-  color: var(--color-ink) !important;
-}
-::-moz-selection {
-  background-color: var(--color-accent-yellow) !important;
-  color: var(--color-ink) !important;
-}
-
 

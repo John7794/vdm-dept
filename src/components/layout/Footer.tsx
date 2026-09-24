@@ -37,9 +37,9 @@ export default function Footer() {
 
   const Logo = ({ className }: { className?: string }) => (
     currentLogoUrl ? (
-      <img src={currentLogoUrl} alt="VDA Logo" className={`h-12 md:h-16 w-auto object-contain ${className || ""}`} />
+      <img src={currentLogoUrl} alt="VDA Logo" className={`h-12 md:h-16 w-auto object-contain vda-logo ${className || ""}`} />
     ) : (
-      <LogoText className={className} />
+      <LogoText className={`vda-logo ${className || ""}`} />
     )
   );
 

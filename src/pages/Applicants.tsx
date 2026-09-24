@@ -132,14 +132,14 @@ export default function Applicants() {
       </section>
       
       {/* Footer Banner */}
-      <section className="bg-accent-yellow text-ink p-6 md:p-12 lg:p-16 text-center border-t-2 border-border-main">
-        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4">
+      <section className="bg-accent-yellow !text-black p-6 md:p-12 lg:p-16 text-center border-t-2 border-black">
+        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4 !text-black">
           {t("app_faq_title", "Маєте запитання щодо вступу?")}
         </h2>
-        <p className="font-mono text-sm uppercase tracking-widest mb-8">
+        <p className="font-mono text-sm uppercase tracking-widest mb-8 !text-black/90 font-medium">
           {t("app_faq_desc", "Звертайтеся до приймальної комісії НУЛП.")}
         </p>
-        <a href="tel:+380322582537" className="inline-flex items-center gap-2 border-2 border-border-main text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-text-main hover:text-page-bg transition-colors focus-ring">
+        <a href="tel:+380322582537" className="inline-flex items-center gap-2 border-2 border-black !text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-black hover:!text-white transition-colors focus-ring">
           +38 (032) 258-25-37
         </a>
       </section>
