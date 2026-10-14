@@ -68,29 +68,55 @@ function speakViaSpeechSynthesis(
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.0;
-    const voices = window.speechSynthesis.getVoices();
-    const ukVoice = voices.find(
-      (v) =>
-        v.lang.toLowerCase().startsWith("uk") ||
-        v.name.toLowerCase().includes("ukrain") ||
-        v.name.toLowerCase().includes("україн")
-    );
-    const defaultVoice = voices.find((v) => v.default) || voices[0];
-    const chosen = ukVoice || defaultVoice;
-    if (chosen) {
-      utterance.voice = chosen;
-      utterance.lang = chosen.lang || "uk-UA";
+
+    let spoken = false;
+    const assignVoiceAndSpeak = () => {
+      if (spoken) return;
+      spoken = true;
+      try {
+        const voices = window.speechSynthesis.getVoices();
+        const ukVoice = voices.find(
+          (v) =>
+            v.lang.toLowerCase().startsWith("uk") ||
+            v.name.toLowerCase().includes("ukrain") ||
+            v.name.toLowerCase().includes("україн")
+        );
+        const defaultVoice = voices.find((v) => v.default) || voices[0];
+        const chosen = ukVoice || defaultVoice;
+        if (chosen) {
+          utterance.voice = chosen;
+          utterance.lang = chosen.lang || "uk-UA";
+        } else {
+          utterance.lang = "uk-UA";
+        }
+
+        if (onStart) utterance.onstart = onStart;
+        utterance.onend = () => {
+          onEnd?.();
+        };
+        utterance.onerror = () => {
+          onError?.();
+        };
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error("assignVoiceAndSpeak error:", err);
+        onError?.();
+      }
+    };
+
+    if (window.speechSynthesis.getVoices().length > 0) {
+      assignVoiceAndSpeak();
     } else {
-      utterance.lang = "uk-UA";
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.onvoiceschanged = null;
+        assignVoiceAndSpeak();
+      };
+      // Safety timeout if voiceschanged doesn't trigger
+      setTimeout(() => {
+        assignVoiceAndSpeak();
+      }, 150);
     }
-    if (onStart) utterance.onstart = onStart;
-    utterance.onend = () => {
-      onEnd?.();
-    };
-    utterance.onerror = () => {
-      onError?.();
-    };
-    window.speechSynthesis.speak(utterance);
+
     return utterance;
   } catch (synthErr) {
     console.error("SpeechSynthesis error:", synthErr);
@@ -206,20 +232,14 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       lang = "uk";
     }
 
-    const audioUrl = `/api/tts?text=${encodeURIComponent(textToSpeak)}&lang=${encodeURIComponent(lang)}`;
-    const audio = new Audio(audioUrl);
-    testAudioRef.current = audio;
-
-    audio.onended = () => {
-      setIsPlayingTestAudio(false);
+    let hasFallenBack = false;
+    const fallbackToSpeechSynthesis = () => {
+      if (hasFallenBack) return;
+      hasFallenBack = true;
       testAudioRef.current = null;
-    };
-
-    audio.onerror = () => {
-      console.warn("Backend TTS stream failed for test audio, fallback to SpeechSynthesis...");
       testUtteranceRef.current = speakViaSpeechSynthesis(
         textToSpeak,
-        undefined,
+        () => setIsPlayingTestAudio(true),
         () => {
           setIsPlayingTestAudio(false);
           testUtteranceRef.current = null;
@@ -231,8 +251,23 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       );
     };
 
-    audio.play().catch(() => {
+    const audioUrl = `/api/tts?text=${encodeURIComponent(textToSpeak)}&lang=${encodeURIComponent(lang)}`;
+    const audio = new Audio(audioUrl);
+    testAudioRef.current = audio;
+
+    audio.onended = () => {
       setIsPlayingTestAudio(false);
+      testAudioRef.current = null;
+    };
+
+    audio.onerror = () => {
+      console.warn("Backend TTS stream failed for test audio, fallback to SpeechSynthesis...");
+      fallbackToSpeechSynthesis();
+    };
+
+    audio.play().catch((err) => {
+      console.warn("audio.play() rejected for test audio, fallback to SpeechSynthesis:", err);
+      fallbackToSpeechSynthesis();
     });
   };
 
@@ -395,12 +430,14 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       activeAudioRef.current = null;
     };
 
-    audio.onerror = (e) => {
-      if (isManuallyStoppedRef.current) {
+    let hasFallenBack = false;
+    const fallbackToSpeechSynthesis = () => {
+      if (hasFallenBack || isManuallyStoppedRef.current) {
         setIsLoadingAudio(false);
         return;
       }
-      console.warn("Backend TTS stream failed, attempting browser SpeechSynthesis fallback...", e);
+      hasFallenBack = true;
+      activeAudioRef.current = null;
       setIsLoadingAudio(false);
 
       activeUtteranceRef.current = speakViaSpeechSynthesis(
@@ -423,10 +460,15 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       );
     };
 
+    audio.onerror = (e) => {
+      console.warn("Backend TTS stream failed, attempting browser SpeechSynthesis fallback...", e);
+      fallbackToSpeechSynthesis();
+    };
+
     // Trigger playback
     audio.play().catch((playErr) => {
-      console.warn("Audio play() interrupted or blocked by browser gesture policy:", playErr);
-      setIsLoadingAudio(false);
+      console.warn("Audio play() failed or rejected, attempting browser SpeechSynthesis fallback:", playErr);
+      fallbackToSpeechSynthesis();
     });
   };
 
