@@ -395,7 +395,7 @@ export default function AccessibilityToolbar() {
                           : t("a11y_selected_text", "Виділено для читання:")}
                       </span>
                       <span className="hidden sm:inline-block text-[9px] font-mono text-text-dim/80 border border-border-soft px-1 rounded">
-                        ESC = Стоп
+                        {t("a11y_esc_stop", "ESC = Стоп")}
                       </span>
                     </div>
                     <p className="text-xs font-bold text-text-main truncate max-w-[170px] sm:max-w-[230px]">
@@ -438,8 +438,8 @@ export default function AccessibilityToolbar() {
                         }
                         speakText(activeSpeechText);
                       }}
-                      title={t("a11y_btn_replay", "Озвучити виділений текст")}
-                      aria-label={t("a11y_btn_replay", "Озвучити виділений текст")}
+                      title={t("a11y_btn_replay_hint", "Озвучити виділений текст")}
+                      aria-label={t("a11y_btn_replay_hint", "Озвучити виділений текст")}
                       className="px-3 py-1.5 bg-text-main text-page-bg font-mono text-xs font-bold uppercase hover:opacity-90 transition-opacity flex items-center gap-1.5 focus-ring"
                     >
                       <Play className="w-3 h-3 fill-current" />

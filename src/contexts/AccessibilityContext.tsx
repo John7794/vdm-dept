@@ -56,6 +56,7 @@ const AccessibilityContext = createContext<AccessibilityContextType | undefined>
 
 function speakViaSpeechSynthesis(
   text: string,
+  langCode: string = "uk",
   onStart?: () => void,
   onEnd?: () => void,
   onError?: () => void
@@ -75,6 +76,13 @@ function speakViaSpeechSynthesis(
       spoken = true;
       try {
         const voices = window.speechSynthesis.getVoices();
+        const normLang = (langCode || "uk").toLowerCase().replace("_", "-");
+        const matchedVoice = voices.find(
+          (v) =>
+            v.lang.toLowerCase() === normLang ||
+            v.lang.toLowerCase().startsWith(normLang + "-") ||
+            v.lang.toLowerCase().startsWith(normLang)
+        );
         const ukVoice = voices.find(
           (v) =>
             v.lang.toLowerCase().startsWith("uk") ||
@@ -82,12 +90,12 @@ function speakViaSpeechSynthesis(
             v.name.toLowerCase().includes("україн")
         );
         const defaultVoice = voices.find((v) => v.default) || voices[0];
-        const chosen = ukVoice || defaultVoice;
+        const chosen = matchedVoice || (normLang === "uk" ? ukVoice : null) || defaultVoice;
         if (chosen) {
           utterance.voice = chosen;
-          utterance.lang = chosen.lang || "uk-UA";
+          utterance.lang = chosen.lang || (normLang === "uk" ? "uk-UA" : normLang);
         } else {
-          utterance.lang = "uk-UA";
+          utterance.lang = normLang === "uk" ? "uk-UA" : normLang;
         }
 
         if (onStart) utterance.onstart = onStart;
@@ -239,6 +247,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       testAudioRef.current = null;
       testUtteranceRef.current = speakViaSpeechSynthesis(
         textToSpeak,
+        lang,
         () => setIsPlayingTestAudio(true),
         () => {
           setIsPlayingTestAudio(false);
@@ -442,6 +451,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
       activeUtteranceRef.current = speakViaSpeechSynthesis(
         trimmed,
+        lang,
         () => {
           if (isManuallyStoppedRef.current) {
             window.speechSynthesis.cancel();
