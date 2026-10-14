@@ -55,14 +55,29 @@ async function fetchCmsData() {
   return data;
 }
 
-// Initialize Firebase for Backend using web config
+// Initialize Firebase for Backend using web config or environment variables
 const configPath = path.resolve(process.cwd(), "firebase-applet-config.json");
 
-let db: any = null;
+let localConfig: any = {};
 if (fs.existsSync(configPath)) {
-  const firebaseConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  try {
+    localConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  } catch {}
+}
+
+const firebaseConfig = {
+  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY || localConfig.apiKey || "AIzaSyDucr_It2iEU6rBmCOa9yZZAbi020MFJaY",
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || localConfig.projectId || "gen-lang-client-0153515890",
+  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID || localConfig.appId || "1:977532137108:web:b10ac184daae9de4044e81",
+  firestoreDatabaseId: process.env.VITE_FIREBASE_DATABASE_ID || process.env.FIREBASE_DATABASE_ID || localConfig.firestoreDatabaseId || "(default)",
+};
+
+let db: any = null;
+try {
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+} catch (e) {
+  console.warn("Failed to initialize Firebase on backend:", e);
 }
 
 async function startServer() {
