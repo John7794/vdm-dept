@@ -57,7 +57,7 @@ export default function ResponsiveImage({
       <img 
         src={fallbackUrl ? formatDriveLink(fallbackUrl) : ""} 
         alt={alt} 
-        className={`w-full h-full object-cover ${className}`} 
+        className="w-full h-full object-cover" 
       />
     </picture>
   );

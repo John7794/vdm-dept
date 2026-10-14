@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
-import { MapPin, ArrowUpRight, Facebook, Instagram, Globe, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, ArrowUpRight, Facebook, Instagram, Globe } from "lucide-react";
 import { formatDriveLink } from "../lib/utils";
+import LightboxModal from "../components/LightboxModal";
 
 export default function About() {
   const { t, data } = useCms();
@@ -45,50 +46,23 @@ export default function About() {
   const [currentGroomIdx, setCurrentGroomIdx] = useState(0);
   const [isGroomHovered, setIsGroomHovered] = useState(false);
 
-  const [lightboxData, setLightboxData] = useState<{ images: string[], index: number } | null>(null);
+  const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
 
   useEffect(() => {
-    if (isGalleryHovered || lightboxData) return;
+    if (isGalleryHovered || lightbox !== null) return;
     const timer = setInterval(() => {
       setCurrentGalleryIdx((prev) => (prev + 1) % galleryImages.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, [isGalleryHovered, lightboxData]);
+  }, [isGalleryHovered, lightbox, galleryImages.length]);
 
   useEffect(() => {
-    if (isGroomHovered || lightboxData) return;
+    if (isGroomHovered || lightbox !== null) return;
     const timer = setInterval(() => {
       setCurrentGroomIdx((prev) => (prev + 1) % groomImages.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, [isGroomHovered, lightboxData]);
-
-  const handlePrevImage = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!lightboxData) return;
-    setLightboxData(prev => prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : null);
-  }, [lightboxData]);
-
-  const handleNextImage = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!lightboxData) return;
-    setLightboxData(prev => prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : null);
-  }, [lightboxData]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!lightboxData) return;
-      if (e.key === "ArrowLeft") {
-        setLightboxData(prev => prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : null);
-      } else if (e.key === "ArrowRight") {
-        setLightboxData(prev => prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : null);
-      } else if (e.key === "Escape") {
-        setLightboxData(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxData]);
+  }, [isGroomHovered, lightbox, groomImages.length]);
 
   const headerBgItem = data?.multimedia?.find((m: any) => m.Category === "AboutHeader");
   const headerBgRaw = headerBgItem ? (headerBgItem.Image || headerBgItem.image || headerBgItem.img || headerBgItem.Media || headerBgItem.media || headerBgItem.Url || headerBgItem.url || "") : null;
@@ -170,7 +144,7 @@ export default function About() {
             className="w-full relative border-y-2 border-border-main bg-ink overflow-hidden h-[40vh] md:h-[60vh] flex items-center justify-center cursor-pointer group"
             onMouseEnter={() => setIsGalleryHovered(true)}
             onMouseLeave={() => setIsGalleryHovered(false)}
-            onClick={() => setLightboxData({ images: galleryImages, index: currentGalleryIdx })}
+            onClick={() => setLightbox({ images: galleryImages, index: currentGalleryIdx })}
           >
             <AnimatePresence mode="popLayout">
               <motion.img 
@@ -212,7 +186,7 @@ export default function About() {
             className="w-full relative border-y-2 border-border-main bg-ink overflow-hidden h-[40vh] md:h-[60vh] flex items-center justify-center cursor-pointer group"
             onMouseEnter={() => setIsGroomHovered(true)}
             onMouseLeave={() => setIsGroomHovered(false)}
-            onClick={() => setLightboxData({ images: groomImages, index: currentGroomIdx })}
+            onClick={() => setLightbox({ images: groomImages, index: currentGroomIdx })}
           >
             <AnimatePresence mode="popLayout">
               <motion.img 
@@ -350,58 +324,13 @@ export default function About() {
 
       </section>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxData && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-ink/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 cursor-zoom-out group/lightbox"
-            onClick={() => setLightboxData(null)}
-          >
-            <button 
-              className="absolute top-6 right-6 text-paper/70 hover:text-accent-yellow transition-colors focus-ring outline-none z-[110]"
-              onClick={(e) => { e.stopPropagation(); setLightboxData(null); }}
-              aria-label="Close"
-            >
-              <X className="w-10 h-10" />
-            </button>
-
-            {/* Left Nav */}
-            <button 
-              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
-              onClick={handlePrevImage}
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-12 h-12 md:w-16 md:h-16" />
-            </button>
-
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={lightboxData.index}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                src={lightboxData.images[lightboxData.index]}
-                alt="Expanded view"
-                className="max-w-full max-h-[90vh] object-contain shadow-2xl cursor-default"
-                onClick={(e) => e.stopPropagation()}
-              />
-            </AnimatePresence>
-
-            {/* Right Nav */}
-            <button 
-              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-paper/40 hover:text-accent-yellow transition-all duration-300 focus-ring outline-none z-[110] opacity-0 group-hover/lightbox:opacity-100 hover:scale-110"
-              onClick={handleNextImage}
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-12 h-12 md:w-16 md:h-16" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Reusable Lightbox Modal */}
+      <LightboxModal
+        images={lightbox?.images || []}
+        index={lightbox ? lightbox.index : null}
+        onClose={() => setLightbox(null)}
+        onNavigate={(newIdx) => setLightbox(prev => prev ? { ...prev, index: newIdx } : null)}
+      />
     </div>
   );
 }

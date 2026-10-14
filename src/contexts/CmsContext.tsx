@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import Papa from "papaparse";
 
 const SHEET_ID = "1cs6LoN5rdsXjIRWziDAWVyHWNDXKE6UIuzgP7znhjWY";
-const CACHE_DURATION_MS = 1 * 60 * 1000; // 5 minutes
+const CACHE_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
 type Language = "UA" | "EN" | "DE" | "PL";
 
@@ -52,9 +52,9 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const fetchDirectlyFromSheets = async () => {
       try {
-        // Check session storage cache first
-        const cachedStr = sessionStorage.getItem("cms_cache_data");
-        const cachedTimeStr = sessionStorage.getItem("cms_cache_time");
+        // Check persistent local storage cache first
+        const cachedStr = localStorage.getItem("cms_cache_data");
+        const cachedTimeStr = localStorage.getItem("cms_cache_time");
         
         if (cachedStr && cachedTimeStr) {
           const cachedTime = parseInt(cachedTimeStr, 10);
@@ -110,12 +110,27 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         }
 
         setData(parsedData);
-        sessionStorage.setItem("cms_cache_data", JSON.stringify(parsedData));
-        sessionStorage.setItem("cms_cache_time", Date.now().toString());
+        try {
+          localStorage.setItem("cms_cache_data", JSON.stringify(parsedData));
+          localStorage.setItem("cms_cache_time", Date.now().toString());
+        } catch (e) {
+          console.warn("Failed to persist CMS cache to localStorage", e);
+        }
         setLoading(false);
 
       } catch (err: any) {
         console.error(err);
+        // Fallback to cached data even if expired to prevent site crash
+        const fallbackStr = localStorage.getItem("cms_cache_data");
+        if (fallbackStr) {
+          try {
+            setData(JSON.parse(fallbackStr));
+            setLoading(false);
+            return;
+          } catch (e) {
+            // ignore
+          }
+        }
         setError(err.message || "Failed to load CMS data");
         setLoading(false);
       }

@@ -17,10 +17,29 @@ export default function Contacts() {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     
+    // Honeypot bot protection
+    const hp = formData.get("_hp");
+    if (hp) {
+      setFormState("success");
+      form.reset();
+      setTimeout(() => setFormState("idle"), 3000);
+      return;
+    }
+
+    const name = String(formData.get("name") || "").trim().slice(0, 100);
+    const email = String(formData.get("email") || "").trim().slice(0, 150);
+    const message = String(formData.get("message") || "").trim().slice(0, 2000);
+
+    if (!name || !email || !message) {
+      setFormState("error");
+      setTimeout(() => setFormState("idle"), 3000);
+      return;
+    }
+
     const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
+      name,
+      email,
+      message,
       timestamp: new Date().toISOString()
     };
 
@@ -118,6 +137,15 @@ export default function Contacts() {
           </h2>
           
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Honeypot field for anti-spam */}
+            <input 
+              type="text" 
+              name="_hp" 
+              tabIndex={-1} 
+              autoComplete="off" 
+              style={{ display: "none" }} 
+              aria-hidden="true" 
+            />
             <div>
               <label htmlFor="name" className="font-mono text-xs uppercase tracking-widest block mb-2 font-bold opacity-80">
                 {t("contact_form_name", "Ім'я")}

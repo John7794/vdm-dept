@@ -63,26 +63,22 @@ service cloud.firestore {
 
     match /news/{newsId} {
       allow read: if true;
-      allow create: if isValidNewsItem(request.resource.data);
-      allow update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /projects/{projectId} {
       allow read: if true;
-      allow create: if isValidProject(request.resource.data);
-      allow update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /staff/{staffId} {
       allow read: if true;
-      allow create: if isValidStaffMember(request.resource.data);
-      allow update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /programs/{programId} {
       allow read: if true;
-      allow create: if isValidProgram(request.resource.data);
-      allow update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /announcements/{id} {

@@ -1,4 +1,4 @@
-import { formatDriveLink, cleanHtml } from "../lib/utils";
+import { formatDriveLink, formatDrivePreviewLink, cleanHtml } from "../lib/utils";
 import ResponsiveImage from "./ResponsiveImage";
 
 export default function RichContentBlocks({ blocks, lang }: { blocks: any[], lang: string }) {
@@ -86,7 +86,7 @@ export default function RichContentBlocks({ blocks, lang }: { blocks: any[], lan
             }
             
             // Handle standard MP4 or Google Drive video (using preview endpoint)
-            const videoUrl = url.includes("drive.google.com") ? formatDriveLink(url).replace('/view', '/preview') : url;
+            const videoUrl = url.includes("drive.google.com") ? formatDrivePreviewLink(url) : url;
             
             return (
               <div key={idx} className="aspect-video w-full border-2 border-border-main my-12 relative bg-ink">
@@ -106,7 +106,7 @@ export default function RichContentBlocks({ blocks, lang }: { blocks: any[], lan
                     loop 
                     playsInline 
                   >
-                     {urlMobile && <source src={urlMobile.includes("drive.google.com") ? formatDriveLink(urlMobile).replace('/view', '/preview') : urlMobile} media="(max-width: 768px)" />}
+                     {urlMobile && <source src={urlMobile.includes("drive.google.com") ? formatDrivePreviewLink(urlMobile) : urlMobile} media="(max-width: 768px)" />}
                      {url && <source src={videoUrl} />}
                   </video>
                 )}

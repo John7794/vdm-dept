@@ -54,6 +54,51 @@ const defaultSettings: AccessibilitySettings = {
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
 
+function speakViaSpeechSynthesis(
+  text: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+  onError?: () => void
+): SpeechSynthesisUtterance | null {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    onError?.();
+    return null;
+  }
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    const voices = window.speechSynthesis.getVoices();
+    const ukVoice = voices.find(
+      (v) =>
+        v.lang.toLowerCase().startsWith("uk") ||
+        v.name.toLowerCase().includes("ukrain") ||
+        v.name.toLowerCase().includes("україн")
+    );
+    const defaultVoice = voices.find((v) => v.default) || voices[0];
+    const chosen = ukVoice || defaultVoice;
+    if (chosen) {
+      utterance.voice = chosen;
+      utterance.lang = chosen.lang || "uk-UA";
+    } else {
+      utterance.lang = "uk-UA";
+    }
+    if (onStart) utterance.onstart = onStart;
+    utterance.onend = () => {
+      onEnd?.();
+    };
+    utterance.onerror = () => {
+      onError?.();
+    };
+    window.speechSynthesis.speak(utterance);
+    return utterance;
+  } catch (synthErr) {
+    console.error("SpeechSynthesis error:", synthErr);
+    onError?.();
+    return null;
+  }
+}
+
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<AccessibilitySettings>(() => {
@@ -172,40 +217,18 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
     audio.onerror = () => {
       console.warn("Backend TTS stream failed for test audio, fallback to SpeechSynthesis...");
-      if ("speechSynthesis" in window) {
-        try {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(textToSpeak);
-          utterance.rate = 1.0;
-          const voices = window.speechSynthesis.getVoices();
-          const ukVoice = voices.find(
-            (v) =>
-              v.lang.toLowerCase().startsWith("uk") ||
-              v.name.toLowerCase().includes("ukrain") ||
-              v.name.toLowerCase().includes("україн")
-          );
-          const defaultVoice = voices.find((v) => v.default) || voices[0];
-          const chosen = ukVoice || defaultVoice;
-          if (chosen) {
-            utterance.voice = chosen;
-            utterance.lang = chosen.lang || "uk-UA";
-          }
-          utterance.onend = () => {
-            setIsPlayingTestAudio(false);
-            testUtteranceRef.current = null;
-          };
-          utterance.onerror = () => {
-            setIsPlayingTestAudio(false);
-            testUtteranceRef.current = null;
-          };
-          testUtteranceRef.current = utterance;
-          window.speechSynthesis.speak(utterance);
-        } catch (synthErr) {
+      testUtteranceRef.current = speakViaSpeechSynthesis(
+        textToSpeak,
+        undefined,
+        () => {
           setIsPlayingTestAudio(false);
+          testUtteranceRef.current = null;
+        },
+        () => {
+          setIsPlayingTestAudio(false);
+          testUtteranceRef.current = null;
         }
-      } else {
-        setIsPlayingTestAudio(false);
-      }
+      );
     };
 
     audio.play().catch(() => {
@@ -380,55 +403,24 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       console.warn("Backend TTS stream failed, attempting browser SpeechSynthesis fallback...", e);
       setIsLoadingAudio(false);
 
-      // Fallback: Browser Web Speech API
-      if ("speechSynthesis" in window) {
-        try {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(trimmed);
-          utterance.rate = 1.0;
-
-          const voices = window.speechSynthesis.getVoices();
-          const ukVoice = voices.find(
-            (v) =>
-              v.lang.toLowerCase().startsWith("uk") ||
-              v.name.toLowerCase().includes("ukrain") ||
-              v.name.toLowerCase().includes("україн")
-          );
-          const defaultVoice = voices.find((v) => v.default) || voices[0];
-          const chosen = ukVoice || defaultVoice;
-
-          if (chosen) {
-            utterance.voice = chosen;
-            utterance.lang = chosen.lang || "uk-UA";
-          } else {
-            utterance.lang = "uk-UA";
+      activeUtteranceRef.current = speakViaSpeechSynthesis(
+        trimmed,
+        () => {
+          if (isManuallyStoppedRef.current) {
+            window.speechSynthesis.cancel();
+            return;
           }
-
-          utterance.onstart = () => {
-            if (isManuallyStoppedRef.current) {
-              window.speechSynthesis.cancel();
-              return;
-            }
-            setIsSpeaking(true);
-          };
-          utterance.onend = () => {
-            setIsSpeaking(false);
-            activeUtteranceRef.current = null;
-          };
-          utterance.onerror = () => {
-            setIsSpeaking(false);
-            activeUtteranceRef.current = null;
-          };
-
-          activeUtteranceRef.current = utterance;
-          window.speechSynthesis.speak(utterance);
-        } catch (synthErr) {
-          console.error("SpeechSynthesis fallback failed:", synthErr);
+          setIsSpeaking(true);
+        },
+        () => {
           setIsSpeaking(false);
+          activeUtteranceRef.current = null;
+        },
+        () => {
+          setIsSpeaking(false);
+          activeUtteranceRef.current = null;
         }
-      } else {
-        setIsSpeaking(false);
-      }
+      );
     };
 
     // Trigger playback
