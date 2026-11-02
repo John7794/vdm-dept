@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
 import Layout from "./components/layout/Layout";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { AccessibilityProvider } from "./contexts/AccessibilityContext";
@@ -20,33 +19,12 @@ import Applicants from "./pages/Applicants";
 import Contacts from "./pages/Contacts";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
-import AccessGate from "./components/AccessGate";
 import Admin from "./pages/Admin";
 import { useCms } from "./contexts/CmsContext";
 import { Loader2 } from "lucide-react";
 
 export default function App() {
-  const [hasAccess, setHasAccess] = useState(false);
   const { loading, error } = useCms();
-  
-  const sitePassword = (import.meta as any).env.VITE_SITE_PASSWORD;
-
-  useEffect(() => {
-    // Check if access was already granted in this browser
-    const granted = localStorage.getItem("site_access") === "granted";
-    
-    // If no password is set in environment, we allow access by default
-    // Otherwise, check if we already have a grant
-    if (!sitePassword || sitePassword.trim() === "" || granted) {
-      setHasAccess(true);
-    } else {
-      setHasAccess(false);
-    }
-  }, [sitePassword]);
-
-  if (!hasAccess && sitePassword && sitePassword.trim() !== "") {
-    return <AccessGate correctPassword={sitePassword} onAccess={() => setHasAccess(true)} />;
-  }
 
   if (loading) {
     return (
@@ -97,4 +75,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-

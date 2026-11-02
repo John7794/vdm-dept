@@ -31,23 +31,29 @@ export default function Staff() {
       return name.trim() !== "" && !name.includes("Яців");
     });
 
-    const getRank = (roleStr: string) => {
-      const r = roleStr.toLowerCase();
-      if (r.includes("завідувач") && !r.includes("заступник")) return 1;
-      if (r.includes("заступник") && r.includes("завідувач")) return 2;
-      if (r.includes("професор")) return 3;
-      if (r.includes("доцент")) return 4;
-      if (r.includes("старший викладач")) return 5;
-      if (r.includes("асистент")) return 6;
-      if (r.includes("фахівець") || r.includes("інженер")) return 7;
-      return 8;
+    const getRank = (m: any) => {
+      const name = (m.Name_UA || m.name || "").toLowerCase();
+      const role = (m.Role_UA || m.role || "").toLowerCase();
+      const title = (m.Title_UA || m.title || "").toLowerCase();
+      const degree = (m.Degree_UA || m.degree || "").toLowerCase();
+      const combined = `${role} ${title} ${degree}`;
+
+      // Ірина Погранична — доцент, має бути серед доцентів
+      if (name.includes("пограничн")) return 4;
+
+      if (role.includes("завідувач") && !role.includes("заступник")) return 1;
+      if (role.includes("заступник") && role.includes("завідувач")) return 2;
+      if (combined.includes("професор")) return 3;
+      if (combined.includes("доцент")) return 4;
+      if (combined.includes("старший викладач")) return 5;
+      if (combined.includes("асистент")) return 6;
+      if (combined.includes("фахівець") || combined.includes("інженер")) return 7;
+      return 4.5;
     };
 
     return [...valid].sort((a, b) => {
-      const roleA = (a.Role_UA || a.role || "").toLowerCase();
-      const roleB = (b.Role_UA || b.role || "").toLowerCase();
-      const rankA = getRank(roleA);
-      const rankB = getRank(roleB);
+      const rankA = getRank(a);
+      const rankB = getRank(b);
 
       if (rankA !== rankB) {
         return rankA - rankB;
