@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 import { MapPin, ArrowUpRight, Facebook, Instagram, Globe } from "lucide-react";
 import { formatDriveLink } from "../lib/utils";
 import LightboxModal from "../components/LightboxModal";
@@ -70,6 +71,11 @@ export default function About() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("nav_about", "Про кафедру")}
+        description={t("about_desc", "Історія, досягнення та контакти кафедри візуального дизайну і мистецтва.")}
+        breadcrumbName={t("nav_about", "Про кафедру")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

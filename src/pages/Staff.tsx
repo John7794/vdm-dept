@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Mail, Linkedin, Instagram, Globe, Palette, User, BookOpen, GraduationCap, IdCard } from "lucide-react";
 import { useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 import ResponsiveImage from "../components/ResponsiveImage";
 
 function formatStaffName(rawName: string): string {
@@ -67,6 +68,11 @@ export default function Staff() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("staff_page_title", "Колектив кафедри").replace('.', '')}
+        description={t("staff_page_desc", "Професорсько-викладацький склад кафедри візуального дизайну і мистецтва. Наукометричні профілі та професійна експертиза.")}
+        breadcrumbName={t("nav_staff", "Колектив")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

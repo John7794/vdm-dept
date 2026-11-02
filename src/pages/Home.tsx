@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Play, Sparkles, BookOpen, Layers, Monitor, Palette, Building, Eye, Instagram, ArrowUpRight, Film } from "lucide-react";
 import { useTheme } from "../components/ThemeProvider";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 import { formatDriveLink, parseVideoUrl } from "../lib/utils";
 
 interface SubItem {
@@ -286,6 +287,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace('\n', ' ')}
+        description={t("home_manifesto_text", "Офіційний сайт кафедри візуального дизайну і мистецтва (ВДМ) Інституту архітектури та дизайну Національного університету «Львівська політехніка».")}
+        breadcrumbName="Головна"
+      />
       {/* 1. Hero Section - Stencil Text Mask with Dynamic Kinetic Background */}
       <section className="relative flex flex-col w-full border-b-2 border-border-main overflow-hidden bg-page-bg">
         <div className="absolute inset-0 z-0 overflow-hidden">

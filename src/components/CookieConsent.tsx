@@ -96,7 +96,7 @@ export default function CookieConsent() {
           title={t("cookie_trigger_title", "Налаштування файлів cookie")}
           className="fixed bottom-4 left-4 z-40 p-2.5 bg-surface-main text-text-main border-2 border-border-main shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)] hover:bg-surface-mut hover:scale-105 active:scale-95 transition-all duration-200 group flex items-center gap-1.5 focus-ring"
         >
-          <Cookie className="w-4 h-4 text-accent-blue a11y-keep transition-transform group-hover:rotate-12" />
+          <Cookie className="w-4 h-4 text-accent-yellow a11y-keep transition-transform group-hover:rotate-12" />
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider pr-1">
             {t("cookie_trigger_badge", "Cookie")}
           </span>
@@ -128,7 +128,7 @@ export default function CookieConsent() {
               <div className="p-4 sm:p-6 border-b-2 border-border-main bg-page-bg flex items-start justify-between gap-4 flex-shrink-0">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-blue/15 text-accent-blue px-2.5 py-0.5 border border-accent-blue/30 font-bold">
+                    <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-yellow/15 text-accent-yellow px-2.5 py-0.5 border border-accent-yellow/30 font-bold">
                       {t("cookie_meta_badge", "Конфіденційність та безпека")}
                     </span>
                     <span className="font-mono text-[10px] sm:text-xs uppercase text-text-dim">
@@ -199,7 +199,7 @@ export default function CookieConsent() {
                 className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 custom-scrollbar text-sm leading-relaxed"
               >
                 {/* Description Lead */}
-                <p className="text-sm md:text-base text-text-dim font-light leading-relaxed border-l-2 border-accent-blue pl-4 py-1">
+                <p className="text-sm md:text-base text-text-dim font-light leading-relaxed border-l-2 border-accent-yellow pl-4 py-1">
                   {t(
                     "cookie_desc",
                     "Налаштуйте параметри приватності та використання файлів cookie відповідно до ваших уподобань. Необхідні технічні cookie забезпечують безпеку, функціонування сайту та параметри панелі доступності."
@@ -207,7 +207,7 @@ export default function CookieConsent() {
                   <button
                     type="button"
                     onClick={handleOpenPrivacyModal}
-                    className="underline underline-offset-2 font-bold text-text-main hover:text-accent-blue focus-ring cursor-pointer inline p-0 bg-transparent border-none text-sm md:text-base"
+                    className="underline underline-offset-2 font-bold text-text-main hover:text-accent-yellow focus-ring cursor-pointer inline p-0 bg-transparent border-none text-sm md:text-base"
                   >
                     {t("cookie_privacy_link", "Детальніше у Політиці конфіденційності")}
                   </button>
@@ -220,7 +220,7 @@ export default function CookieConsent() {
                 <div id="cookie-cat-necessary" className="space-y-3">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-2.5">
-                      <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                      <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                       <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight text-text-main">
                         1. {t("cookie_cat_necessary_title", "Необхідні технічні файли")}
                       </h3>
@@ -260,7 +260,7 @@ export default function CookieConsent() {
                 <div id="cookie-cat-functional" className="space-y-3">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-2.5">
-                      <Sliders className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                      <Sliders className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                       <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight text-text-main">
                         2. {t("cookie_cat_functional_title", "Функціональні параметри")}
                       </h3>
@@ -279,7 +279,7 @@ export default function CookieConsent() {
                         onClick={() => handleToggle("functional")}
                         aria-label={t("cookie_cat_functional_aria", "Перемикач функціональних cookie")}
                         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer border-2 border-border-main transition-colors focus-ring ${
-                          draftPrefs.functional ? "bg-accent-blue" : "bg-surface-mut"
+                          draftPrefs.functional ? "bg-accent-yellow" : "bg-surface-mut"
                         }`}
                       >
                         <span
@@ -310,7 +310,7 @@ export default function CookieConsent() {
                 <div id="cookie-cat-analytics" className="space-y-3">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-2.5">
-                      <BarChart2 className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                      <BarChart2 className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                       <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight text-text-main">
                         3. {t("cookie_cat_analytics_title", "Аналітичні метрики")}
                       </h3>
@@ -329,7 +329,7 @@ export default function CookieConsent() {
                         onClick={() => handleToggle("analytics")}
                         aria-label={t("cookie_cat_analytics_aria", "Перемикач аналітичних cookie")}
                         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer border-2 border-border-main transition-colors focus-ring ${
-                          draftPrefs.analytics ? "bg-accent-blue" : "bg-surface-mut"
+                          draftPrefs.analytics ? "bg-accent-yellow" : "bg-surface-mut"
                         }`}
                       >
                         <span
@@ -360,7 +360,7 @@ export default function CookieConsent() {
                 <div id="cookie-cat-multimedia" className="space-y-3">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-2.5">
-                      <Video className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                      <Video className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                       <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight text-text-main">
                         4. {t("cookie_cat_multimedia_title", "Мультимедіа та зовнішні сервіси")}
                       </h3>
@@ -379,7 +379,7 @@ export default function CookieConsent() {
                         onClick={() => handleToggle("multimedia")}
                         aria-label={t("cookie_cat_multimedia_aria", "Перемикач мультимедійних cookie")}
                         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer border-2 border-border-main transition-colors focus-ring ${
-                          draftPrefs.multimedia ? "bg-accent-blue" : "bg-surface-mut"
+                          draftPrefs.multimedia ? "bg-accent-yellow" : "bg-surface-mut"
                         }`}
                       >
                         <span
@@ -421,7 +421,7 @@ export default function CookieConsent() {
                     onClick={handleSaveDraft}
                     className="px-4 py-2.5 border-2 border-border-main bg-surface-main text-text-main font-mono text-xs uppercase font-bold hover:bg-surface-mut active:scale-[0.98] transition-all focus-ring flex items-center justify-center gap-1.5"
                   >
-                    <Check className="w-4 h-4 text-accent-blue" />
+                    <Check className="w-4 h-4 text-accent-yellow" />
                     <span>{t("cookie_btn_save", "Зберегти вибір")}</span>
                   </button>
                   <button

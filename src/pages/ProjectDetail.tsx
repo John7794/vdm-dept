@@ -6,6 +6,7 @@ import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink, formatDrivePreviewLink } from "../lib/utils";
 import ResponsiveImage from "../components/ResponsiveImage";
 import LightboxModal from "../components/LightboxModal";
+import SeoHead from "../components/SeoHead";
 
 export default function ProjectDetail() {
   const { id } = useParams();

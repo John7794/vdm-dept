@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Home Page -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Programs -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/programs</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/programs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/programs?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/programs?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/programs?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/programs" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Faculty / Staff -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/staff</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/staff" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/staff?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/staff?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/staff?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/staff" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Applicants -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/applicants</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/applicants" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/applicants?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/applicants?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/applicants?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/applicants" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- About -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/about</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/about?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/about?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/about?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/about" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Student Projects -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/projects</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/projects?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/projects?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/projects?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/projects" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- News -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/news</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/news" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/news?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/news?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/news?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/news" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contacts -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/contacts" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/contacts?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/contacts?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/contacts?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/contacts" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://vdm-dept.vercel.app/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/privacy?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/privacy?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/privacy?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/privacy" />
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Host
+Host: https://vdm-dept.vercel.app
+
+# Sitemaps
+Sitemap: https://vdm-dept.vercel.app/sitemap.xml

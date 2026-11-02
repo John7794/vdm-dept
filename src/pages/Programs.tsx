@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowUpRight, ExternalLink, BookCheck, ChevronDown } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 
 function cleanDisciplineName(name: string): string {
   if (!name) return "";
@@ -215,6 +216,11 @@ export default function Programs() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("prog_page_title", "Освітні програми").replace('.', '')}
+        description={t("prog_page_desc", "Освітні програми кафедри візуального дизайну і мистецтва: бакалаврат, магістратура, аспірантура (PhD).")}
+        breadcrumbName={t("nav_programs", "Програми")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

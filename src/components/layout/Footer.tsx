@@ -8,7 +8,7 @@ import { Eye, ExternalLink, ShieldCheck, Cookie } from "lucide-react";
 
 const LogoText = ({ className }: { className?: string }) => (
   <div className={`font-bold text-4xl tracking-tighter uppercase select-none ${className}`}>
-    VDA<span className="text-accent-blue">.</span>
+    VDA<span className="text-accent-yellow">.</span>
   </div>
 );
 

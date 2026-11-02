@@ -5,6 +5,7 @@ import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink, cleanHtml } from "../lib/utils";
 import ResponsiveImage from "../components/ResponsiveImage";
 import LightboxModal from "../components/LightboxModal";
+import SeoHead from "../components/SeoHead";
 import React, { useState, useEffect } from "react";
 
 export default function NewsDetail() {

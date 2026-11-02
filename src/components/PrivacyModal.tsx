@@ -51,7 +51,7 @@ export default function PrivacyModal() {
           <div className="p-4 sm:p-6 border-b-2 border-border-main bg-page-bg flex items-start justify-between gap-4 flex-shrink-0">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-blue/15 text-accent-blue px-2.5 py-0.5 border border-accent-blue/30 font-bold">
+                <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-yellow/15 text-accent-yellow px-2.5 py-0.5 border border-accent-yellow/30 font-bold">
                   {t("privacy_meta_badge", "Правові засади діяльності")}
                 </span>
                 <span className="font-mono text-[10px] sm:text-xs uppercase text-text-dim">
@@ -137,10 +137,10 @@ export default function PrivacyModal() {
             className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 custom-scrollbar text-sm leading-relaxed"
           >
             {/* Description Lead */}
-            <p className="text-sm md:text-base text-text-dim font-light leading-relaxed border-l-2 border-accent-blue pl-4 py-1">
+            <p className="text-sm md:text-base text-text-dim font-light leading-relaxed border-l-2 border-accent-yellow pl-4 py-1">
               {t(
                 "privacy_desc",
-                "Порядок збирання, використання, захисту персональних даних та умови користування офіційним вебресурсом Кафедри дизайну та візуальних комунікацій Національного університету «Львівська політехніка»."
+                "Порядок збирання, використання, захисту персональних даних та умови користування офіційним вебресурсом Кафедри візуального дизайну і мистецтва Національного університету «Львівська політехніка»."
               )}
             </p>
 
@@ -149,14 +149,14 @@ export default function PrivacyModal() {
             {/* 1. Преамбула */}
             <div id="privacy-sec-1" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec1_title", "1. Загальні положення та правові підстави")}
               </h3>
               <div className="space-y-3 text-xs sm:text-sm text-text-dim font-light pl-6 sm:pl-7">
                 <p>
                   {t(
                     "privacy_sec1_p1",
-                    "Ця Політика конфіденційності та обробки персональних даних (далі — «Політика») регулює порядок збору, обробки, використання та зберігання персональних даних користувачів офіційного вебсайту Кафедри дизайну та візуальних комунікацій Інституту архітектури та дизайну Національного університету «Львівська політехніка» (далі — «Кафедра», «Володілець даних»)."
+                    "Ця Політика конфіденційності та обробки персональних даних (далі — «Політика») регулює порядок збору, обробки, використання та зберігання персональних даних користувачів офіційного вебсайту Кафедри візуального дизайну і мистецтва Інституту архітектури та дизайну Національного університету «Львівська політехніка» (далі — «Кафедра», «Володілець даних»)."
                   )}
                 </p>
                 <p className="font-medium text-text-main">
@@ -177,7 +177,7 @@ export default function PrivacyModal() {
             {/* 2. Склад персональних даних */}
             <div id="privacy-sec-2" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <Info className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <Info className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec2_title", "2. Склад та категорії персональних даних")}
               </h3>
               <div className="space-y-4 text-xs sm:text-sm text-text-dim font-light pl-6 sm:pl-7">
@@ -185,7 +185,7 @@ export default function PrivacyModal() {
                   {t("privacy_sec2_desc", "Кафедра обробляє виключно той мінімальний обсяг даних, який є необхідним для реалізації мети взаємодії:")}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                  <div className="space-y-1.5 border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="space-y-1.5 border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main">
                       {t("privacy_sec2_f1_title", "Дані форми зворотного зв'язку:")}
                     </span>
@@ -195,7 +195,7 @@ export default function PrivacyModal() {
                       <li>{t("privacy_sec2_f1_i3", "Текст повідомлення чи запитання користувача.")}</li>
                     </ul>
                   </div>
-                  <div className="space-y-1.5 border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="space-y-1.5 border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main">
                       {t("privacy_sec2_f2_title", "Технічні та аналітичні дані (Cookies):")}
                     </span>
@@ -214,7 +214,7 @@ export default function PrivacyModal() {
             {/* 3. Права суб'єкта персональних даних */}
             <div id="privacy-sec-3" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec3_title", "3. Права суб'єкта персональних даних (Стаття 8 Закону України № 2297-VI)")}
               </h3>
               <div className="space-y-2 text-xs sm:text-sm text-text-dim font-light pl-6 sm:pl-7">
@@ -244,7 +244,7 @@ export default function PrivacyModal() {
             {/* 4. Файли Cookie */}
             <div id="privacy-sec-4" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec4_title", "4. Використання файлів cookie")}
               </h3>
               <div className="space-y-4 text-xs sm:text-sm text-text-dim font-light pl-6 sm:pl-7">
@@ -255,7 +255,7 @@ export default function PrivacyModal() {
                   )}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div className="border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main mb-1">
                       {t("privacy_cat_necessary_label", "1. Необхідні (технічні) cookie:")}
                     </span>
@@ -266,7 +266,7 @@ export default function PrivacyModal() {
                       )}
                     </p>
                   </div>
-                  <div className="border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main mb-1">
                       {t("privacy_cat_functional_label", "2. Функціональні cookie:")}
                     </span>
@@ -277,7 +277,7 @@ export default function PrivacyModal() {
                       )}
                     </p>
                   </div>
-                  <div className="border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main mb-1">
                       {t("privacy_cat_analytics_label", "3. Аналітичні cookie:")}
                     </span>
@@ -288,7 +288,7 @@ export default function PrivacyModal() {
                       )}
                     </p>
                   </div>
-                  <div className="border-l-2 border-accent-blue/50 pl-3.5 py-1">
+                  <div className="border-l-2 border-accent-yellow/50 pl-3.5 py-1">
                     <span className="font-bold text-xs uppercase block text-text-main mb-1">
                       {t("privacy_cat_multimedia_label", "4. Мультимедійні cookie:")}
                     </span>
@@ -318,7 +318,7 @@ export default function PrivacyModal() {
             {/* 5. Авторське право */}
             <div id="privacy-sec-5" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec5_title", "5. Авторське право та використання матеріалів (ЗУ № 2811-IX)")}
               </h3>
               <div className="space-y-3 text-xs sm:text-sm text-text-dim font-light pl-6 sm:pl-7">
@@ -331,7 +331,7 @@ export default function PrivacyModal() {
                 <p>
                   {t(
                     "privacy_sec5_p2",
-                    "Використання будь-яких матеріалів сайту дозволяється виключно за умови відкритого та прямого індексованого гіперпосилання на офіційний сайт Кафедри дизайну та візуальних комунікацій не нижче другого абзацу тексту матеріалу. Будь-яке комерційне використання без письмового дозволу Кафедри заборонено."
+                    "Використання будь-яких матеріалів сайту дозволяється виключно за умови відкритого та прямого індексованого гіперпосилання на офіційний сайт Кафедри візуального дизайну і мистецтва не нижче другого абзацу тексту матеріалу. Будь-яке комерційне використання без письмового дозволу Кафедри заборонено."
                   )}
                 </p>
               </div>
@@ -342,23 +342,23 @@ export default function PrivacyModal() {
             {/* 6. Контакти володільця даних */}
             <div id="privacy-sec-6" className="space-y-3">
               <h3 className="text-base sm:text-lg font-bold uppercase tracking-tight flex items-center gap-2 text-text-main">
-                <Info className="w-4 h-4 sm:w-5 sm:h-5 text-accent-blue a11y-keep flex-shrink-0" />
+                <Info className="w-4 h-4 sm:w-5 sm:h-5 text-accent-yellow a11y-keep flex-shrink-0" />
                 {t("privacy_sec6_title", "6. Офіційні реквізити та контактні дані")}
               </h3>
               <div className="space-y-2 text-xs sm:text-sm text-text-dim font-mono leading-relaxed pl-6 sm:pl-7">
                 <p className="font-bold text-text-main">
-                  {t("privacy_sec6_dept", "Кафедра дизайну та візуальних комунікацій Інституту архітектури та дизайну НУ «Львівська політехніка»")}
+                  {t("privacy_sec6_dept", "Кафедра візуального дизайну і мистецтва Інституту архітектури та дизайну НУ «Львівська політехніка»")}
                 </p>
                 <p>{t("privacy_sec6_address", "Адреса: 79000, Україна, м. Львів, вул. Січових Стрільців, 7, корпус 204")}</p>
                 <p>
                   {t("privacy_sec6_email", "Офіційний email:")}{" "}
-                  <a href="mailto:vdm.dept@lpnu.ua" className="underline hover:text-accent-blue">
+                  <a href="mailto:vdm.dept@lpnu.ua" className="underline hover:text-accent-yellow">
                     vdm.dept@lpnu.ua
                   </a>
                 </p>
                 <p>
                   {t("privacy_sec6_portal", "Головний портал університету:")}{" "}
-                  <a href="https://lpnu.ua" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent-blue inline-flex items-center gap-1">
+                  <a href="https://lpnu.ua" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent-yellow inline-flex items-center gap-1">
                     lpnu.ua <ExternalLink className="w-3 h-3" />
                   </a>
                 </p>

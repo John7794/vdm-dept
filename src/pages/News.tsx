@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 import { Link } from "react-router-dom";
 import ResponsiveImage from "../components/ResponsiveImage";
 import { formatDriveLink } from "../lib/utils";
@@ -30,6 +31,11 @@ export default function News() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("nav_news", "Новини")}
+        description="Новини, події, виставки та анонси кафедри візуального дизайну і мистецтва."
+        breadcrumbName={t("nav_news", "Новини")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

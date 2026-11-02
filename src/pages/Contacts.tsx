@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 import { usePrivacyModal } from "../contexts/PrivacyModalContext";
 
 export default function Contacts() {
@@ -57,6 +58,11 @@ export default function Contacts() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("nav_contacts", "Контакти")}
+        description="Контактна інформація кафедри візуального дизайну і мистецтва: адреса, телефон, електронна пошта."
+        breadcrumbName={t("nav_contacts", "Контакти")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

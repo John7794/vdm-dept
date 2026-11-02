@@ -1,0 +1,32 @@
+{
+  "short_name": "ВДМ Політехніка",
+  "name": "Кафедра візуального дизайну і мистецтва НУ «Львівська політехніка»",
+  "description": "Офіційний вебресурс кафедри ВДМ: бакалаврат, магістратура, аспірантура, проєкти та викладацький склад.",
+  "icons": [
+    {
+      "src": "/favicon-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/favicon-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/favicon-62.png",
+      "type": "image/png",
+      "sizes": "62x62"
+    },
+    {
+      "src": "/favicon-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0A0A0A",
+  "theme_color": "#FFD400",
+  "display": "standalone",
+  "orientation": "portrait"
+}

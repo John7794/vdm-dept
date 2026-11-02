@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, CheckSquare } from "lucide-react";
 import { useCms } from "../contexts/CmsContext";
+import SeoHead from "../components/SeoHead";
 
 export default function Applicants() {
   const { data, lang, t } = useCms();
@@ -11,6 +12,11 @@ export default function Applicants() {
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
+      <SeoHead
+        title={t("nav_applicants", "Вступникам")}
+        description="Інформація для вступників на кафедру візуального дизайну і мистецтва: етапи вступу, перелік документів, творчий конкурс."
+        breadcrumbName={t("nav_applicants", "Вступникам")}
+      />
       {/* Page Header */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
         <div className="max-w-[1000px] z-10 relative">

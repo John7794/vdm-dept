@@ -9,7 +9,7 @@ import { formatDriveLink } from "../../lib/utils";
 
 const LogoText = ({ className }: { className?: string }) => (
   <div className={`font-bold text-2xl tracking-tighter uppercase select-none ${className}`}>
-    VDA<span className="text-accent-blue">.</span>
+    VDA<span className="text-accent-yellow">.</span>
   </div>
 );
 
@@ -117,7 +117,7 @@ export default function Navbar() {
             >
               <Eye className="w-6 h-6 a11y-keep" />
               {isCustomized && (
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
               )}
             </button>
             <button 
@@ -149,7 +149,7 @@ export default function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="activeNavSegment"
-                    className="absolute bottom-0 left-0 w-full h-[4px] bg-accent-blue shadow-[var(--theme-glow)]"
+                    className="absolute bottom-0 left-0 w-full h-[4px] bg-accent-yellow shadow-[var(--theme-glow)]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -162,7 +162,7 @@ export default function Navbar() {
               return (
                 <div
                   key={link.path}
-                  className="flex-1 flex items-center justify-center px-4 text-xs font-bold uppercase tracking-widest relative overflow-hidden text-accent-blue cursor-default"
+                  className="flex-1 flex items-center justify-center px-4 text-xs font-bold uppercase tracking-widest relative overflow-hidden text-accent-yellow cursor-default"
                   aria-current="page"
                 >
                   {content}
@@ -228,7 +228,7 @@ export default function Navbar() {
             <Eye className="w-4 h-4 a11y-keep shrink-0" />
             <span className="hidden xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
             {isCustomized && (
-              <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
             )}
           </button>
 

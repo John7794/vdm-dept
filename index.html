@@ -3,16 +3,126 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Кафедра дизайну та візуальних комунікацій | НУ "Львівська політехніка"</title>
-    <meta name="description" content="Офіційний сайт кафедри дизайну та візуальних комунікацій Інституту архітектури та дизайну Національного університету 'Львівська політехніка'. Програми навчання, викладацький склад, проєкти студентів та новини." />
-    
-    <!-- Favicons -->
+    <title>Кафедра візуального дизайну і мистецтва | НУ «Львівська політехніка»</title>
+    <meta name="description" content="Офіційний сайт кафедри візуального дизайну і мистецтва (ВДМ) Інституту архітектури та дизайну Національного університету «Львівська політехніка». Бакалаврат, магістратура, аспірантура, проєкти та викладацький склад." />
+    <meta name="keywords" content="кафедра візуального дизайну і мистецтва, ВДМ, дизайн Львівська політехніка, графічний дизайн, UI UX дизайн, вебдизайн, стріт арт, анімація, мультимедіа, бакалавр дизайн, магістр дизайн, ІАРД, visual design and art, VDA LPNU" />
+    <meta name="author" content="Кафедра візуального дизайну і мистецтва НУ «Львівська політехніка»" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFD400" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vdm-dept.vercel.app/" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Кафедра візуального дизайну і мистецтва | НУ «Львівська політехніка»" />
+    <meta property="og:url" content="https://vdm-dept.vercel.app/" />
+    <meta property="og:title" content="Кафедра візуального дизайну і мистецтва | НУ «Львівська політехніка»" />
+    <meta property="og:description" content="Творча майстерня та інтелектуальний колектив, що готує нове покоління професіоналів у галузі дизайну та візуального мистецтва." />
+    <meta property="og:image" content="https://vdm-dept.vercel.app/facade-sichovykh-striltsiv.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="800" />
+    <meta property="og:image:alt" content="Фасад навчального корпусу кафедри візуального дизайну і мистецтва, вул. Січових Стрільців, 7" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="de_DE" />
+    <meta property="og:locale:alternate" content="pl_PL" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://vdm-dept.vercel.app/" />
+    <meta name="twitter:title" content="Кафедра візуального дизайну і мистецтва | НУ «Львівська політехніка»" />
+    <meta name="twitter:description" content="Офіційний вебресурс кафедри ВДМ: освітні програми В2.01 Дизайн, викладачі, студентські проєкти." />
+    <meta name="twitter:image" content="https://vdm-dept.vercel.app/facade-sichovykh-striltsiv.jpg" />
+
+    <!-- Geographic / Local SEO Meta -->
+    <meta name="geo.region" content="UA-46" />
+    <meta name="geo.placename" content="Львів" />
+    <meta name="geo.position" content="49.8402;24.0223" />
+    <meta name="ICBM" content="49.8402, 24.0223" />
+
+    <!-- Favicons & Web Manifest -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
     <link rel="icon" type="image/png" sizes="62x62" href="/favicon-62.png" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
-    <!-- Apple Touch Icon (Fallback to the largest available) -->
     <link rel="apple-touch-icon" sizes="96x96" href="/favicon-96.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["EducationalOrganization", "CollegeOrUniversity"],
+          "@id": "https://vdm-dept.vercel.app/#organization",
+          "name": "Кафедра візуального дизайну і мистецтва",
+          "alternateName": ["Кафедра ВДМ", "Department of Visual Design and Art", "VDA LPNU"],
+          "url": "https://vdm-dept.vercel.app/",
+          "logo": "https://vdm-dept.vercel.app/favicon-96.png",
+          "image": "https://vdm-dept.vercel.app/facade-sichovykh-striltsiv.jpg",
+          "description": "Офіційний вебресурс кафедри візуального дизайну і мистецтва Інституту архітектури та дизайну Національного університету «Львівська політехніка».",
+          "email": "vdm.dept@lpnu.ua",
+          "telephone": "+38 (032) 258-25-45",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "name": "Національний університет «Львівська політехніка»",
+            "url": "https://lpnu.ua"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "вул. Січових Стрільців, 7, ауд. 204",
+            "addressLocality": "Львів",
+            "postalCode": "79000",
+            "addressCountry": "UA"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 49.8402,
+            "longitude": 24.0223
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Освітні програми кафедри ВДМ",
+            "itemListElement": [
+              {
+                "@type": "Course",
+                "name": "Візуальний дизайн (Бакалавр)",
+                "courseCode": "6.B2.01.06",
+                "educationalCredentialAwarded": "Бакалавр дизайну",
+                "url": "https://directory.lpnu.ua/majors/iard/6.B2.01.06/8/2025/ua/full"
+              },
+              {
+                "@type": "Course",
+                "name": "Дизайн (Магістр)",
+                "courseCode": "8.B2.03.01",
+                "educationalCredentialAwarded": "Магістр дизайну",
+                "url": "https://directory.lpnu.ua/majors/iard/8.B2.03.01/19/2026/ua/full"
+              },
+              {
+                "@type": "Course",
+                "name": "Дизайн (Аспірантура / PhD)",
+                "courseCode": "9.B2.00.00",
+                "educationalCredentialAwarded": "Доктор філософії (PhD)",
+                "url": "https://directory.lpnu.ua/majors/dta/9.B2.00.00/51/2026/ua/full"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://vdm-dept.vercel.app/#website",
+          "url": "https://vdm-dept.vercel.app/",
+          "name": "Кафедра візуального дизайну і мистецтва",
+          "publisher": {
+            "@id": "https://vdm-dept.vercel.app/#organization"
+          },
+          "inLanguage": ["uk", "en", "de", "pl"]
+        }
+      ]
+    }
+    </script>
     
     <script>
       (function() {
@@ -33,4 +143,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
