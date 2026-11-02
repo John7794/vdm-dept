@@ -148,7 +148,7 @@ export default function Footer() {
       {/* Bottom Bar: Copyright & Attribution */}
       <div className="px-8 py-8 text-[10px] md:text-xs text-paper/50 font-mono uppercase tracking-wider flex flex-col items-center gap-3 text-center">
         <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
-          <p>© {currentYear} {t("footer_copyright", "Кафедра дизайну та візуальних комунікацій НУ «Львівська політехніка»")}</p>
+          <p>© {currentYear} {t("footer_copyright", "Кафедра візуального дизайну і мистецтва НУ «Львівська політехніка»")}</p>
           <span className="hidden md:block w-1 h-1 bg-paper/20 rounded-full"></span>
           <p>{t("footer_rights", "Всі права захищено (ЗУ № 2811-IX)")}</p>
         </div>
