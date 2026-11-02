@@ -216,8 +216,8 @@ export default function Home() {
               style={{ backgroundImage: `url(${baseSlides[slideIndex]})` }}
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-accent-blue/10 pointer-events-none mix-blend-overlay"></div>
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-blue/20 blur-[100px] rounded-full z-[1]"></div>
+          <div className="absolute inset-0 bg-accent-yellow/5 pointer-events-none mix-blend-overlay"></div>
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-yellow/10 blur-[100px] rounded-full z-[1]"></div>
         </div>
 
         {/* The Stencil Overlay Layer */}
@@ -275,7 +275,7 @@ export default function Home() {
             <span>{t("home_manifesto_badge", "Маніфест кафедри")}</span>
           </div>
 
-          <p className="text-xl md:text-3xl lg:text-[2.25rem] font-bold tracking-tight leading-[1.3] text-text-main text-balance select-text border-l-4 border-accent-blue pl-6 md:pl-10">
+          <p className="text-lg md:text-2xl lg:text-[1.85rem] font-normal tracking-normal leading-[1.5] text-text-main text-balance select-text border-l-4 border-accent-yellow pl-6 md:pl-10">
             {t(
               "home_manifesto_text",
               "Ми — кафедра візуального дизайну і мистецтва — команда дизайнерів, митців і дослідників, творча майстерня та інтелектуальний колектив, об’єднаний спільною метою: формувати покоління професіоналів, здатних перетворювати ідеї на потужні візуальні повідомлення. Дизайн-програма ВДМ експериментує з різними формами комунікації, з метою створити нову візуальну мову, яка резонує з сучасним суспільством та сповідує ідеали національного самовираження. Ми віримо, що дизайн і мистецтво мають трансформативний потенціал впливати на світ, а унікальність кожного студента - це рушійна сила для суспільних і культурних змін."
@@ -297,7 +297,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="font-mono text-xs text-text-dim uppercase tracking-wider flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-accent-blue rounded-full"></span>
+            <span className="w-2.5 h-2.5 bg-accent-yellow rounded-full"></span>
             <span>7 Спеціалізованих векторів</span>
           </div>
         </div>
@@ -315,7 +315,7 @@ export default function Home() {
                 <div className="lg:col-span-5 p-6 md:p-10 lg:p-12 flex flex-col justify-between bg-surface-main/40">
                   <div>
                     <div className="flex items-center justify-between mb-6">
-                      <span className="font-mono text-2xl md:text-3xl font-extrabold text-accent-blue tracking-tighter">
+                      <span className="font-mono text-2xl md:text-3xl font-extrabold text-accent-yellow tracking-tighter">
                         {dir.code}.
                       </span>
                       <div className="p-2.5 rounded-none bg-surface-mut border border-border-main text-text-main group-hover:bg-text-main group-hover:text-page-bg transition-colors">
@@ -339,7 +339,7 @@ export default function Home() {
                       key={subItem.subCode} 
                       className="flex items-start gap-4 p-4 border border-border-soft bg-surface-main hover:border-border-main transition-colors"
                     >
-                      <span className="font-mono text-xs md:text-sm font-bold text-accent-blue bg-accent-blue/10 px-2 py-1 rounded shrink-0 border border-accent-blue/20">
+                      <span className="font-mono text-xs md:text-sm font-bold text-accent-yellow bg-accent-yellow/10 px-2 py-1 rounded shrink-0 border border-accent-yellow/30">
                         {subItem.subCode}
                       </span>
                       <p className="text-sm md:text-base text-text-main font-light leading-relaxed">
@@ -372,98 +372,66 @@ export default function Home() {
           </div>
 
           {/* Video Container Frame */}
-          {videoData?.type === "instagram" ? (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-surface-mut/40 border-2 border-border-main p-6 md:p-10 lg:p-12">
-              <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent-blue/10 border border-accent-blue/30 text-accent-blue font-mono text-xs font-bold uppercase tracking-wider">
-                    <Film className="w-3.5 h-3.5" />
-                    <span>{t("home_video_badge", "Творчий процес ВДМ")}</span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
-                    {t("home_video_card_title", "Життя та навчання на кафедрі")}
-                  </h3>
-                  <p className="text-base text-text-main font-light leading-relaxed">
-                    {t("home_video_card_desc", "Динамічний ритм життя кафедри: від пошуку ідей та роботи в творчих майстернях до захисту авторських дизайн-проєктів. Пориньте в атмосферу нашої спільноти у короткому відео.")}
-                  </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-surface-mut/40 border-2 border-border-main p-6 md:p-10 lg:p-12">
+            <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent-yellow/10 border border-accent-yellow/30 text-accent-yellow font-mono text-xs font-bold uppercase tracking-wider">
+                  <Film className="w-3.5 h-3.5" />
+                  <span>{t("home_video_badge", "Творчий процес ВДМ")}</span>
                 </div>
-
-                <div className="space-y-3 pt-2">
-                  <div className="flex flex-wrap gap-2 text-xs font-mono text-text-dim">
-                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🏛 вул. Січових Стрільців, 7</span>
-                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🎨 Графічний дизайн & Арт</span>
-                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">✨ В2.01 Дизайн</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4 border-t border-border-main">
-                  <a
-                    href={videoData.originalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-text-main text-surface-main px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider hover:bg-accent-blue hover:text-white transition-colors duration-200"
-                  >
-                    <Instagram className="w-4 h-4" />
-                    <span>{t("home_video_btn_ig", "Переглянути в Instagram")}</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/vdm_lpnu/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 font-mono text-xs text-text-dim hover:text-text-main underline decoration-accent-blue underline-offset-4 py-2"
-                  >
-                    <span>@vdm_lpnu</span>
-                    <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6 flex justify-center">
-                <div className="w-full max-w-[420px] border-2 border-border-main bg-black shadow-2xl overflow-hidden">
-                  <iframe
-                    src={videoData.embedUrl}
-                    title="Відео кафедри ВДМ"
-                    className="w-full h-[560px] md:h-[620px] border-0 bg-black"
-                    scrolling="no"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  />
-                </div>
-              </div>
-            </div>
-          ) : videoData?.type === "youtube" || videoData?.type === "vimeo" ? (
-            <div className="relative aspect-video w-full border-2 border-border-main bg-ink shadow-2xl overflow-hidden group">
-              <iframe
-                src={videoData.embedUrl}
-                title="Відео про навчання на кафедрі"
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          ) : videoData?.type === "direct" ? (
-            <div className="relative aspect-video w-full border-2 border-border-main bg-black shadow-2xl overflow-hidden">
-              <video
-                src={videoData.embedUrl}
-                controls
-                className="w-full h-full object-contain"
-              />
-            </div>
-          ) : (
-            <div className="relative aspect-video w-full border-2 border-border-main bg-ink shadow-2xl overflow-hidden group">
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-black via-zinc-900 to-black text-white">
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-white/30 flex items-center justify-center mb-6 bg-white/5 backdrop-blur-md group-hover:scale-110 group-hover:border-accent-yellow group-hover:text-accent-yellow transition-all duration-300">
-                  <Play className="w-8 h-8 md:w-10 md:h-10 ml-1 fill-current" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-wider mb-2">
-                  Відеопрезентація кафедри
+                <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
+                  {t("home_video_card_title", "Життя та навчання на кафедрі")}
                 </h3>
-                <p className="text-xs md:text-sm font-mono text-white/60 max-w-md uppercase tracking-wider">
-                  Матеріал готується до публікації. Відео з'явиться тут незабаром.
+                <p className="text-base text-text-main font-light leading-relaxed">
+                  {t("home_video_card_desc", "Динамічний ритм життя кафедри: від пошуку ідей та роботи в творчих майстернях до захисту авторських дизайн-проєктів. Пориньте в атмосферу нашої спільноти у відеоматеріалі.")}
                 </p>
               </div>
+
+              <div className="space-y-3 pt-2">
+                <div className="flex flex-wrap gap-2 text-xs font-mono text-text-dim">
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🏛 вул. Січових Стрільців, 7</span>
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🎨 Графічний дизайн & Арт</span>
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">✨ В2.01 Дизайн</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4 border-t border-border-main">
+                <a
+                  href="https://www.instagram.com/p/DePJa6UIT62/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-text-main text-page-bg px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider hover:bg-accent-yellow hover:text-black transition-colors duration-200"
+                >
+                  <Instagram className="w-4 h-4" />
+                  <span>{t("home_video_btn_ig", "Переглянути в Instagram")}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.instagram.com/vdm_lpnu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 font-mono text-xs text-text-dim hover:text-text-main underline decoration-accent-yellow underline-offset-4 py-2"
+                >
+                  <span>@vdm_lpnu</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
             </div>
-          )}
+
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="w-full max-w-[360px] md:max-w-[400px] border-2 border-border-main bg-black shadow-2xl overflow-hidden rounded-xl">
+                <video
+                  src="/video/study-at-vdm.mp4#t=0.001"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-auto max-h-[620px] object-contain bg-black block"
+                >
+                  Ваш браузер не підтримує відтворення відео.
+                </video>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

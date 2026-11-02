@@ -126,11 +126,11 @@ export default function NewsDetail() {
             )}
             
             {content && (
-              <div dangerouslySetInnerHTML={{ __html: cleanHtml(content) }} className="prose prose-invert max-w-none prose-p:text-text-main prose-headings:text-text-main prose-a:text-accent-blue pb-8" />
+              <div dangerouslySetInnerHTML={{ __html: cleanHtml(content) }} className="prose prose-invert max-w-none prose-p:text-text-main prose-headings:text-text-main prose-a:text-accent-yellow pb-8" />
             )}
 
             {quote && (
-              <blockquote className="border-l-4 border-accent-blue pl-6 py-2 my-8 italic font-medium text-xl lg:text-2xl text-text-main opacity-90">
+              <blockquote className="border-l-4 border-accent-yellow pl-6 py-2 my-8 italic font-medium text-xl lg:text-2xl text-text-main opacity-90">
                 {quote}
               </blockquote>
             )}

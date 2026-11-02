@@ -150,7 +150,7 @@ export default function ProjectDetail() {
           )}
 
           {quote && (
-            <blockquote className="border-l-4 border-accent-blue pl-6 py-2 my-8 italic font-medium text-xl lg:text-2xl text-page-bg opacity-90">
+            <blockquote className="border-l-4 border-accent-yellow pl-6 py-2 my-8 italic font-medium text-xl lg:text-2xl text-page-bg opacity-90">
               {quote}
             </blockquote>
           )}

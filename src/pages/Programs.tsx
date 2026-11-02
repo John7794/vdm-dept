@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { ArrowUpRight, ExternalLink, BookCheck } from "lucide-react";
-import { useMemo } from "react";
+import { ArrowUpRight, ExternalLink, BookCheck, ChevronDown } from "lucide-react";
+import { useState, useMemo } from "react";
 import { useCms } from "../contexts/CmsContext";
 
 function cleanDisciplineName(name: string): string {
@@ -13,6 +13,7 @@ function cleanDisciplineName(name: string): string {
 }
 
 function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, disciplines: any[], lang: string, t: any }) {
+  const [isOpen, setIsOpen] = useState(false);
   const level = prog.Level_UA || prog.Level || prog.level || prog.Degree_UA || "";
   
   let progDisciplines: any[] = [];
@@ -48,42 +49,49 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
   const oppLink = prog.Link || prog.link || "https://directory.lpnu.ua/majors/iard/6.B2.01.06/8/2025/ua/full";
 
   return (
-    <div className="mt-8">
-      {/* Header with link to lpnu.ua */}
-      <div className="p-4 border-b-2 border-border-main flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-surface-mut">
-        <div className="flex items-center gap-2">
-          <BookCheck className="w-4 h-4 text-accent-blue" />
-          <h4 className="font-bold text-xs sm:text-sm tracking-widest uppercase font-mono text-text-main">
+    <div className="mt-6 pt-4 border-t border-border-soft">
+      {/* Seamless header bar without heavy box highlighting */}
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+        <button 
+          type="button" 
+          onClick={() => setIsOpen(!isOpen)}
+          className="inline-flex items-center gap-2 text-left text-text-main hover:text-accent-yellow transition-colors group cursor-pointer"
+        >
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180 text-accent-yellow" : "text-text-dim"}`} />
+          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase font-mono group-hover:text-accent-yellow">
             {t("prog_lbl_disciplines", "Дисципліни навчального плану")}
-            <span className="ml-2 text-text-dim text-xs">({uniqueDisciplines.length})</span>
-          </h4>
-        </div>
+            <span className="ml-2 text-text-dim text-xs font-normal">({uniqueDisciplines.length})</span>
+          </span>
+        </button>
+
         <a 
           href={oppLink} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="inline-flex items-center gap-1.5 font-mono text-xs text-accent-blue hover:text-text-main transition-colors underline underline-offset-4 font-bold"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-text-dim hover:text-text-main transition-colors underline underline-offset-4"
         >
           <span>{t("prog_opp_link", "Електронний каталог дисциплін та ОПП (lpnu.ua)")}</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
 
-      {/* Clean, concise aggregated disciplines grid */}
-      <div className="p-4 sm:p-6 bg-surface-main/40 border border-border-soft">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5">
-          {uniqueDisciplines.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-3 py-1 group">
-              <span className="font-mono text-xs text-accent-blue/80 font-bold mt-0.5 select-none shrink-0">
-                {String(idx + 1).padStart(2, "0")}.
-              </span>
-              <span className="text-sm font-medium text-text-main group-hover:text-accent-blue transition-colors leading-snug">
-                {item}
-              </span>
-            </div>
-          ))}
+      {/* Seamless disciplines grid, visible when expanded */}
+      {isOpen && (
+        <div className="mt-4 pt-4 border-t border-border-soft/60">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+            {uniqueDisciplines.map((item, idx) => (
+              <div key={idx} className="flex items-start gap-2.5 py-0.5">
+                <span className="font-mono text-xs text-text-dim mt-0.5 select-none shrink-0">
+                  {String(idx + 1).padStart(2, "0")}.
+                </span>
+                <span className="text-sm font-light text-text-main leading-snug">
+                  {item}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -246,7 +254,7 @@ export default function Programs() {
                               href={prog.Link || prog.link} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="hover:text-accent-blue transition-colors inline-block"
+                              className="hover:text-accent-yellow transition-colors inline-block"
                             >
                               {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                             </a>
@@ -294,7 +302,7 @@ export default function Programs() {
                               href={prog.Link || prog.link} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="hover:text-accent-blue transition-colors inline-block"
+                              className="hover:text-accent-yellow transition-colors inline-block"
                             >
                               {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                             </a>
@@ -342,7 +350,7 @@ export default function Programs() {
                             href={prog.Link || prog.link} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="hover:text-accent-blue transition-colors inline-block"
+                            className="hover:text-accent-yellow transition-colors inline-block"
                           >
                             {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                           </a>
@@ -377,9 +385,9 @@ export default function Programs() {
              <nav className="flex flex-col space-y-8">
                 <h4 className="font-mono text-sm tracking-widest text-text-dim uppercase">{t("prog_lbl_navigation", "Навігація")}</h4>
                 <ul className="space-y-6">
-                  <li><a href="#bachelor" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_bachelor", "БАКАЛАВРІАТ")}</a></li>
-                  <li><a href="#master" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_master", "МАГІСТРАТУРА")}</a></li>
-                  <li><a href="#phd" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-blue transition-colors block">{t("prog_phd", "АСПІРАНТУРА")}</a></li>
+                  <li><a href="#bachelor" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_bachelor", "БАКАЛАВРІАТ")}</a></li>
+                  <li><a href="#master" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_master", "МАГІСТРАТУРА")}</a></li>
+                  <li><a href="#phd" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_phd", "АСПІРАНТУРА")}</a></li>
                 </ul>
              </nav>
           </div>

@@ -113,7 +113,7 @@ export default function News() {
                       />
                     </div>
                   )}
-                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight leading-none mb-4 group-hover:text-accent-blue transition-colors text-balance text-text-main">
+                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight leading-none mb-4 group-hover:text-accent-yellow transition-colors text-balance text-text-main">
                     {title}
                   </h3>
                   <p className="text-text-main opacity-80 font-light leading-relaxed max-w-2xl whitespace-pre-line">

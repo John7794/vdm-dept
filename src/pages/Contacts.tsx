@@ -101,7 +101,7 @@ export default function Contacts() {
               <div className="space-y-6 text-lg md:text-xl font-medium uppercase break-all">
                 <div>
                   <span className="block font-mono text-[10px] text-text-dim mb-1">EMAIL:</span>
-                  <a href="mailto:vdm.dept@lpnu.ua" className="hover:text-accent-blue transition-colors focus-ring rounded outline-none block py-1">
+                  <a href="mailto:vdm.dept@lpnu.ua" className="hover:text-accent-yellow transition-colors focus-ring rounded outline-none block py-1">
                     vdm.dept@lpnu.ua
                   </a>
                 </div>
@@ -109,7 +109,7 @@ export default function Contacts() {
                   <span className="block font-mono text-[10px] text-text-dim mb-1">
                     {t("contact_phone_label", "ТЕЛЕФОН:")}
                   </span>
-                  <a href="tel:+380322582537" className="hover:text-accent-blue transition-colors focus-ring rounded outline-none block py-1">
+                  <a href="tel:+380322582537" className="hover:text-accent-yellow transition-colors focus-ring rounded outline-none block py-1">
                     +38 (032) 258-25-37
                   </a>
                 </div>
@@ -121,7 +121,7 @@ export default function Contacts() {
           <div className="aspect-video w-full bg-ink relative overflow-hidden brutal-grid flex items-center justify-center p-6">
              <div className="absolute inset-0 opacity-40 mix-blend-luminosity" style={{backgroundImage: "url('https://storage.googleapis.com/aistudio-v2-dev-usercontent-us-central1/06d203b9b4d84fde9bb8924b1ac8a4ba_f0775d5f-fcda-4a57-ab22-d02f7415497d_bg-01.jpg')", backgroundSize: "cover"}}></div>
              <div className="relative z-10 bg-surface-main text-text-main p-4 font-mono text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl border-2 border-border-main">
-                <div className="w-3 h-3 rounded-full bg-accent-blue animate-pulse"></div>
+                <div className="w-3 h-3 rounded-full bg-accent-yellow animate-pulse"></div>
                 {t("contact_map_badge", "Локація на мапі")}
              </div>
           </div>
@@ -199,7 +199,7 @@ export default function Contacts() {
                 <button
                   type="button"
                   onClick={openPrivacyModal}
-                  className="underline font-bold text-text-main hover:text-accent-blue focus-ring cursor-pointer inline p-0 bg-transparent border-none text-xs"
+                  className="underline font-bold text-text-main hover:text-accent-yellow focus-ring cursor-pointer inline p-0 bg-transparent border-none text-xs"
                 >
                   {t("contact_form_consent_law", "Законом України «Про захист персональних даних»")}
                 </button>{" "}

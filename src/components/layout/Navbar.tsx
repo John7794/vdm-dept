@@ -66,7 +66,7 @@ export default function Navbar() {
   const NAV_LINKS = [
     { name: t("nav_home"), path: "/" },
     { name: t("nav_programs"), path: "/programs" },
-    { name: t("nav_staff", "Колектив кафедри"), path: "/staff" },
+    { name: t("nav_staff", "Колектив"), path: "/staff" },
     { name: t("nav_news"), path: "/news" },
     { name: t("nav_projects", "Проєкти"), path: "/projects" },
     { name: t("nav_applicants"), path: "/applicants" },
