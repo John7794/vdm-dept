@@ -45,7 +45,7 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
   if (uniqueDisciplines.length === 0) return null;
 
   // Official educational program (ОПП) link on lpnu.ua
-  const oppLink = prog.Link || prog.link || "https://lpnu.ua/vdm";
+  const oppLink = prog.Link || prog.link || "https://directory.lpnu.ua/majors/iard/6.B2.01.06/8/2025/ua/full";
 
   return (
     <div className="mt-8">
@@ -64,7 +64,7 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
           rel="noopener noreferrer" 
           className="inline-flex items-center gap-1.5 font-mono text-xs text-accent-blue hover:text-text-main transition-colors underline underline-offset-4 font-bold"
         >
-          <span>{t("prog_opp_link", "Офіційна програма (ОПП) на сайті lpnu.ua")}</span>
+          <span>{t("prog_opp_link", "Електронний каталог дисциплін та ОПП (lpnu.ua)")}</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
@@ -88,15 +88,84 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
   );
 }
 
+const DEFAULT_PROGRAMS = [
+  {
+    ID: "prog_1",
+    Level_UA: "Бакалавріат",
+    Level: "Бакалавріат",
+    Code: "B2 Дизайн",
+    Title_UA: "Візуальний дизайн",
+    Title_EN: "Visual Design",
+    Title_DE: "Visuelles Design",
+    Title_PL: "Projektowanie wizualne",
+    Duration_UA: "4 роки",
+    Duration_EN: "4 years",
+    Duration_DE: "4 Jahre",
+    Duration_PL: "4 lata",
+    Degree_UA: "Бакалавр",
+    Degree_EN: "Bachelor",
+    Degree_DE: "Bachelor",
+    Degree_PL: "Licencjat",
+    Link: "https://directory.lpnu.ua/majors/iard/6.B2.01.06/8/2025/ua/full"
+  },
+  {
+    ID: "prog_3",
+    Level_UA: "Магістратура",
+    Level: "Магістратура",
+    Code: "B2 Дизайн",
+    Title_UA: "Дизайн",
+    Title_EN: "Design",
+    Title_DE: "Design",
+    Title_PL: "Projektowanie",
+    Duration_UA: "1 рік 6 місяців",
+    Duration_EN: "1.5 years",
+    Duration_DE: "1,5 Jahre",
+    Duration_PL: "1,5 roku",
+    Degree_UA: "Магістр",
+    Degree_EN: "Master",
+    Degree_DE: "Master",
+    Degree_PL: "Magister",
+    Link: "https://directory.lpnu.ua/majors/iard/8.B2.03.01/19/2026/ua/full"
+  },
+  {
+    ID: "prog_4",
+    Level_UA: "Аспірантура",
+    Level: "Аспірантура",
+    Code: "B2 Дизайн",
+    Title_UA: "Дизайн",
+    Title_EN: "Design",
+    Title_DE: "Design",
+    Title_PL: "Projektowanie",
+    Duration_UA: "4 роки",
+    Duration_EN: "4 years",
+    Duration_DE: "4 Jahre",
+    Duration_PL: "4 lata",
+    Degree_UA: "Доктор філософії (PhD)",
+    Degree_EN: "Doctor of Philosophy (PhD)",
+    Degree_DE: "Doktor der Philosophie (PhD)",
+    Degree_PL: "Doktor nauk (PhD)",
+    Link: "https://directory.lpnu.ua/majors/dta/9.B2.00.00/51/2026/ua/full"
+  }
+];
+
+function resolveProgramLink(rawLink: any, fallback: string): string {
+  const l = String(rawLink || "").trim();
+  if (l && l !== "https://lpnu.ua/" && l !== "https://lpnu.ua/vdm" && l !== "https://lpnu.ua" && l !== "#") {
+    return l;
+  }
+  return fallback;
+}
+
 export default function Programs() {
   const { data, lang, t } = useCms();
-  const programs = data?.programs || [];
+  const rawPrograms = data?.programs && data.programs.length > 0 ? data.programs : DEFAULT_PROGRAMS;
   const disciplines = data?.Disciplines || data?.disciplines || [];
 
-  const bPrograms = useMemo(() => programs.filter((p: any) => 
+  const bPrograms = useMemo(() => rawPrograms.filter((p: any) => 
     (p.Level_UA || p.Level || p.level) === "Бакалавріат" || (p.Level_UA || p.Level || p.level) === "Бакалавр"
   ).map((p: any) => {
     const title = p.Title_UA || p.title || p.Title || "";
+    const link = resolveProgramLink(p.Link || p.link, "https://directory.lpnu.ua/majors/iard/6.B2.01.06/8/2025/ua/full");
     if (title.toLowerCase().includes("образотворче мистецтво")) {
       return {
         ...p,
@@ -105,30 +174,36 @@ export default function Programs() {
         Title_DE: "Interieur und räumliches Design",
         Title_PL: "Architektura wnętrz i projektowanie przestrzenne",
         Code: "B2 Дизайн",
+        Link: link,
         progId: "prog_2"
       };
     } else {
       return {
         ...p,
         Code: "B2 Дизайн",
+        Link: link,
         progId: "prog_1"
       };
     }
-  }), [programs]);
+  }), [rawPrograms]);
   
-  const mPrograms = useMemo(() => programs.filter((p: any) => 
+  const mPrograms = useMemo(() => rawPrograms.filter((p: any) => 
     (p.Level_UA || p.Level || p.level) === "Магістратура"
   ).map((p: any) => ({
     ...p,
+    Code: "B2 Дизайн",
+    Link: resolveProgramLink(p.Link || p.link, "https://directory.lpnu.ua/majors/iard/8.B2.03.01/19/2026/ua/full"),
     progId: "prog_3"
-  })), [programs]);
+  })), [rawPrograms]);
   
-  const phdPrograms = useMemo(() => programs.filter((p: any) => 
+  const phdPrograms = useMemo(() => rawPrograms.filter((p: any) => 
     (p.Level_UA || p.Level || p.level) === "Аспірантура"
   ).map((p: any) => ({
     ...p,
+    Code: "B2 Дизайн",
+    Link: resolveProgramLink(p.Link || p.link, "https://directory.lpnu.ua/majors/dta/9.B2.00.00/51/2026/ua/full"),
     progId: "prog_4"
-  })), [programs]);
+  })), [rawPrograms]);
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -166,8 +241,15 @@ export default function Programs() {
                       <div className="flex items-start justify-between border-b-2 border-border-soft pb-4 transition-colors group-hover:border-border-main">
                         <div>
                           <span className="font-mono text-xs text-text-dim block mb-2 uppercase">{t("prog_lbl_specialty", "СПЕЦІАЛЬНІСТЬ")} {prog.Code || prog.code || prog.id}</span>
-                          <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase group-hover:text-accent-blue transition-colors text-text-main">
-                            {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                          <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase text-text-main">
+                            <a 
+                              href={prog.Link || prog.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="hover:text-accent-blue transition-colors inline-block"
+                            >
+                              {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                            </a>
                           </h3>
                         </div>
                         {prog.Link || prog.link ? (
@@ -207,8 +289,15 @@ export default function Programs() {
                       <div className="flex items-start justify-between border-b-2 border-border-soft pb-4 transition-colors group-hover:border-border-main">
                         <div>
                           <span className="font-mono text-xs text-text-dim block mb-2 uppercase">{t("prog_lbl_specialty", "СПЕЦІАЛЬНІСТЬ")} {prog.Code || prog.code || prog.id}</span>
-                          <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase group-hover:text-accent-blue transition-colors text-text-main">
-                            {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                          <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase text-text-main">
+                            <a 
+                              href={prog.Link || prog.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="hover:text-accent-blue transition-colors inline-block"
+                            >
+                              {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                            </a>
                           </h3>
                         </div>
                         {prog.Link || prog.link ? (
@@ -248,8 +337,15 @@ export default function Programs() {
                     <div className="flex items-start justify-between border-b-2 border-border-soft pb-4 transition-colors group-hover:border-border-main">
                       <div>
                         <span className="font-mono text-xs text-text-dim block mb-2 uppercase">{t("prog_lbl_specialty", "СПЕЦІАЛЬНІСТЬ")} {prog.Code || prog.code || prog.id}</span>
-                        <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase group-hover:text-accent-blue transition-colors text-text-main">
-                          {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                        <h3 className="text-2xl md:text-3xl font-bold leading-none tracking-tight uppercase text-text-main">
+                          <a 
+                            href={prog.Link || prog.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="hover:text-accent-blue transition-colors inline-block"
+                          >
+                            {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
+                          </a>
                         </h3>
                       </div>
                       {prog.Link || prog.link ? (
