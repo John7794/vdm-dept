@@ -49,3 +49,60 @@ export function cleanHtml(html: string | undefined | null): string {
   // Fallback for non-browser environments: strip all HTML tags
   return html.replace(/<[^>]*>?/gm, '');
 }
+
+export interface VideoEmbedData {
+  type: "instagram" | "youtube" | "vimeo" | "direct" | "unknown";
+  embedUrl: string;
+  originalUrl: string;
+}
+
+export function parseVideoUrl(url: string | undefined | null): VideoEmbedData | null {
+  if (!url || !url.trim()) return null;
+  const trimmed = url.trim();
+
+  // Instagram: /p/CODE or /reel/CODE or /tv/CODE
+  const igMatch = trimmed.match(/instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/);
+  if (igMatch && igMatch[1]) {
+    return {
+      type: "instagram",
+      embedUrl: `https://www.instagram.com/p/${igMatch[1]}/embed/`,
+      originalUrl: `https://www.instagram.com/p/${igMatch[1]}/`
+    };
+  }
+
+  // YouTube
+  const ytMatch = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (ytMatch && ytMatch[1]) {
+    return {
+      type: "youtube",
+      embedUrl: `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?rel=0`,
+      originalUrl: trimmed
+    };
+  }
+
+  // Vimeo
+  const vimeoMatch = trimmed.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
+  if (vimeoMatch && vimeoMatch[1]) {
+    return {
+      type: "vimeo",
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}`,
+      originalUrl: trimmed
+    };
+  }
+
+  // Direct HTML5 video (.mp4, .webm)
+  if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(trimmed)) {
+    return {
+      type: "direct",
+      embedUrl: trimmed,
+      originalUrl: trimmed
+    };
+  }
+
+  // If already an embed URL or other iframe
+  return {
+    type: "unknown",
+    embedUrl: trimmed,
+    originalUrl: trimmed
+  };
+}

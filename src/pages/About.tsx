@@ -66,7 +66,7 @@ export default function About() {
 
   const headerBgItem = data?.multimedia?.find((m: any) => m.Category === "AboutHeader");
   const headerBgRaw = headerBgItem ? (headerBgItem.Image || headerBgItem.image || headerBgItem.img || headerBgItem.Media || headerBgItem.media || headerBgItem.Url || headerBgItem.url || "") : null;
-  const headerBgUrl = headerBgRaw ? formatDriveLink(headerBgRaw) : null;
+  const headerBgUrl = (headerBgRaw && !headerBgRaw.includes("113kIqRZyINecr1bQL1Z5lZvgGPq3wuDC")) ? formatDriveLink(headerBgRaw) : "/facade-sichovykh-striltsiv.jpg";
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -105,7 +105,7 @@ export default function About() {
 
           {headerBgUrl && (
             <div className="w-full border-y-2 border-border-main bg-surface-mut overflow-hidden">
-              <img src={headerBgUrl} alt="History" className="w-full h-auto object-cover" />
+              <img src={headerBgUrl} alt="Кафедра візуального дизайну і мистецтва — вул. Січових Стрільців, 7" className="w-full h-auto max-h-[620px] object-cover object-center" />
             </div>
           )}
 

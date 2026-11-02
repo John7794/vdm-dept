@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
-import { Play, Sparkles, BookOpen, Layers, Monitor, Palette, Building, Eye } from "lucide-react";
+import { Play, Sparkles, BookOpen, Layers, Monitor, Palette, Building, Eye, Instagram, ArrowUpRight, Film } from "lucide-react";
 import { useTheme } from "../components/ThemeProvider";
 import { useCms } from "../contexts/CmsContext";
-import { formatDriveLink } from "../lib/utils";
+import { formatDriveLink, parseVideoUrl } from "../lib/utils";
 
 interface DirectionItem {
   code: string;
@@ -195,6 +195,8 @@ export default function Home() {
   // Video embed item if configured in Multimedia or state
   const promoVideoItem = (data?.multimedia || []).find((m: any) => m.Category === "StudyVideo" || m.Category === "PromoVideo");
   const promoVideoUrl = promoVideoItem ? (promoVideoItem.Link || promoVideoItem.link || promoVideoItem.Url || promoVideoItem.url || promoVideoItem.Media || promoVideoItem.media) : null;
+  const activeVideoUrl = (promoVideoUrl && String(promoVideoUrl).trim() !== "") ? String(promoVideoUrl).trim() : "https://www.instagram.com/p/DePJa6UIT62/";
+  const videoData = parseVideoUrl(activeVideoUrl);
 
   return (
     <div className="flex flex-col w-full bg-page-bg">
@@ -370,16 +372,85 @@ export default function Home() {
           </div>
 
           {/* Video Container Frame */}
-          <div className="relative aspect-video w-full border-2 border-border-main bg-ink shadow-2xl overflow-hidden group">
-            {promoVideoUrl ? (
+          {videoData?.type === "instagram" ? (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-surface-mut/40 border-2 border-border-main p-6 md:p-10 lg:p-12">
+              <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent-blue/10 border border-accent-blue/30 text-accent-blue font-mono text-xs font-bold uppercase tracking-wider">
+                    <Film className="w-3.5 h-3.5" />
+                    <span>{t("home_video_badge", "Творчий процес ВДМ")}</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
+                    {t("home_video_card_title", "Життя та навчання на кафедрі")}
+                  </h3>
+                  <p className="text-base text-text-main font-light leading-relaxed">
+                    {t("home_video_card_desc", "Динамічний ритм життя кафедри: від пошуку ідей та роботи в творчих майстернях до захисту авторських дизайн-проєктів. Пориньте в атмосферу нашої спільноти у короткому відео.")}
+                  </p>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  <div className="flex flex-wrap gap-2 text-xs font-mono text-text-dim">
+                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🏛 вул. Січових Стрільців, 7</span>
+                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🎨 Графічний дизайн & Арт</span>
+                    <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">✨ В2.01 Дизайн</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4 border-t border-border-main">
+                  <a
+                    href={videoData.originalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-text-main text-surface-main px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider hover:bg-accent-blue hover:text-white transition-colors duration-200"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    <span>{t("home_video_btn_ig", "Переглянути в Instagram")}</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/vdm_lpnu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 font-mono text-xs text-text-dim hover:text-text-main underline decoration-accent-blue underline-offset-4 py-2"
+                  >
+                    <span>@vdm_lpnu</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 flex justify-center">
+                <div className="w-full max-w-[420px] border-2 border-border-main bg-black shadow-2xl overflow-hidden">
+                  <iframe
+                    src={videoData.embedUrl}
+                    title="Відео кафедри ВДМ"
+                    className="w-full h-[560px] md:h-[620px] border-0 bg-black"
+                    scrolling="no"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : videoData?.type === "youtube" || videoData?.type === "vimeo" ? (
+            <div className="relative aspect-video w-full border-2 border-border-main bg-ink shadow-2xl overflow-hidden group">
               <iframe
-                src={promoVideoUrl}
+                src={videoData.embedUrl}
                 title="Відео про навчання на кафедрі"
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            ) : (
+            </div>
+          ) : videoData?.type === "direct" ? (
+            <div className="relative aspect-video w-full border-2 border-border-main bg-black shadow-2xl overflow-hidden">
+              <video
+                src={videoData.embedUrl}
+                controls
+                className="w-full h-full object-contain"
+              />
+            </div>
+          ) : (
+            <div className="relative aspect-video w-full border-2 border-border-main bg-ink shadow-2xl overflow-hidden group">
               <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-black via-zinc-900 to-black text-white">
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-white/30 flex items-center justify-center mb-6 bg-white/5 backdrop-blur-md group-hover:scale-110 group-hover:border-accent-yellow group-hover:text-accent-yellow transition-all duration-300">
                   <Play className="w-8 h-8 md:w-10 md:h-10 ml-1 fill-current" />
@@ -391,8 +462,8 @@ export default function Home() {
                   Матеріал готується до публікації. Відео з'явиться тут незабаром.
                 </p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
