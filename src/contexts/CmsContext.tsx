@@ -174,10 +174,16 @@ const FALLBACK_STATIC_TRANSLATIONS: Record<string, Record<Language, string>> = {
     PL: "Jesteśmy Katedrą Projektowania Wizualnego i Sztuki — zespołem projektantów, artystów i badaczy, pracownią twórczą oraz kolektywem intelektualnym, który łączy wspólny cel: kształtowanie pokolenia profesjonalistów zdolnych do przekształcania idei w wyraziste komunikaty wizualne. Program projektowy WDM eksperymentuje z różnymi formami komunikacji, tworząc nowy język wizualny rezonujący ze współczesnym społeczeństwem i wyrażający wartości tożsamości kulturowej. Wierzymy, że projektowanie i sztuka mają transformacyjny potencjał zmieniania świata, a unikalność każdego studenta stanowi siłę napędową zmian społecznych i kulturowych.",
   },
   home_curriculum_heading: {
-    UA: "Основні напрями навчальної програми",
-    EN: "Core Curriculum Areas",
-    DE: "Hauptbereiche des Studienprogramms",
-    PL: "Główne kierunki programu kształcenia",
+    UA: "ОСНОВНІ НАПРЯМИ\nНАВЧАЛЬНОЇ ПРОГРАМИ.",
+    EN: "PRIMARY ACADEMIC\nDIRECTIONS.",
+    DE: "STUDIENPROGRAMM-\nRICHTUNGEN.",
+    PL: "GŁÓWNE KIERUNKI\nPROGRAMU.",
+  },
+  home_curriculum_desc: {
+    UA: "Ми формуємо нове покоління професіоналів через 7 спеціалізованих векторів підготовки: від корпоративної ідентифікації та реклами до цифрових медіа, вебдизайну та міського простору.",
+    EN: "We shape a new generation of professionals through 7 specialized study vectors: from corporate identity and advertising to digital media, web design, and urban space.",
+    DE: "Wir bilden eine neue Generation von Fachleuten durch 7 spezialisierte Studienvektoren aus: von Corporate Identity bis zu digitalen Medien und Webdesign.",
+    PL: "Kształtujemy nowe pokolenie profesjonalistów poprzez 7 specjalistycznych wektorów edukacji: od identyfikacji wizualnej i reklamy po media cyfrowe, web design i przestrzeń miejską.",
   },
   home_curriculum_badge: {
     UA: "7 Спеціалізованих векторів",

@@ -238,26 +238,25 @@ export default function Home() {
         breadcrumbName="Головна"
       />
 
-      {/* 1. Primary Curriculum Directions (Основні напрями навчальної програми) */}
-      <section className="w-full border-b-2 border-border-main bg-page-bg">
-        {/* Section Header */}
-        <div className="border-b-2 border-border-main p-6 md:p-12 lg:px-20 bg-surface-mut flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <span className="font-mono text-xs text-text-dim block mb-3 uppercase tracking-widest font-bold">
-              [ 01 / АКАДЕМІЧНІ НАПРЯМИ ]
-            </span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-tight">
-              {t("home_curriculum_heading", "Основні напрями навчальної програми")}
-            </h1>
-          </div>
-          <div className="font-mono text-xs uppercase tracking-wider flex items-center gap-2">
-            <span className="inline-flex items-center gap-2 bg-accent-yellow text-black font-black px-3.5 py-1.5 rounded-sm border border-black/20 shadow-sm">
-              <span className="w-2 h-2 bg-black rounded-full"></span>
-              <span>{t("home_curriculum_badge", "7 Спеціалізованих векторів")}</span>
-            </span>
-          </div>
+      {/* Page Header - Styled identically to all other pages on the site */}
+      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
+        <div className="max-w-[1000px] z-10 relative">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line break-words hyphens-auto"
+          >
+            {t("home_curriculum_heading", "ОСНОВНІ НАПРЯМИ\nНАВЧАЛЬНОЇ ПРОГРАМИ.")}
+          </motion.h1>
+          <p className="mt-8 text-xl max-w-2xl font-light leading-relaxed text-text-main whitespace-pre-line">
+            {t("home_curriculum_desc", "Ми формуємо нове покоління професіоналів через 7 спеціалізованих векторів підготовки: від корпоративної ідентифікації та реклами до цифрових медіа, вебдизайну та міського простору.")}
+          </p>
         </div>
+      </section>
 
+      {/* Primary Curriculum Directions (7 спеціалізованих векторів) */}
+      <section className="w-full border-b-2 border-border-main bg-page-bg">
         {/* Directions List - Styled exactly per user reference layout */}
         <div className="divide-y-2 divide-border-main">
           {PROGRAM_DIRECTIONS.map((dir) => {
