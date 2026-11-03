@@ -238,28 +238,7 @@ export default function Home() {
         breadcrumbName="Головна"
       />
 
-      {/* 1. Typographic Manifesto & Department Introduction */}
-      <section className="w-full border-b-2 border-border-main bg-surface-main py-12 md:py-20 px-6 md:px-12 lg:px-20 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-text-main text-page-bg font-mono text-xs uppercase tracking-widest font-bold mb-6 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
-            <span>{t("home_manifesto_badge", "Маніфест кафедри")}</span>
-          </div>
-
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-[1.05] mb-8">
-            {t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace(/\n/g, ' ')}
-          </h1>
-
-          <p className="text-lg md:text-2xl lg:text-[1.85rem] font-normal tracking-normal leading-[1.5] text-text-main text-balance select-text border-l-4 border-accent-yellow pl-6 md:pl-10">
-            {t(
-              "home_manifesto_text",
-              "Ми — кафедра візуального дизайну і мистецтва — команда дизайнерів, митців і дослідників, творча майстерня та інтелектуальний колектив, об’єднаний спільною метою: формувати покоління професіоналів, здатних перетворювати ідеї на потужні візуальні повідомлення. Дизайн-програма ВДМ експериментує з різними формами комунікації, з метою створити нову візуальну мову, яка резонує з сучасним суспільством та сповідує ідеали національного самовираження. Ми віримо, що дизайн і мистецтво мають трансформативний потенціал впливати на світ, а унікальність кожного студента - це рушійна сила для суспільних і культурних змін."
-            )}
-          </p>
-        </div>
-      </section>
-
-      {/* 2. Primary Curriculum Directions (Основні напрями навчальної програми) */}
+      {/* 1. Primary Curriculum Directions (Основні напрями навчальної програми) */}
       <section className="w-full border-b-2 border-border-main bg-page-bg">
         {/* Section Header */}
         <div className="border-b-2 border-border-main p-6 md:p-12 lg:px-20 bg-surface-mut flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -267,9 +246,9 @@ export default function Home() {
             <span className="font-mono text-xs text-text-dim block mb-3 uppercase tracking-widest font-bold">
               [ 01 / АКАДЕМІЧНІ НАПРЯМИ ]
             </span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-tight">
               {t("home_curriculum_heading", "Основні напрями навчальної програми")}
-            </h2>
+            </h1>
           </div>
           <div className="font-mono text-xs uppercase tracking-wider flex items-center gap-2">
             <span className="inline-flex items-center gap-2 bg-accent-yellow text-black font-black px-3.5 py-1.5 rounded-sm border border-black/20 shadow-sm">
@@ -295,9 +274,9 @@ export default function Home() {
                       <span className="inline-flex items-center justify-center font-mono text-xl md:text-2xl font-black bg-accent-yellow text-black px-3.5 py-1.5 rounded-sm border border-black/20 shadow-sm shrink-0">
                         {dir.code}
                       </span>
-                      <h3 className="text-xl md:text-2xl lg:text-3xl font-extrabold uppercase tracking-tight text-text-main leading-tight">
+                      <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold uppercase tracking-tight text-text-main leading-tight">
                         {(dir as any)[`title_${lang}`] || dir.title_UA}
-                      </h3>
+                      </h2>
                     </div>
 
                     <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
@@ -333,13 +312,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 2. Typographic Manifesto Block */}
+      <section className="w-full border-b-2 border-border-main bg-surface-main py-16 md:py-24 px-6 md:px-12 lg:px-20 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-border-main pb-6 mb-10">
+            <div>
+              <span className="font-mono text-xs text-text-dim block mb-2 uppercase tracking-widest font-bold">
+                [ 02 / МАНІФЕСТ КАФЕДРИ ]
+              </span>
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight text-text-main leading-tight">
+                {t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace(/\n/g, ' ')}
+              </h2>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-text-main text-page-bg font-mono text-xs uppercase tracking-widest font-bold shadow-sm shrink-0">
+              <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
+              <span>{t("home_manifesto_badge", "Маніфест кафедри")}</span>
+            </div>
+          </div>
+
+          <p className="text-lg md:text-2xl lg:text-[1.85rem] font-normal tracking-normal leading-[1.5] text-text-main text-balance select-text border-l-4 border-accent-yellow pl-6 md:pl-10">
+            {t(
+              "home_manifesto_text",
+              "Ми — кафедра візуального дизайну і мистецтва — команда дизайнерів, митців і дослідників, творча майстерня та інтелектуальний колектив, об’єднаний спільною метою: формувати покоління професіоналів, здатних перетворювати ідеї на потужні візуальні повідомлення. Дизайн-програма ВДМ експериментує з різними формами комунікації, з метою створити нову візуальну мову, яка резонує з сучасним суспільством та сповідує ідеали національного самовираження. Ми віримо, що дизайн і мистецтво мають трансформативний потенціал впливати на світ, а унікальність кожного студента - це рушійна сила для суспільних і культурних змін."
+            )}
+          </p>
+        </div>
+      </section>
+
       {/* 3. Video Showcase Section (Відео про навчання на кафедрі) */}
       <section className="w-full border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-20">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-2 border-border-main pb-6">
             <div>
               <span className="font-mono text-xs text-text-dim block mb-2 uppercase tracking-widest font-bold">
-                [ 02 / ВІДЕОМАТЕРІАЛИ КАФЕДРИ ]
+                [ 03 / ВІДЕОМАТЕРІАЛИ КАФЕДРИ ]
               </span>
               <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-text-main">
                 {t("home_video_heading", "Відео про навчання на кафедрі")}
