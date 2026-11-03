@@ -286,7 +286,7 @@ export default function About() {
         </div>
 
         {/* Right Column: Contacts & Map */}
-        <div className="lg:col-span-5 xl:col-span-4 bg-ink text-paper flex flex-col lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar">
+        <div className="lg:col-span-5 xl:col-span-4 bg-ink text-paper flex flex-col sticky-under-nav lg:h-[calc(100dvh-5rem)] overflow-y-auto custom-scrollbar">
           <div className="p-6 md:p-12 flex-grow">
             <span className="font-mono text-xs text-paper/50 block mb-8 uppercase tracking-widest">
               {t("nav_contacts", "Контакти")}

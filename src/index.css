@@ -98,7 +98,11 @@ body {
   color: var(--color-text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   line-height: 1.2;
+  overflow-x: clip;
+  min-width: 320px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Ensure high contrast black text on yellow background (WCAG AAA) */
@@ -109,6 +113,18 @@ body {
 /* Base utility for focus rings (Accessibility WCAG 2.1) */
 .focus-ring {
   @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-text-main focus-visible:ring-offset-2;
+}
+
+/* iOS Safari & Cross-Browser Sticky Header Support */
+.sticky-under-nav {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: calc(80px + env(safe-area-inset-top, 0px)) !important;
+  z-index: 20;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Neo-Brutalist Grid Lines */
@@ -128,6 +144,9 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(140, 150, 165, 0.45) transparent;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 * {

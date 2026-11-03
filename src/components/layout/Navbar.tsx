@@ -83,9 +83,23 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-page-bg border-b-2 border-border-main transition-colors duration-300">
+    <header 
+      className="fixed top-0 left-0 right-0 w-full z-50 bg-page-bg border-b-2 border-border-main transition-colors duration-300"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        WebkitTransform: "translate3d(0, 0, 0)",
+        transform: "translate3d(0, 0, 0)",
+        WebkitBackfaceVisibility: "hidden",
+        backfaceVisibility: "hidden",
+        paddingTop: "env(safe-area-inset-top, 0px)"
+      }}
+    >
       <div className="flex h-20 w-full">
-        <div className="flex-shrink-0 flex items-center border-r-2 border-border-main px-6 w-full lg:w-auto lg:min-w-[320px] justify-between lg:justify-start">
+        {/* Logo Container with adaptive width */}
+        <div className="flex-shrink-0 flex items-center border-r-2 border-border-main px-4 sm:px-6 w-full lg:w-auto lg:min-w-[190px] xl:min-w-[240px] 2xl:min-w-[280px] justify-between lg:justify-start">
           {location.pathname === "/" ? (
             <div className="flex items-center" aria-label={t("nav_home_aria", "Головна сторінка")}>
               <Logo className="text-text-main" />
@@ -96,7 +110,7 @@ export default function Navbar() {
             </Link>
           )}
           
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1 sm:gap-2 lg:hidden">
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)} 
               className="p-2 text-text-main focus-ring border-2 border-transparent hover:border-border-main transition-colors flex items-center gap-1.5"
@@ -138,14 +152,14 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex w-full divide-x-2 divide-border-main" aria-label={t("nav_main_aria", "Головна навігація")}>
-            {NAV_LINKS.map((link) => {
+        {/* Desktop Nav - Responsive cell padding and tracking */}
+        <nav className="hidden lg:flex w-full divide-x-2 divide-border-main min-w-0" aria-label={t("nav_main_aria", "Головна навігація")}>
+          {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
             
             const content = (
               <>
-                <span className="relative z-10">{link.name}</span>
+                <span className="relative z-10 truncate">{link.name}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeNavSegment"
@@ -162,7 +176,7 @@ export default function Navbar() {
               return (
                 <div
                   key={link.path}
-                  className="flex-1 flex items-center justify-center px-4 text-xs font-black uppercase tracking-widest relative overflow-hidden text-text-main dark:text-accent-yellow cursor-default"
+                  className="flex-1 min-w-0 flex items-center justify-center px-1.5 sm:px-2 xl:px-3 2xl:px-4 text-[11px] xl:text-xs font-black uppercase tracking-wider xl:tracking-widest relative overflow-hidden text-text-main dark:text-accent-yellow cursor-default text-center whitespace-nowrap"
                   aria-current="page"
                 >
                   {content}
@@ -174,7 +188,7 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="flex-1 flex items-center justify-center px-4 text-xs font-bold uppercase tracking-widest transition-colors hover:bg-text-main hover:text-page-bg focus-ring outline-none relative overflow-hidden group"
+                className="flex-1 min-w-0 flex items-center justify-center px-1.5 sm:px-2 xl:px-3 2xl:px-4 text-[11px] xl:text-xs font-bold uppercase tracking-wider xl:tracking-widest transition-colors hover:bg-text-main hover:text-page-bg focus-ring outline-none relative overflow-hidden group text-center whitespace-nowrap"
               >
                 {content}
               </Link>
@@ -182,13 +196,13 @@ export default function Navbar() {
           })}
           
           {/* Lang Switcher (Desktop) */}
-          <div className="relative flex items-center" ref={langDropdownRef}>
+          <div className="relative flex items-center shrink-0" ref={langDropdownRef}>
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)}
-              className="h-full px-6 flex items-center gap-2 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none"
+              className="h-full px-2.5 sm:px-3 xl:px-4 flex items-center gap-1.5 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none"
             >
-              <img src={flagMap[lang]} alt={lang} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
-              <span className="font-bold text-xs">{lang}</span>
+              <img src={flagMap[lang]} alt={lang} className="w-4 sm:w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)] shrink-0" />
+              <span className="font-bold text-xs uppercase">{lang}</span>
             </button>
             
             <AnimatePresence>
@@ -197,15 +211,15 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full right-0 w-full bg-page-bg border-2 border-t-0 border-border-main flex flex-col"
+                  className="absolute top-full right-0 w-full min-w-[90px] bg-page-bg border-2 border-t-0 border-border-main flex flex-col z-50 shadow-xl"
                 >
                   {langs.filter(l => l !== lang).map(l => (
                     <button
                       key={l}
                       onClick={() => { setLang(l); setIsLangOpen(false); }}
-                      className="px-6 py-4 flex items-center justify-center gap-2 text-xs font-bold text-text-main hover:bg-surface-mut transition-colors"
+                      className="px-4 py-3 flex items-center justify-center gap-2 text-xs font-bold text-text-main hover:bg-surface-mut transition-colors"
                     >
-                      <img src={flagMap[l]} alt={l} className="w-5 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
+                      <img src={flagMap[l]} alt={l} className="w-4 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
                       <span>{l}</span>
                     </button>
                   ))}
@@ -217,7 +231,7 @@ export default function Navbar() {
           {/* Accessibility Mode Toggle Button (WCAG 2.1 / ДСТУ EN 301 549) */}
           <button 
             onClick={toggleToolbar} 
-            className={`flex items-center justify-center gap-2 px-5 transition-colors focus-ring outline-none flex-shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
+            className={`flex items-center justify-center gap-1.5 px-2.5 sm:px-3 xl:px-4 transition-colors focus-ring outline-none shrink-0 font-mono text-xs uppercase font-bold tracking-wider relative ${
               isCustomized 
                 ? "bg-accent-yellow !text-black hover:bg-accent-yellow/90 hover:!text-black border-l-2 border-r-2 border-black shadow-inner" 
                 : "text-text-main hover:bg-text-main hover:text-page-bg"
@@ -226,18 +240,19 @@ export default function Navbar() {
             title={t("nav_a11y_title", "Панель доступності (ДСТУ EN 301 549)")}
           >
             <Eye className="w-4 h-4 a11y-keep shrink-0" />
-            <span className="hidden xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
+            <span className="hidden 2xl:inline">{t("nav_a11y_btn", "Доступність")}</span>
             {isCustomized && (
               <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
             )}
           </button>
 
+          {/* Theme Toggle Button */}
           <button 
             onClick={toggleTheme} 
-            className="flex items-center justify-center px-6 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none flex-shrink-0"
+            className="flex items-center justify-center px-3 xl:px-4 text-text-main hover:bg-text-main hover:text-page-bg transition-colors focus-ring outline-none shrink-0"
             aria-label={t("nav_theme_aria", "Перемикач теми")}
           >
-            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {theme === "dark" ? <Sun className="w-4 h-4 xl:w-5 xl:h-5" /> : <Moon className="w-4 h-4 xl:w-5 xl:h-5" />}
           </button>
         </nav>
       </div>
@@ -264,7 +279,8 @@ export default function Navbar() {
       <motion.div 
         initial={false}
         animate={{ height: isOpen ? "auto" : 0, borderBottomWidth: isOpen ? "2px" : "0px" }}
-        className="lg:hidden overflow-hidden bg-page-bg border-border-main divide-y-2 divide-border-main"
+        className="lg:hidden overflow-y-auto max-h-[calc(100dvh-80px)] bg-page-bg border-border-main divide-y-2 divide-border-main"
+        style={{ WebkitOverflowScrolling: "touch" }}
       >
         <div className="flex flex-col">
           {NAV_LINKS.map((link) => {

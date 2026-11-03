@@ -32,7 +32,7 @@ export default function Layout() {
   return (
     <div className="flex flex-col min-h-screen bg-page-bg text-text-main selection:bg-accent-yellow selection:text-ink font-sans">
       {/* Universal Top Scroll Progress Indicator */}
-      <div className="fixed top-0 left-0 right-0 h-[2.5px] z-[9999] pointer-events-none">
+      <div className="fixed top-0 left-0 right-0 h-[2.5px] z-[9999] pointer-events-none" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
         <motion.div
           style={{ scaleX }}
           aria-hidden="true"
@@ -49,7 +49,7 @@ export default function Layout() {
       </a>
 
       <Navbar />
-      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col pt-[80px] outline-none">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col pt-[calc(80px+env(safe-area-inset-top,0px))] outline-none">
         <Outlet />
       </main>
 

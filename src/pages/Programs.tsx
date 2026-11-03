@@ -241,14 +241,13 @@ export default function Programs() {
       <div className="flex flex-col lg:flex-row w-full items-stretch">
         <div className="flex-grow lg:w-[75%] xl:w-[80%] flex flex-col border-r-0 lg:border-r-2 border-border-main">
           {/* Bachelor Dashboard */}
-          <section id="bachelor" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
-            <div className="flex flex-col">
-              <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-                <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_bachelor", "БАКАЛАВРІАТ")}</h2>
-                <span className="font-mono text-sm">LEVEL 1</span>
-              </div>
-              
-              <div className="p-6 md:p-12 flex-grow bg-surface-main">
+          <section id="bachelor" className="border-b-2 border-border-main scroll-mt-[80px] relative overflow-visible">
+            <div className="sticky-under-nav bg-surface-mut/95 backdrop-blur-md text-text-main p-4 sm:p-6 flex justify-between items-center border-b-2 border-border-main">
+              <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_bachelor", "БАКАЛАВРІАТ")}</h2>
+              <span className="font-mono text-xs sm:text-sm">LEVEL 1</span>
+            </div>
+            
+            <div className="p-6 md:p-12 bg-surface-main">
                 <div className="space-y-12">
                   {bPrograms.length > 0 ? bPrograms.map((prog: any, idx: number) => (
                     <div key={idx} className="group">
@@ -285,18 +284,16 @@ export default function Programs() {
                   )}
                 </div>
               </div>
-            </div>
           </section>
 
           {/* Master Dashboard */}
-          <section id="master" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
-            <div className="flex flex-col">
-              <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-                <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_master", "МАГІСТРАТУРА")}</h2>
-                <span className="font-mono text-sm">LEVEL 2</span>
-              </div>
-              
-              <div className="p-6 md:p-12 flex-grow bg-page-bg">
+          <section id="master" className="border-b-2 border-border-main scroll-mt-[80px] relative overflow-visible">
+            <div className="sticky-under-nav bg-surface-mut/95 backdrop-blur-md text-text-main p-4 sm:p-6 flex justify-between items-center border-b-2 border-border-main">
+              <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_master", "МАГІСТРАТУРА")}</h2>
+              <span className="font-mono text-xs sm:text-sm">LEVEL 2</span>
+            </div>
+            
+            <div className="p-6 md:p-12 bg-page-bg">
                 <div className="space-y-12">
                   {mPrograms.length > 0 ? mPrograms.map((prog: any, idx: number) => (
                     <div key={idx} className="group">
@@ -333,18 +330,16 @@ export default function Programs() {
                   )}
                 </div>
               </div>
-            </div>
           </section>
 
           {/* PhD Dashboard */}
-          <section id="phd" className="grid grid-cols-1 border-b-2 border-border-main scroll-mt-[80px]">
-            <div className="flex flex-col">
-              <div className="sticky top-[80px] z-20 bg-surface-mut/95 backdrop-blur-md text-text-main p-6 flex justify-between items-center border-b-2 border-border-main">
-                <h2 className="text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_phd", "АСПІРАНТУРА")}</h2>
-                <span className="font-mono text-sm">LEVEL 3</span>
-              </div>
-              
-              <div className="p-6 md:p-12 flex-grow bg-surface-main">
+          <section id="phd" className="border-b-2 border-border-main scroll-mt-[80px] relative overflow-visible">
+            <div className="sticky-under-nav bg-surface-mut/95 backdrop-blur-md text-text-main p-4 sm:p-6 flex justify-between items-center border-b-2 border-border-main">
+              <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-widest break-words hyphens-auto">{t("prog_phd", "АСПІРАНТУРА")}</h2>
+              <span className="font-mono text-xs sm:text-sm">LEVEL 3</span>
+            </div>
+            
+            <div className="p-6 md:p-12 bg-surface-main">
                 <div className="space-y-12">
                   {phdPrograms.length > 0 ? phdPrograms.map((prog: any, idx: number) => (
                     <div key={idx} className="group">
@@ -381,13 +376,12 @@ export default function Programs() {
                   )}
                 </div>
               </div>
-            </div>
           </section>
         </div>
         
         {/* Navigation Sidebar */}
-        <aside className="hidden lg:block lg:w-[25%] xl:w-[20%] bg-surface-main relative">
-          <div className="sticky top-[120px] p-8 xl:p-12">
+        <aside className="hidden lg:block lg:w-[25%] xl:w-[20%] bg-surface-main relative overflow-visible">
+          <div className="sticky-under-nav p-8 xl:p-12">
              <nav className="flex flex-col space-y-8">
                 <h4 className="font-mono text-sm tracking-widest text-text-dim uppercase">{t("prog_lbl_navigation", "Навігація")}</h4>
                 <ul className="space-y-6">

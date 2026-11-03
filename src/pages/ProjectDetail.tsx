@@ -215,7 +215,7 @@ export default function ProjectDetail() {
         
         {/* Project info sidebar */}
         <div className="lg:col-span-4 p-6 md:p-12 bg-surface-main">
-          <div className="sticky top-20">
+          <div className="sticky-under-nav">
             <span className="font-mono text-xs text-text-dim block mb-6 uppercase tracking-widest">{t("proj_about_lbl", "Про проєкт")}</span>
             <div className="prose prose-invert max-w-none font-light leading-relaxed text-text-main opacity-90 text-sm md:text-base">
               {description ? (
