@@ -223,6 +223,8 @@ const PROGRAM_DIRECTIONS: DirectionItem[] = [
 
 export default function Home() {
   const { data, t, lang } = useCms();
+  const rawHeading = t("home_curriculum_heading", "ОСНОВНІ НАПРЯМИ\nНАВЧАЛЬНОЇ ПРОГРАМИ.");
+  const headingLines = rawHeading.split("\n");
 
   // Video embed item if configured in Multimedia or state
   const promoVideoItem = (data?.multimedia || []).find((m: any) => m.Category === "StudyVideo" || m.Category === "PromoVideo");
@@ -238,16 +240,21 @@ export default function Home() {
         breadcrumbName="Головна"
       />
 
-      {/* Page Header - Styled identically to all other pages on the site */}
-      <section className="border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-16 relative overflow-hidden">
-        <div className="max-w-[1000px] z-10 relative">
+      {/* Page Header - Styled identically to other pages, strictly in two lines */}
+      <section className="border-b-2 border-border-main bg-surface-main p-5 sm:p-6 md:p-12 lg:p-16 relative overflow-hidden">
+        <div className="max-w-7xl z-10 relative">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-[8rem] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-text-main text-balance whitespace-pre-line break-words hyphens-auto"
+            className="text-[clamp(1.4rem,5.5vw,6.2rem)] font-bold leading-[0.9] tracking-[-0.035em] uppercase text-text-main"
           >
-            {t("home_curriculum_heading", "ОСНОВНІ НАПРЯМИ\nНАВЧАЛЬНОЇ ПРОГРАМИ.")}
+            <span className="block whitespace-nowrap">
+              {headingLines[0] || "ОСНОВНІ НАПРЯМИ"}
+            </span>
+            <span className="block whitespace-nowrap">
+              {headingLines.slice(1).join(" ") || "НАВЧАЛЬНОЇ ПРОГРАМИ."}
+            </span>
           </motion.h1>
           <p className="mt-8 text-xl max-w-2xl font-light leading-relaxed text-text-main whitespace-pre-line">
             {t("home_curriculum_desc", "Ми формуємо нове покоління професіоналів через 7 спеціалізованих векторів підготовки: від корпоративної ідентифікації та реклами до цифрових медіа, вебдизайну та міського простору.")}
