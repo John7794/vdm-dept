@@ -162,7 +162,7 @@ export default function Navbar() {
               return (
                 <div
                   key={link.path}
-                  className="flex-1 flex items-center justify-center px-4 text-xs font-bold uppercase tracking-widest relative overflow-hidden text-accent-yellow cursor-default"
+                  className="flex-1 flex items-center justify-center px-4 text-xs font-black uppercase tracking-widest relative overflow-hidden text-text-main dark:text-accent-yellow cursor-default"
                   aria-current="page"
                 >
                   {content}

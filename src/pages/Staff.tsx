@@ -152,9 +152,11 @@ export default function Staff() {
                             </h3>
 
                             {role && (
-                              <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-accent-yellow lg:group-hover:text-page-bg mt-2">
-                                {role}
-                              </p>
+                              <div className="mt-2.5">
+                                <span className="inline-block font-mono text-xs font-black uppercase tracking-wider bg-accent-yellow text-black px-2.5 py-0.5 rounded-sm border border-black/15 shadow-sm transition-colors">
+                                  {role}
+                                </span>
+                              </div>
                             )}
 
                             {hasCredentials && (

@@ -56,10 +56,10 @@ function ProgramDisciplines({ prog, disciplines, lang, t }: { prog: any, discipl
         <button 
           type="button" 
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex items-center gap-2 text-left text-text-main hover:text-accent-yellow transition-colors group cursor-pointer"
+          className="inline-flex items-center gap-2 text-left text-text-main hover:text-text-main dark:hover:text-accent-yellow transition-colors group cursor-pointer"
         >
-          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180 text-accent-yellow" : "text-text-dim"}`} />
-          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase font-mono group-hover:text-accent-yellow">
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180 text-text-main dark:text-accent-yellow" : "text-text-dim"}`} />
+          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase font-mono group-hover:underline decoration-accent-yellow decoration-2 underline-offset-4">
             {t("prog_lbl_disciplines", "Дисципліни навчального плану")}
             <span className="ml-2 text-text-dim text-xs font-normal">({uniqueDisciplines.length})</span>
           </span>
@@ -260,7 +260,7 @@ export default function Programs() {
                               href={prog.Link || prog.link} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="hover:text-accent-yellow transition-colors inline-block"
+                              className="hover:underline decoration-accent-yellow decoration-4 underline-offset-4 transition-all inline-block"
                             >
                               {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                             </a>
@@ -308,7 +308,7 @@ export default function Programs() {
                               href={prog.Link || prog.link} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="hover:text-accent-yellow transition-colors inline-block"
+                              className="hover:underline decoration-accent-yellow decoration-4 underline-offset-4 transition-all inline-block"
                             >
                               {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                             </a>
@@ -356,7 +356,7 @@ export default function Programs() {
                             href={prog.Link || prog.link} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="hover:text-accent-yellow transition-colors inline-block"
+                            className="hover:underline decoration-accent-yellow decoration-4 underline-offset-4 transition-all inline-block"
                           >
                             {prog[`Title_${lang}`] || prog.Title_UA || prog.title}
                           </a>
@@ -391,9 +391,9 @@ export default function Programs() {
              <nav className="flex flex-col space-y-8">
                 <h4 className="font-mono text-sm tracking-widest text-text-dim uppercase">{t("prog_lbl_navigation", "Навігація")}</h4>
                 <ul className="space-y-6">
-                  <li><a href="#bachelor" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_bachelor", "БАКАЛАВРІАТ")}</a></li>
-                  <li><a href="#master" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_master", "МАГІСТРАТУРА")}</a></li>
-                  <li><a href="#phd" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-accent-yellow transition-colors block">{t("prog_phd", "АСПІРАНТУРА")}</a></li>
+                  <li><a href="#bachelor" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-text-main dark:hover:text-accent-yellow hover:underline decoration-accent-yellow decoration-2 underline-offset-4 transition-colors block">{t("prog_bachelor", "БАКАЛАВРІАТ")}</a></li>
+                  <li><a href="#master" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-text-main dark:hover:text-accent-yellow hover:underline decoration-accent-yellow decoration-2 underline-offset-4 transition-colors block">{t("prog_master", "МАГІСТРАТУРА")}</a></li>
+                  <li><a href="#phd" className="text-lg xl:text-xl font-bold uppercase text-text-dim hover:text-text-main dark:hover:text-accent-yellow hover:underline decoration-accent-yellow decoration-2 underline-offset-4 transition-colors block">{t("prog_phd", "АСПІРАНТУРА")}</a></li>
                 </ul>
              </nav>
           </div>

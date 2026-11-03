@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs uppercase bg-accent-yellow/15 text-accent-yellow px-3 py-1 border border-accent-yellow/30 font-bold">
+            <span className="font-mono text-xs uppercase bg-accent-yellow text-black font-bold px-3 py-1 border border-accent-yellow/30 font-bold">
               {t("privacy_meta_badge", "Правові засади діяльності")}
             </span>
             <span className="font-mono text-xs uppercase text-text-dim">

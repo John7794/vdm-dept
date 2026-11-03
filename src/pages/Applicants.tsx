@@ -56,7 +56,7 @@ export default function Applicants() {
                      {String(idx + 1).padStart(2, '0')}
                    </div>
                    <div>
-                     <h3 className="text-xl font-bold uppercase tracking-widest mb-2 text-accent-yellow">{title}</h3>
+                     <h3 className="text-xl font-bold uppercase tracking-widest mb-2 text-text-main dark:text-accent-yellow">{title}</h3>
                      <p className="font-light leading-relaxed text-text-main whitespace-pre-line">
                        {desc}
                      </p>

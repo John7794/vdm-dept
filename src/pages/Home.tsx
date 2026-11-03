@@ -1,10 +1,8 @@
-import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
-import { Play, Sparkles, BookOpen, Layers, Monitor, Palette, Building, Eye, Instagram, ArrowUpRight, Film } from "lucide-react";
-import { useTheme } from "../components/ThemeProvider";
+import { motion } from "motion/react";
+import { Play, Sparkles, BookOpen, Layers, Monitor, Building, Eye, Instagram, ArrowUpRight, Film } from "lucide-react";
 import { useCms } from "../contexts/CmsContext";
 import SeoHead from "../components/SeoHead";
-import { formatDriveLink, parseVideoUrl } from "../lib/utils";
+import { parseVideoUrl } from "../lib/utils";
 
 interface SubItem {
   subCode: string;
@@ -224,60 +222,7 @@ const PROGRAM_DIRECTIONS: DirectionItem[] = [
 ];
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const { theme } = useTheme();
   const { data, t, lang } = useCms();
-
-  const defaultSlides = [
-    "https://drive.google.com/uc?export=view&id=1n7JNFmicxCNLEm0_AFB_-hg5258z7YmG",
-    "https://drive.google.com/uc?export=view&id=11dYw0FRts0F248vo_de-BLW1QTUgPZVP",
-    "https://drive.google.com/uc?export=view&id=1i0qE12_3C4i-QTjAfvt7fTTfViiz4I9a"
-  ];
-
-  const cmsBanners = (data?.multimedia || [])
-    .filter((item: any) => {
-      const url = (item.Image || item.image || item.img || item.Media || item.media || item.Url || item.url || "").trim();
-      return item.Category === "HeroBanner" && url !== "";
-    })
-    .map((item: any) => {
-      const url = (item.Image || item.image || item.img || item.Media || item.media || item.Url || item.url || "").trim();
-      return formatDriveLink(url);
-    })
-    .filter((url: string) => url !== "");
-
-  const baseSlides = cmsBanners.length > 0 ? cmsBanners : defaultSlides;
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => prev + 1);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const slideIndex = currentSlide % baseSlides.length;
-  const directionType = currentSlide % 4;
-
-  const variants = {
-    enter: (direction: number) => {
-      switch (direction) {
-        case 0: return { x: "100%", y: 0 };
-        case 1: return { x: 0, y: "100%" };
-        case 2: return { x: "-100%", y: 0 };
-        case 3: return { x: 0, y: "-100%" };
-        default: return { x: "100%", y: 0 };
-      }
-    },
-    center: { x: 0, y: 0, zIndex: 1 },
-    exit: (direction: number) => {
-      switch (direction) {
-        case 0: return { x: "-100%", y: 0, zIndex: 0 };
-        case 1: return { x: 0, y: "-100%", zIndex: 0 };
-        case 2: return { x: "100%", y: 0, zIndex: 0 };
-        case 3: return { x: 0, y: "100%", zIndex: 0 };
-        default: return { x: "-100%", y: 0, zIndex: 0 };
-      }
-    }
-  };
 
   // Video embed item if configured in Multimedia or state
   const promoVideoItem = (data?.multimedia || []).find((m: any) => m.Category === "StudyVideo" || m.Category === "PromoVideo");
@@ -288,84 +233,22 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full bg-page-bg">
       <SeoHead
-        title={t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace('\n', ' ')}
+        title={t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace(/\n/g, ' ')}
         description={t("home_manifesto_text", "Офіційний сайт кафедри візуального дизайну і мистецтва (ВДМ) Інституту архітектури та дизайну Національного університету «Львівська політехніка».")}
         breadcrumbName="Головна"
       />
-      {/* 1. Hero Section - Stencil Text Mask with Dynamic Kinetic Background */}
-      <section className="relative flex flex-col w-full border-b-2 border-border-main overflow-hidden bg-page-bg">
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <AnimatePresence initial={false} custom={directionType}>
-            <motion.div
-              key={currentSlide}
-              custom={directionType}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 1.2, ease: [0.25, 1, 0.25, 1] }}
-              className="absolute inset-0 w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${baseSlides[slideIndex]})` }}
-            />
-          </AnimatePresence>
-          <div className="absolute inset-0 bg-accent-yellow/5 pointer-events-none mix-blend-overlay"></div>
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-yellow/10 blur-[100px] rounded-full z-[1]"></div>
-        </div>
 
-        {/* The Stencil Overlay Layer */}
-        <div 
-          className={`relative z-10 flex flex-col lg:grid lg:grid-cols-12 min-h-[calc(100vh-80px)] lg:min-h-[85vh] pointer-events-none lg:divide-x-2 divide-border-main transition-colors duration-500
-            ${theme === "dark" ? "mix-blend-multiply" : "mix-blend-screen"}`}
-        >
-          <div 
-            className={`flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start transition-colors duration-500 
-              ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}
-          >
-            <div className="mt-12 md:mt-24">
-              <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-balance whitespace-pre-line break-words hyphens-auto 
-                  ${theme === "dark" ? "text-white" : "text-black"}`}
-              >
-                {t("home_hero_title", "Візуальний Дизайн\nі Мистецтво.")}
-              </motion.h1>
-            </div>
-          </div>
-
-          <div 
-            className={`flex-1 lg:col-span-4 min-h-[350px] lg:min-h-full transition-colors duration-500 
-              ${theme === "dark" ? "bg-white" : "bg-black"}`}
-          >
-          </div>
-        </div>
-
-        {/* Crisp border and selectable text layer for accessibility */}
-        <div className="absolute inset-0 z-20 pointer-events-none">
-          <div className="flex flex-col lg:grid lg:grid-cols-12 w-full h-full min-h-[calc(100vh-80px)] lg:min-h-[85vh]">
-            <div className="flex-none lg:col-span-8 p-6 md:p-12 lg:p-16 flex flex-col justify-start pointer-events-auto">
-              <div className="mt-12 md:mt-24">
-                <h2 
-                  className="text-[clamp(2.5rem,7vw,7.5rem)] font-bold leading-[0.85] tracking-[-0.04em] uppercase text-transparent select-text whitespace-pre-line break-words hyphens-auto"
-                  aria-hidden="true"
-                >
-                  {t("home_hero_title", "Візуальний Дизайн\nі Мистецтво.")}
-                </h2>
-              </div>
-            </div>
-            <div className="flex-1 lg:col-span-4 border-t-2 lg:border-t-0 lg:border-l-2 border-border-main"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Typographic Manifesto Block */}
-      <section className="w-full border-b-2 border-border-main bg-surface-main py-16 md:py-24 px-6 md:px-12 lg:px-20 relative">
+      {/* 1. Typographic Manifesto & Department Introduction */}
+      <section className="w-full border-b-2 border-border-main bg-surface-main py-12 md:py-20 px-6 md:px-12 lg:px-20 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-text-main text-page-bg font-mono text-xs uppercase tracking-widest font-bold mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-text-main text-page-bg font-mono text-xs uppercase tracking-widest font-bold mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
             <span>{t("home_manifesto_badge", "Маніфест кафедри")}</span>
           </div>
+
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-[1.05] mb-8">
+            {t("home_hero_title", "Візуальний Дизайн і Мистецтво").replace(/\n/g, ' ')}
+          </h1>
 
           <p className="text-lg md:text-2xl lg:text-[1.85rem] font-normal tracking-normal leading-[1.5] text-text-main text-balance select-text border-l-4 border-accent-yellow pl-6 md:pl-10">
             {t(
@@ -376,69 +259,73 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Primary Curriculum Directions (Основні напрями навчальної програми) */}
+      {/* 2. Primary Curriculum Directions (Основні напрями навчальної програми) */}
       <section className="w-full border-b-2 border-border-main bg-page-bg">
         {/* Section Header */}
         <div className="border-b-2 border-border-main p-6 md:p-12 lg:px-20 bg-surface-mut flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="font-mono text-xs text-text-dim block mb-3 uppercase tracking-widest font-bold">
-              [ 02 / АКАДЕМІЧНІ НАПРЯМИ ]
+              [ 01 / АКАДЕМІЧНІ НАПРЯМИ ]
             </span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-text-main leading-tight">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-text-main leading-tight">
               {t("home_curriculum_heading", "Основні напрями навчальної програми")}
             </h2>
           </div>
-          <div className="font-mono text-xs text-text-dim uppercase tracking-wider flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-accent-yellow rounded-full"></span>
-            <span>{t("home_curriculum_badge", "7 Спеціалізованих векторів")}</span>
+          <div className="font-mono text-xs uppercase tracking-wider flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 bg-accent-yellow text-black font-black px-3.5 py-1.5 rounded-sm border border-black/20 shadow-sm">
+              <span className="w-2 h-2 bg-black rounded-full"></span>
+              <span>{t("home_curriculum_badge", "7 Спеціалізованих векторів")}</span>
+            </span>
           </div>
         </div>
 
-        {/* Directions List */}
+        {/* Directions List - Unified Vertical Paragraph Blocks */}
         <div className="divide-y-2 divide-border-main">
-          {PROGRAM_DIRECTIONS.map((dir, idx) => {
+          {PROGRAM_DIRECTIONS.map((dir) => {
             const IconComponent = dir.icon;
             return (
               <div 
                 key={dir.code}
-                className="grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main hover:bg-surface-mut/60 transition-colors group"
+                className="p-6 md:p-10 lg:p-14 bg-page-bg hover:bg-surface-mut/20 transition-colors"
               >
-                {/* Left Column: Number & Title */}
-                <div className="lg:col-span-5 p-6 md:p-10 lg:p-12 flex flex-col justify-between bg-surface-main/40">
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="font-mono text-2xl md:text-3xl font-extrabold text-accent-yellow tracking-tighter">
-                        {dir.code}.
+                <div className="max-w-6xl mx-auto space-y-6">
+                  {/* Верхній рядок: 01. КОРПОРАТИВНИЙ ІДЕНТИФІКАЦІЙНИЙ ДИЗАЙН */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-border-main pb-5">
+                    <div className="flex items-center gap-3.5 md:gap-5">
+                      <span className="inline-flex items-center justify-center font-mono text-xl md:text-2xl font-black bg-accent-yellow text-black px-3.5 py-1.5 rounded-sm border border-black/20 shadow-sm shrink-0">
+                        {dir.code}
                       </span>
-                      <div className="p-2.5 rounded-none bg-surface-mut border border-border-main text-text-main group-hover:bg-text-main group-hover:text-page-bg transition-colors">
+                      <h3 className="text-xl md:text-2xl lg:text-3xl font-extrabold uppercase tracking-tight text-text-main leading-tight">
+                        {(dir as any)[`title_${lang}`] || dir.title_UA}
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
+                      <span className="font-mono text-xs uppercase tracking-widest text-text-dim">
+                        {dir.items.length} {lang === "UA" ? (dir.items.length === 1 ? "пункт" : dir.items.length < 5 ? "пункти" : "пунктів") : lang === "DE" ? "Schwerpunkte" : lang === "PL" ? "punkty" : "items"}
+                      </span>
+                      <div className="p-2.5 bg-surface-mut border border-border-main text-text-main">
                         <IconComponent className="w-5 h-5 a11y-keep" />
                       </div>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
-                      {(dir as any)[`title_${lang}`] || dir.title_UA}
-                    </h3>
                   </div>
-                  
-                  <div className="hidden lg:block pt-8 font-mono text-[11px] uppercase tracking-widest text-text-dim">
-                    {dir.items.length} {lang === "UA" ? (dir.items.length === 1 ? "спеціалізація" : dir.items.length < 5 ? "спеціалізації" : "спеціалізацій") : lang === "DE" ? "Spezialisierungen" : lang === "PL" ? "specjalizacje" : "specializations"}
-                  </div>
-                </div>
 
-                {/* Right Column: Detailed Sub-items */}
-                <div className="lg:col-span-7 p-6 md:p-10 lg:p-12 space-y-6 flex flex-col justify-center bg-page-bg">
-                  {dir.items.map((subItem) => (
-                    <div 
-                      key={subItem.subCode} 
-                      className="flex items-start gap-4 p-4 border border-border-soft bg-surface-main hover:border-border-main transition-colors"
-                    >
-                      <span className="font-mono text-xs md:text-sm font-bold text-accent-yellow bg-accent-yellow/10 px-2 py-1 rounded shrink-0 border border-accent-yellow/30">
-                        {subItem.subCode}
-                      </span>
-                      <p className="text-sm md:text-base text-text-main font-light leading-relaxed">
-                        {(subItem as any)[`text_${lang}`] || subItem.text_UA}
-                      </p>
-                    </div>
-                  ))}
+                  {/* Під ним відповідні пункти (виділені, контрастні, абзацні) */}
+                  <div className="space-y-4 pt-1">
+                    {dir.items.map((subItem) => (
+                      <div 
+                        key={subItem.subCode} 
+                        className="flex items-start gap-4 md:gap-5 p-5 md:p-6 border-2 border-border-main bg-surface-main hover:border-text-main transition-all rounded-sm shadow-xs"
+                      >
+                        <span className="font-mono text-xs md:text-sm font-black bg-accent-yellow text-black px-3 py-1.5 rounded-sm shrink-0 border border-black/20 shadow-sm">
+                          {subItem.subCode}
+                        </span>
+                        <p className="text-base md:text-lg text-text-main font-semibold leading-relaxed">
+                          {(subItem as any)[`text_${lang}`] || subItem.text_UA}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             );
@@ -446,15 +333,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Video Showcase Section (Відео про навчання на кафедрі) */}
+      {/* 3. Video Showcase Section (Відео про навчання на кафедрі) */}
       <section className="w-full border-b-2 border-border-main bg-surface-main p-6 md:p-12 lg:p-20">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-2 border-border-main pb-6">
             <div>
               <span className="font-mono text-xs text-text-dim block mb-2 uppercase tracking-widest font-bold">
-                [ 03 / ВІДЕОМАТЕРІАЛИ КАФЕДРИ ]
+                [ 02 / ВІДЕОМАТЕРІАЛИ КАФЕДРИ ]
               </span>
-              <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight text-text-main">
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-text-main">
                 {t("home_video_heading", "Відео про навчання на кафедрі")}
               </h2>
             </div>
@@ -467,14 +354,14 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-surface-mut/40 border-2 border-border-main p-6 md:p-10 lg:p-12">
             <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent-yellow/10 border border-accent-yellow/30 text-accent-yellow font-mono text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-accent-yellow text-black border border-black/20 font-mono text-xs font-black uppercase tracking-wider rounded-sm shadow-sm">
                   <Film className="w-3.5 h-3.5" />
                   <span>{t("home_video_badge", "Творчий процес ВДМ")}</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
                   {t("home_video_card_title", "Життя та навчання на кафедрі")}
                 </h3>
-                <p className="text-base text-text-main font-light leading-relaxed">
+                <p className="text-base text-text-main font-semibold leading-relaxed">
                   {t("home_video_card_desc", "Динамічний ритм життя кафедри: від пошуку ідей та роботи в творчих майстернях до захисту авторських дизайн-проєктів. Пориньте в атмосферу нашої спільноти у відеоматеріалі.")}
                 </p>
               </div>
@@ -527,7 +414,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Dynamic Marquee Ticker */}
+      {/* 4. Dynamic Marquee Ticker */}
       <div className="border-b-2 border-border-main overflow-hidden bg-surface-mut py-4 flex flex-nowrap whitespace-nowrap">
         <motion.div 
           animate={{ x: [0, -1000] }} 
@@ -545,3 +432,4 @@ export default function Home() {
     </div>
   );
 }
+

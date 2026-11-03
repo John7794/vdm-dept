@@ -128,7 +128,7 @@ export default function CookieConsent() {
               <div className="p-4 sm:p-6 border-b-2 border-border-main bg-page-bg flex items-start justify-between gap-4 flex-shrink-0">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-yellow/15 text-accent-yellow px-2.5 py-0.5 border border-accent-yellow/30 font-bold">
+                    <span className="font-mono text-[10px] sm:text-xs uppercase bg-accent-yellow text-black font-bold px-2.5 py-0.5 border border-accent-yellow/30 font-bold">
                       {t("cookie_meta_badge", "Конфіденційність та безпека")}
                     </span>
                     <span className="font-mono text-[10px] sm:text-xs uppercase text-text-dim">

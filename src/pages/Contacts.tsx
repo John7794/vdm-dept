@@ -107,7 +107,7 @@ export default function Contacts() {
               <div className="space-y-6 text-lg md:text-xl font-medium uppercase break-all">
                 <div>
                   <span className="block font-mono text-[10px] text-text-dim mb-1">EMAIL:</span>
-                  <a href="mailto:vdm.dept@lpnu.ua" className="hover:text-accent-yellow transition-colors focus-ring rounded outline-none block py-1">
+                  <a href="mailto:vdm.dept@lpnu.ua" className="hover:text-text-main dark:hover:text-accent-yellow hover:underline decoration-accent-yellow decoration-2 underline-offset-4 transition-colors focus-ring rounded outline-none block py-1">
                     vdm.dept@lpnu.ua
                   </a>
                 </div>
@@ -115,7 +115,7 @@ export default function Contacts() {
                   <span className="block font-mono text-[10px] text-text-dim mb-1">
                     {t("contact_phone_label", "ТЕЛЕФОН:")}
                   </span>
-                  <a href="tel:+380322582537" className="hover:text-accent-yellow transition-colors focus-ring rounded outline-none block py-1">
+                  <a href="tel:+380322582537" className="hover:text-text-main dark:hover:text-accent-yellow hover:underline decoration-accent-yellow decoration-2 underline-offset-4 transition-colors focus-ring rounded outline-none block py-1">
                     +38 (032) 258-25-37
                   </a>
                 </div>
@@ -205,7 +205,7 @@ export default function Contacts() {
                 <button
                   type="button"
                   onClick={openPrivacyModal}
-                  className="underline font-bold text-text-main hover:text-accent-yellow focus-ring cursor-pointer inline p-0 bg-transparent border-none text-xs"
+                  className="underline font-bold text-text-main hover:opacity-75 focus-ring cursor-pointer inline p-0 bg-transparent border-none text-xs"
                 >
                   {t("contact_form_consent_law", "Законом України «Про захист персональних даних»")}
                 </button>{" "}
