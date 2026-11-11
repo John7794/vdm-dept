@@ -4,12 +4,12 @@
   
   <!-- Home Page -->
   <url>
-    <loc>https://vdm-dept.vercel.app/</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/" />
+    <loc>https://vdm.lpnu.ua/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -17,12 +17,12 @@
 
   <!-- Programs -->
   <url>
-    <loc>https://vdm-dept.vercel.app/programs</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/programs" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/programs?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/programs?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/programs?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/programs" />
+    <loc>https://vdm.lpnu.ua/programs</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/programs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/programs?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/programs?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/programs?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/programs" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -30,12 +30,12 @@
 
   <!-- Faculty / Staff -->
   <url>
-    <loc>https://vdm-dept.vercel.app/staff</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/staff" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/staff?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/staff?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/staff?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/staff" />
+    <loc>https://vdm.lpnu.ua/staff</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/staff" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/staff?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/staff?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/staff?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/staff" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -43,12 +43,12 @@
 
   <!-- Applicants -->
   <url>
-    <loc>https://vdm-dept.vercel.app/applicants</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/applicants" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/applicants?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/applicants?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/applicants?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/applicants" />
+    <loc>https://vdm.lpnu.ua/applicants</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/applicants" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/applicants?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/applicants?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/applicants?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/applicants" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -56,12 +56,12 @@
 
   <!-- About -->
   <url>
-    <loc>https://vdm-dept.vercel.app/about</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/about" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/about?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/about?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/about?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/about" />
+    <loc>https://vdm.lpnu.ua/about</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/about?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/about?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/about?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/about" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -69,12 +69,12 @@
 
   <!-- Student Projects -->
   <url>
-    <loc>https://vdm-dept.vercel.app/projects</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/projects" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/projects?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/projects?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/projects?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/projects" />
+    <loc>https://vdm.lpnu.ua/projects</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/projects?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/projects?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/projects?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/projects" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -82,12 +82,12 @@
 
   <!-- News -->
   <url>
-    <loc>https://vdm-dept.vercel.app/news</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/news" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/news?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/news?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/news?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/news" />
+    <loc>https://vdm.lpnu.ua/news</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/news" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/news?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/news?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/news?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/news" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -95,12 +95,12 @@
 
   <!-- Contacts -->
   <url>
-    <loc>https://vdm-dept.vercel.app/contacts</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/contacts" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/contacts?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/contacts?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/contacts?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/contacts" />
+    <loc>https://vdm.lpnu.ua/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/contacts" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/contacts?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/contacts?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/contacts?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/contacts" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -108,12 +108,12 @@
 
   <!-- Privacy Policy -->
   <url>
-    <loc>https://vdm-dept.vercel.app/privacy</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm-dept.vercel.app/privacy" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://vdm-dept.vercel.app/privacy?lang=EN" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://vdm-dept.vercel.app/privacy?lang=DE" />
-    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm-dept.vercel.app/privacy?lang=PL" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm-dept.vercel.app/privacy" />
+    <loc>https://vdm.lpnu.ua/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://vdm.lpnu.ua/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vdm.lpnu.ua/privacy?lang=EN" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://vdm.lpnu.ua/privacy?lang=DE" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vdm.lpnu.ua/privacy?lang=PL" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vdm.lpnu.ua/privacy" />
     <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

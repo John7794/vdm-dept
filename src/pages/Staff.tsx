@@ -26,10 +26,17 @@ export default function Staff() {
   const rawStaffMembers = data?.staff || [];
 
   const sortedStaff = useMemo(() => {
-    // Filter out empty rows or anyone removed (like Yatsiv)
+    // Filter out empty rows, anyone removed, and non-teaching specialists/engineers (Req 6)
     const valid = rawStaffMembers.filter((m: any) => {
-      const name = m.Name_UA || m.name || "";
-      return name.trim() !== "" && !name.includes("Яців");
+      const name = (m.Name_UA || m.name || "").trim();
+      const role = (m.Role_UA || m.role || "").toLowerCase();
+      const combined = `${role} ${(m.Title_UA || m.title || "").toLowerCase()} ${(m.Degree_UA || m.degree || "").toLowerCase()}`;
+
+      // Exclude specialists, lead specialists, engineers, and lab assistants
+      if (role.includes("фахівець") || role.includes("інженер") || role.includes("лаборант") || combined.includes("фахівець") || combined.includes("інженер")) {
+        return false;
+      }
+      return name !== "" && !name.includes("Яців");
     });
 
     const getRank = (m: any) => {
@@ -123,10 +130,10 @@ export default function Staff() {
                         transition={{ delay: Math.min(idx * 0.05, 0.6) }}
                         className="group grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-soft lg:divide-border-main lg:hover:bg-text-main lg:hover:text-page-bg transition-colors"
                       >
-                        {/* Left Side: Avatar, Formatted Name & Academic Regalia */}
-                        <div className="lg:col-span-8 p-6 md:p-8 lg:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 md:gap-8">
+                        {/* Left Side: Avatar on left, Formatted Name & Academic Regalia on right (Scan 5) */}
+                        <div className="lg:col-span-8 p-5 sm:p-8 lg:p-10 flex flex-row items-start sm:items-center gap-4 sm:gap-6 md:gap-8">
                           {/* Photo / Avatar */}
-                          <div className="w-28 h-28 md:w-36 md:h-36 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main lg:group-hover:border-page-bg transition-colors flex items-center justify-center shadow-md">
+                          <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 bg-surface-mut rounded-full overflow-hidden flex-shrink-0 border-2 border-border-main lg:group-hover:border-page-bg transition-colors flex items-center justify-center shadow-md">
                             {(member.Image || member.image || member.Image_2x || member.Image_Mobile || member.Image_Tablet) ? (
                               <ResponsiveImage
                                 desktopUrl={member.Image || member.image || ""}
@@ -140,27 +147,27 @@ export default function Staff() {
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-text-dim bg-surface-mut transition-colors">
-                                <User className="w-14 h-14 md:w-16 md:h-16 opacity-60" strokeWidth={1} />
+                                <User className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 opacity-60" strokeWidth={1} />
                               </div>
                             )}
                           </div>
 
-                          {/* Name and Credentials */}
-                          <div className="flex flex-col justify-center min-w-0">
-                            <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-none lg:group-hover:text-page-bg transition-colors">
+                          {/* Name and Credentials - placed to the right of the photo on mobile and desktop */}
+                          <div className="flex-1 min-w-0 flex flex-col justify-center">
+                            <h3 className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-tight lg:group-hover:text-page-bg transition-colors">
                               {displayName}
                             </h3>
 
                             {role && (
-                              <div className="mt-2.5">
-                                <span className="inline-block font-mono text-xs font-black uppercase tracking-wider bg-accent-yellow text-black px-2.5 py-0.5 rounded-sm border border-black/15 shadow-sm transition-colors">
+                              <div className="mt-1.5 sm:mt-2.5">
+                                <span className="inline-block font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider bg-accent-yellow text-black px-2 sm:px-2.5 py-0.5 rounded-sm border border-black/15 shadow-sm transition-colors">
                                   {role}
                                 </span>
                               </div>
                             )}
 
                             {hasCredentials && (
-                              <div className="mt-2 text-xs md:text-sm text-text-dim lg:group-hover:text-page-bg/80 leading-relaxed whitespace-pre-line font-medium">
+                              <div className="mt-1.5 sm:mt-2 text-xs md:text-sm text-text-dim lg:group-hover:text-page-bg/80 leading-relaxed whitespace-pre-line font-medium">
                                 {degree && title ? (
                                   <>
                                     <span className="font-semibold">{degree}</span>, {title}

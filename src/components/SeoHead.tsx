@@ -13,8 +13,8 @@ interface SeoHeadProps {
 
 const DEFAULT_TITLE = "Кафедра візуального дизайну і мистецтва | НУ «Львівська політехніка»";
 const DEFAULT_DESC = "Офіційний сайт кафедри візуального дизайну і мистецтва (ВДМ) Інституту архітектури та дизайну Національного університету «Львівська політехніка». Бакалаврат, магістратура, аспірантура, проєкти та викладацький склад.";
-const DEFAULT_IMAGE = "https://vdm-dept.vercel.app/og-hero.jpg";
-const BASE_URL = "https://vdm-dept.vercel.app";
+const DEFAULT_IMAGE = "https://vdm.lpnu.ua/og-hero.jpg";
+const BASE_URL = "https://vdm.lpnu.ua";
 
 function setMetaTag(selector: string, attrName: string, value: string) {
   let element = document.querySelector(selector) as HTMLMetaElement | null;

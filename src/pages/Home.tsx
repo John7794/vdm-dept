@@ -274,24 +274,21 @@ export default function Home() {
                 className="p-6 md:p-10 lg:p-14 bg-page-bg hover:bg-surface-mut/10 transition-colors"
               >
                 <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
-                  {/* Direction Title Header: Icon Box + Uppercase Heading (no excess numbers/counters) */}
-                  <div className="flex items-center gap-4 sm:gap-6 border-b-2 border-border-main pb-6">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 border-2 border-border-main bg-surface-main flex items-center justify-center p-3 shrink-0 shadow-xs">
-                      <IconComponent className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-text-main a11y-keep" />
-                    </div>
+                  {/* Direction Title Header: Clean Uppercase Heading without decorative icon box */}
+                  <div className="border-b-2 border-border-main pb-4 sm:pb-6">
                     <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase tracking-tight text-text-main leading-tight">
                       {(dir as any)[`title_${lang}`] || dir.title_UA}
                     </h2>
                   </div>
 
-                  {/* Sub-item Cards with offset yellow badge on top-left edge */}
+                  {/* Sub-item Cards: Clean background plate under text without outer border contours (Scan 1) */}
                   <div className="space-y-6 sm:space-y-8 pt-1">
                     {dir.items.map((subItem) => (
                       <div key={subItem.subCode} className="relative pt-3 sm:pt-4">
-                        {/* Outlined Content Box */}
-                        <div className="relative border-2 border-border-main bg-surface-main p-5 sm:p-7 pt-7 sm:pt-8 shadow-xs hover:border-text-main transition-colors">
-                          {/* Offset Overlapping Yellow Badge at top-left corner */}
-                          <div className="absolute -top-4 sm:-top-4.5 left-4 sm:left-6 inline-flex items-center justify-center bg-accent-yellow text-black font-mono text-xs sm:text-sm font-black px-3 sm:px-3.5 py-1 sm:py-1.5 border-2 border-border-main shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.7)] select-none">
+                        {/* Background Plate Content Box (No borders) */}
+                        <div className="relative bg-surface-mut/80 dark:bg-surface-mut/40 hover:bg-surface-mut p-5 sm:p-7 pt-7 sm:pt-8 transition-colors">
+                          {/* Offset Yellow Badge at top-left corner */}
+                          <div className="absolute -top-3.5 sm:-top-4 left-4 sm:left-6 inline-flex items-center justify-center bg-accent-yellow text-black font-mono text-xs sm:text-sm font-black px-2.5 sm:px-3 py-0.5 sm:py-1 border border-black/20 shadow-xs select-none">
                             {subItem.subCode}
                           </div>
 
@@ -358,8 +355,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-surface-mut/40 border-2 border-border-main p-6 md:p-10 lg:p-12">
             <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-accent-yellow text-black border border-black/20 font-mono text-xs font-black uppercase tracking-wider rounded-sm shadow-sm">
-                  <Film className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center px-3.5 py-1.5 bg-accent-yellow text-black border border-black/20 font-mono text-xs font-black uppercase tracking-wider rounded-sm shadow-sm">
                   <span>{t("home_video_badge", "Творчий процес ВДМ")}</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-main leading-tight">
@@ -372,9 +368,9 @@ export default function Home() {
 
               <div className="space-y-3 pt-2">
                 <div className="flex flex-wrap gap-2 text-xs font-mono text-text-dim">
-                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🏛 {t("home_video_tag_address", "вул. Січових Стрільців, 7")}</span>
-                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">🎨 {t("home_video_tag_field", "Графічний дизайн & Арт")}</span>
-                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">✨ {t("home_video_tag_code", "В2.01 Дизайн")}</span>
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">{t("home_video_tag_address", "вул. Січових Стрільців, 7")}</span>
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">{t("home_video_tag_field", "Графічний дизайн & Арт")}</span>
+                  <span className="bg-surface-main border border-border-main px-3 py-1 font-bold">{t("home_video_tag_code", "В2.01 Дизайн")}</span>
                 </div>
               </div>
 

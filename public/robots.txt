@@ -3,7 +3,7 @@ Allow: /
 Disallow: /admin
 
 # Host
-Host: https://vdm-dept.vercel.app
+Host: https://vdm.lpnu.ua
 
 # Sitemaps
-Sitemap: https://vdm-dept.vercel.app/sitemap.xml
+Sitemap: https://vdm.lpnu.ua/sitemap.xml

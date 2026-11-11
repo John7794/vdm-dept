@@ -44,7 +44,7 @@ export default function ResponsiveImage({
   const fallbackUrl = (desktopUrl || desktopUrl2x || tabletUrl || tabletUrl2x || mobileUrl || mobileUrl2x || "").trim();
 
   return (
-    <picture className={`block ${className} ${onClick ? "cursor-pointer" : ""}`} onClick={onClick}>
+    <picture className={`block overflow-hidden ${className} ${onClick ? "cursor-pointer" : ""}`} onClick={onClick}>
       {/* Mobile devices (max-width: 640px) */}
       {mSrcSet && <source media="(max-width: 640px)" srcSet={mSrcSet} />}
       

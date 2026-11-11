@@ -99,9 +99,9 @@ export default function NewsDetail() {
         </div>
       </section>
 
-      {/* Optional Hero Image (from News tab columns) */}
+      {/* Hero Image: strictly contained with overflow-hidden to prevent bleeding onto content (Req 5 & Scan 4) */}
       {(coverDesktop || coverTablet || coverMobile || coverDesktop2x || coverTablet2x || coverMobile2x) && (
-        <section className="w-full border-b-2 border-border-main bg-ink">
+        <section className="w-full border-b-2 border-border-main bg-ink overflow-hidden relative max-h-[50vh] md:max-h-[65vh]">
           <ResponsiveImage 
             desktopUrl={coverDesktop}
             desktopUrl2x={coverDesktop2x}
@@ -110,13 +110,13 @@ export default function NewsDetail() {
             mobileUrl={coverMobile}
             mobileUrl2x={coverMobile2x}
             alt={title}
-            className="w-full max-h-[70vh] object-cover"
+            className="w-full h-full max-h-[50vh] md:max-h-[65vh] object-cover"
           />
         </section>
       )}
 
-      {/* Article Content */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main">
+      {/* Article Content: isolated in its own stacking context */}
+      <section className="relative z-10 bg-page-bg grid grid-cols-1 lg:grid-cols-12 divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-border-main">
         {/* Main Body */}
         <div className="lg:col-span-8 p-6 md:p-12 lg:p-16 lg:col-start-3">
           <div className="max-w-3xl mx-auto space-y-8 font-light leading-relaxed text-text-main text-lg lg:text-xl">
