@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useCms } from "../contexts/CmsContext";
 import { formatDriveLink, cleanHtml } from "../lib/utils";
@@ -39,41 +39,59 @@ export default function NewsDetail() {
   const coverMobile = newsItem.Image_Mobile || newsItem.image_Mobile || newsItem.Media_Mobile || newsItem.media_Mobile || "";
   const coverMobile2x = newsItem.Image_Mobile_2x || newsItem.image_Mobile_2x || newsItem.Media_Mobile_2x || newsItem.media_Mobile_2x || "";
 
-  // Filter media belonging to this news item. We support passing the ID in Category for backward compatibility
-  // Example Category: "News_news_1" or "NewsGallery_news_1"
+  // Support direct gallery from News sheet (semicolon, newline, or comma separated)
+  const directGalleryUrls: string[] = (newsItem.Gallery || newsItem.gallery || "")
+    .split(/[\n,;]+/)
+    .map((u: string) => u.trim())
+    .filter((u: string) => u.length > 0 && (u.startsWith("http://") || u.startsWith("https://") || u.startsWith("/")));
+
+  // Filter media belonging to this news item from Multimedia sheet
   const mediaItems = data?.multimedia?.filter((m: any) => 
     m.Category === `News_${id}` || 
     m.Category === `NewsGallery_${id}` ||
-    m.Category === id || 
-    m.ID === id
+    (m.ID === id && (m.Category?.startsWith("News") || m.Category === id)) ||
+    m.Category === id
   ) || [];
 
   const videoItems = mediaItems.filter((m: any) => {
-    const url = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "").trim();
+    const url = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || "").trim();
     return m.Type?.toLowerCase() === "video" || url.includes("youtube.com") || url.includes("youtu.be");
   });
 
   const imageItems = mediaItems.filter((m: any) => {
-    const url = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "").trim();
+    const url = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || "").trim();
     return !(m.Type?.toLowerCase() === "video" || url.includes("youtube.com") || url.includes("youtu.be")) && url !== "";
   });
   
-  const galleryImages = imageItems.map((m: any) => formatDriveLink((m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "").trim()));
+  const multimediaGallery = imageItems.map((m: any) => 
+    formatDriveLink((m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || "").trim())
+  );
+
+  // Combine and deduplicate images
+  const galleryImages: string[] = Array.from(new Set([...directGalleryUrls, ...multimediaGallery])).filter(Boolean);
 
   const [currentGalleryIdx, setCurrentGalleryIdx] = useState(0);
   const [isGalleryHovered, setIsGalleryHovered] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (galleryImages.length === 0 || isGalleryHovered || lightboxIndex !== null) return;
+    if (galleryImages.length <= 1 || isGalleryHovered || lightboxIndex !== null) return;
     const timer = setInterval(() => {
       setCurrentGalleryIdx((prev) => (prev + 1) % galleryImages.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [galleryImages.length, isGalleryHovered, lightboxIndex]);
 
   return (
     <div className="flex flex-col w-full bg-page-bg text-text-main min-h-screen">
+      <SeoHead
+        title={title ? `${title} | ВДМ Львівська політехніка` : "Новина кафедри ВДМ"}
+        description={excerpt || title}
+        image={coverDesktop || (galleryImages.length > 0 ? galleryImages[0] : undefined)}
+        article={true}
+        publishedTime={date}
+      />
+
       {/* Top Banner / Breadcrumb */}
       <section className="border-b-2 border-border-main bg-surface-main p-6 lg:px-12 flex items-center">
         <Link to="/news" className="font-mono text-xs uppercase tracking-widest flex items-center gap-2 hover:underline underline-offset-4 opacity-70 hover:opacity-100 transition-opacity">
@@ -99,7 +117,7 @@ export default function NewsDetail() {
         </div>
       </section>
 
-      {/* Hero Image: strictly contained with overflow-hidden to prevent bleeding onto content (Req 5 & Scan 4) */}
+      {/* Hero Image: strictly contained with overflow-hidden to prevent bleeding onto content */}
       {(coverDesktop || coverTablet || coverMobile || coverDesktop2x || coverTablet2x || coverMobile2x) && (
         <section className="w-full border-b-2 border-border-main bg-ink overflow-hidden relative max-h-[50vh] md:max-h-[65vh]">
           <ResponsiveImage 
@@ -139,7 +157,7 @@ export default function NewsDetail() {
             {videoItems.length > 0 && (
               <div className="pt-12 grid grid-cols-1 gap-12 border-t border-border-soft mt-12">
                 {videoItems.map((m: any, idx: number) => {
-                  const urlDesktop = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || m.Media || m.media || "").trim();
+                  const urlDesktop = (m.Image || m.image || m.img || m.Media || m.media || m.Url || m.url || "").trim();
                   const urlMobile = (m.Image_Mobile || m.image_Mobile || m.Media_Mobile || m.media_Mobile || m.Url_Mobile || m.url_mobile || "").trim();
                   
                   const isYt = urlDesktop.includes("youtube.com") || urlDesktop.includes("youtu.be");
@@ -164,7 +182,7 @@ export default function NewsDetail() {
               </div>
             )}
             
-            {!content && mediaItems.length === 0 && !quote && (
+            {!content && mediaItems.length === 0 && galleryImages.length === 0 && !quote && (
               <p className="text-text-dim mt-8">
                 {t(
                   "news_pending_content",
@@ -176,25 +194,108 @@ export default function NewsDetail() {
         </div>
       </section>
 
-      {/* Image Gallery Carousel */}
+      {/* Image Gallery (Fotorama-style with thumbnails & viewer) */}
       {galleryImages.length > 0 && (
-        <section className="w-full relative border-y-2 border-border-main bg-ink overflow-hidden h-[40vh] md:h-[60vh] flex items-center justify-center cursor-pointer group"
-          onMouseEnter={() => setIsGalleryHovered(true)}
-          onMouseLeave={() => setIsGalleryHovered(false)}
-          onClick={() => setLightboxIndex(currentGalleryIdx)}
-        >
-          <AnimatePresence mode="popLayout">
-            <motion.img 
-              key={currentGalleryIdx}
-              src={galleryImages[currentGalleryIdx]}
-              alt={`Gallery image ${currentGalleryIdx + 1}`}
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute inset-0 w-full h-full object-cover grayscale mix-blend-screen opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:mix-blend-normal group-hover:opacity-100"
-            />
-          </AnimatePresence>
+        <section className="w-full border-t-2 border-border-main bg-surface-main py-12 px-4 md:px-8 lg:px-16">
+          <div className="max-w-4xl mx-auto space-y-4">
+            {/* Gallery Header Bar */}
+            <div className="flex items-center justify-between border-b-2 border-border-main pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 bg-accent-yellow inline-block"></span>
+                <h3 className="font-mono text-xs md:text-sm uppercase tracking-widest font-bold">
+                  {t("news_gallery_title", "Фотогалерея події")}
+                </h3>
+              </div>
+              <div className="font-mono text-xs md:text-sm font-bold tracking-wider text-text-dim">
+                [ {String(currentGalleryIdx + 1).padStart(2, "0")} / {String(galleryImages.length).padStart(2, "0")} ]
+              </div>
+            </div>
+
+            {/* Main Image Stage */}
+            <div
+              className="relative w-full aspect-[16/10] max-h-[65vh] bg-ink border-2 border-border-main overflow-hidden rounded-none flex items-center justify-center cursor-pointer group"
+              onMouseEnter={() => setIsGalleryHovered(true)}
+              onMouseLeave={() => setIsGalleryHovered(false)}
+              onClick={() => setLightboxIndex(currentGalleryIdx)}
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentGalleryIdx}
+                  src={galleryImages[currentGalleryIdx]}
+                  alt={`${title} - фото ${currentGalleryIdx + 1}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="w-full h-full object-contain"
+                />
+              </AnimatePresence>
+
+              {/* Navigation Arrows */}
+              {galleryImages.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Попереднє фото"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentGalleryIdx((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-page-bg/90 text-text-main hover:bg-accent-yellow hover:text-black transition-colors border border-border-main z-20 focus-ring shadow-md"
+                  >
+                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label="Наступне фото"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentGalleryIdx((prev) => (prev + 1) % galleryImages.length);
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-page-bg/90 text-text-main hover:bg-accent-yellow hover:text-black transition-colors border border-border-main z-20 focus-ring shadow-md"
+                  >
+                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                  </button>
+                </>
+              )}
+
+              {/* Zoom hint overlay badge */}
+              <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-page-bg/90 text-text-main text-xs font-mono uppercase tracking-wider border border-border-main opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
+                <Maximize2 className="w-3.5 h-3.5" />
+                <span>{t("gallery_zoom", "Збільшити")}</span>
+              </div>
+            </div>
+
+            {/* Thumbnail Strip (Fotorama-style) */}
+            {galleryImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto pb-2 pt-1 scroll-smooth">
+                {galleryImages.map((imgUrl, idx) => {
+                  const isActive = idx === currentGalleryIdx;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      aria-label={`Перейти до фото ${idx + 1}`}
+                      onClick={() => setCurrentGalleryIdx(idx)}
+                      className={`relative flex-shrink-0 w-20 h-14 md:w-24 md:h-16 border-2 transition-all duration-150 overflow-hidden ${
+                        isActive
+                          ? "border-accent-yellow ring-2 ring-accent-yellow/50 scale-[1.03] opacity-100"
+                          : "border-border-soft opacity-60 hover:opacity-100 hover:border-border-main"
+                      }`}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`Прев'ю ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </section>
       )}
 
