@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import Papa from "papaparse";
 
 const SHEET_ID = "1cs6LoN5rdsXjIRWziDAWVyHWNDXKE6UIuzgP7znhjWY";
-const CACHE_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+const CACHE_DURATION_MS = 3 * 60 * 1000; // 3 minutes for responsive CMS updates
 
 type Language = "UA" | "EN" | "DE" | "PL";
 
@@ -665,10 +665,13 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     const fetchDirectlyFromSheets = async () => {
       try {
         // Check persistent local storage cache first
+        const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+        const forceNoCache = Boolean(urlParams?.has("nocache") || urlParams?.has("refresh"));
+
         const cachedStr = localStorage.getItem("cms_cache_data");
         const cachedTimeStr = localStorage.getItem("cms_cache_time");
         
-        if (cachedStr && cachedTimeStr) {
+        if (!forceNoCache && cachedStr && cachedTimeStr) {
           const cachedTime = parseInt(cachedTimeStr, 10);
           if (Date.now() - cachedTime < CACHE_DURATION_MS) {
             setData(JSON.parse(cachedStr));

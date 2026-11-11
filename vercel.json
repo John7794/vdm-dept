@@ -1,28 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "vdm-dept.vercel.app"
-        }
-      ],
-      "destination": "https://vdm.lpnu.ua/$1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": ".*\\.vercel\\.app"
-        }
-      ],
-      "destination": "https://vdm.lpnu.ua/$1",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/((?!api/.*).*)",
