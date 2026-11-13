@@ -674,18 +674,29 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         if (!forceNoCache && cachedStr && cachedTimeStr) {
           const cachedTime = parseInt(cachedTimeStr, 10);
           if (Date.now() - cachedTime < CACHE_DURATION_MS) {
-            setData(JSON.parse(cachedStr));
-            setLoading(false);
-            return;
+            try {
+              const parsed = JSON.parse(cachedStr);
+              if (parsed?.news && Array.isArray(parsed.news) && parsed.news.length >= 2 && (parsed.news[0]?.Title_UA || parsed.news[0]?.title)) {
+                setData(parsed);
+                setLoading(false);
+                return;
+              } else {
+                localStorage.removeItem("cms_cache_data");
+                localStorage.removeItem("cms_cache_time");
+              }
+            } catch {
+              localStorage.removeItem("cms_cache_data");
+              localStorage.removeItem("cms_cache_time");
+            }
           }
         }
 
         const sheets = ["Static", "News", "Staff", "Programs", "Projects", "Disciplines", "ApplicantsSteps", "ApplicantsDocuments", "ApplicantsChecklist", "Multimedia"];
         const parsedData: any = {};
 
-        // Fetch each sheet in parallel for better performance
+        // Fetch each sheet in parallel with explicit headers=1 to prevent multi-line header guessing
         await Promise.all(sheets.map(async (sheet) => {
-          const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheet}`;
+          const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheet}&headers=1`;
           const res = await fetch(url);
           if (!res.ok) {
             console.error(`Failed to fetch sheet ${sheet}`);
