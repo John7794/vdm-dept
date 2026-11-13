@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useCms } from "../contexts/CmsContext";
-import { formatDriveLink, cleanHtml } from "../lib/utils";
+import { formatDriveLink, cleanHtml, formatNewsDisplayDate } from "../lib/utils";
 import ResponsiveImage from "../components/ResponsiveImage";
 import LightboxModal from "../components/LightboxModal";
 import SeoHead from "../components/SeoHead";
@@ -28,7 +28,7 @@ export default function NewsDetail() {
   const title = newsItem[`Title_${lang}`] || newsItem.Title_UA || newsItem.title || "";
   const excerpt = newsItem[`Desc_${lang}`] || newsItem.Desc_UA || newsItem.desc || newsItem.excerpt || "";
   const type = newsItem[`Type_${lang}`] || newsItem.Type_UA || newsItem.type || "";
-  const date = newsItem[`Date_${lang}`] || newsItem.Date_UA || newsItem.Date || newsItem.date || "";
+  const date = formatNewsDisplayDate(newsItem, lang);
   const content = newsItem[`Content_${lang}`] || newsItem.Content_UA || newsItem.content || "";
   const quote = newsItem[`Quote_${lang}`] || newsItem.Quote_UA || newsItem.quote || "";
   

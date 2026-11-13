@@ -116,18 +116,19 @@ export function parseNewsDateToTimestamp(dateStr: string | undefined | null): nu
   if (!dateStr || typeof dateStr !== "string") return 0;
   const s = dateStr.toLowerCase().trim();
   
-  // Try ISO or standard Date parse first
+  // Try standard Date parse first for English/ISO dates like "November 13, 2026"
   const parsed = Date.parse(dateStr);
-  if (!isNaN(parsed) && parsed > 0 && !s.includes("листоп") && !s.includes("серп")) {
+  const hasUaMonths = ["січ", "лют", "бер", "квіт", "трав", "черв", "лип", "серп", "верес", "жовт", "листоп", "груд"].some(m => s.includes(m));
+  if (!isNaN(parsed) && parsed > 0 && !hasUaMonths) {
     return parsed;
   }
 
-  // Match: "13 листоп. 2026" or "17 серпня 2026" or "9 листопада 2026"
-  const match = s.match(/(\d+)\s+([а-яіїє]+)[^0-9]*(\d{4})?/);
+  // Match Ukrainian dates: "13 листоп. 2026" or "20 серп. 2024, 10:46"
+  const match = s.match(/(\d+)\s+([а-яіїє]+)[^0-9]*(\d{4})/);
   if (match) {
     const day = parseInt(match[1], 10);
     const monthRaw = match[2];
-    const year = match[3] ? parseInt(match[3], 10) : 2026;
+    const year = parseInt(match[3], 10);
     let monthIndex = 0;
     for (const [key, idx] of Object.entries(MONTH_MAP_UA)) {
       if (monthRaw.includes(key)) {
@@ -138,5 +139,29 @@ export function parseNewsDateToTimestamp(dateStr: string | undefined | null): nu
     return new Date(year, monthIndex, day).getTime();
   }
 
-  return 0;
+  return !isNaN(parsed) && parsed > 0 ? parsed : 0;
+}
+
+export function formatNewsDisplayDate(item: any, lang: string): string {
+  if (!item) return "";
+  const direct = item[`Date_${lang}`] || (lang === "UA" ? item.Date_UA : "");
+  if (direct && direct.trim().length > 0) return direct.trim();
+  
+  const enDate = item.Date_EN || item.Date || item.date || "";
+  const ts = parseNewsDateToTimestamp(enDate || item.Date_UA);
+  if (ts > 0) {
+    const d = new Date(ts);
+    if (lang === "UA") {
+      const ukMonths = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+      return `${d.getDate()} ${ukMonths[d.getMonth()]} ${d.getFullYear()}`;
+    } else if (lang === "DE") {
+      const deMonths = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+      return `${d.getDate()}. ${deMonths[d.getMonth()]} ${d.getFullYear()}`;
+    } else if (lang === "PL") {
+      const plMonths = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
+      return `${d.getDate()} ${plMonths[d.getMonth()]} ${d.getFullYear()}`;
+    }
+    return enDate;
+  }
+  return direct || enDate || "";
 }
