@@ -106,3 +106,37 @@ export function parseVideoUrl(url: string | undefined | null): VideoEmbedData | 
     originalUrl: trimmed
   };
 }
+
+const MONTH_MAP_UA: Record<string, number> = {
+  "січ": 0, "лют": 1, "бер": 2, "квіт": 3, "трав": 4, "черв": 5,
+  "лип": 6, "серп": 7, "верес": 8, "жовт": 9, "листоп": 10, "груд": 11
+};
+
+export function parseNewsDateToTimestamp(dateStr: string | undefined | null): number {
+  if (!dateStr || typeof dateStr !== "string") return 0;
+  const s = dateStr.toLowerCase().trim();
+  
+  // Try ISO or standard Date parse first
+  const parsed = Date.parse(dateStr);
+  if (!isNaN(parsed) && parsed > 0 && !s.includes("листоп") && !s.includes("серп")) {
+    return parsed;
+  }
+
+  // Match: "13 листоп. 2026" or "17 серпня 2026" or "9 листопада 2026"
+  const match = s.match(/(\d+)\s+([а-яіїє]+)[^0-9]*(\d{4})?/);
+  if (match) {
+    const day = parseInt(match[1], 10);
+    const monthRaw = match[2];
+    const year = match[3] ? parseInt(match[3], 10) : 2026;
+    let monthIndex = 0;
+    for (const [key, idx] of Object.entries(MONTH_MAP_UA)) {
+      if (monthRaw.includes(key)) {
+        monthIndex = idx;
+        break;
+      }
+    }
+    return new Date(year, monthIndex, day).getTime();
+  }
+
+  return 0;
+}

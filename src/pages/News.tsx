@@ -5,7 +5,7 @@ import { useCms } from "../contexts/CmsContext";
 import SeoHead from "../components/SeoHead";
 import { Link } from "react-router-dom";
 import ResponsiveImage from "../components/ResponsiveImage";
-import { formatDriveLink } from "../lib/utils";
+import { formatDriveLink, parseNewsDateToTimestamp } from "../lib/utils";
 
 export default function News() {
   const { data, lang, t } = useCms();
@@ -23,11 +23,19 @@ export default function News() {
     return ["ALL", ...Array.from(types).filter(Boolean)];
   }, [newsItemsRaw, lang]);
 
-  const newsItems = newsItemsRaw.filter((item: any) => {
-    if (activeFilter === "ALL") return true;
-    const type = item[`Type_${lang}`] || item.Type_UA || item.type || item.Type || "";
-    return type.includes(activeFilter);
-  });
+  const newsItems = useMemo(() => {
+    const filtered = newsItemsRaw.filter((item: any) => {
+      if (activeFilter === "ALL") return true;
+      const type = item[`Type_${lang}`] || item.Type_UA || item.type || item.Type || "";
+      return type.includes(activeFilter);
+    });
+
+    return [...filtered].sort((a: any, b: any) => {
+      const timeA = parseNewsDateToTimestamp(a.Date_UA || a.Date || a.date);
+      const timeB = parseNewsDateToTimestamp(b.Date_UA || b.Date || b.date);
+      return timeB - timeA;
+    });
+  }, [newsItemsRaw, activeFilter, lang]);
 
   return (
     <div className="flex flex-col w-full bg-page-bg">

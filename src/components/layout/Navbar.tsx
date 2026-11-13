@@ -208,16 +208,16 @@ export default function Navbar() {
             <AnimatePresence>
               {isLangOpen && (
                 <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full right-0 w-full min-w-[90px] bg-page-bg border-2 border-t-0 border-border-main flex flex-col z-50 shadow-xl"
+                  exit={{ opacity: 0, y: -6 }}
+                  className="absolute top-full -right-[2px] w-[calc(100%+4px)] min-w-[105px] bg-page-bg border-2 border-border-main divide-y-2 divide-border-main flex flex-col z-50 shadow-2xl"
                 >
                   {langs.filter(l => l !== lang).map(l => (
                     <button
                       key={l}
                       onClick={() => { setLang(l); setIsLangOpen(false); }}
-                      className="px-4 py-3 flex items-center justify-center gap-2 text-xs font-bold text-text-main hover:bg-surface-mut transition-colors"
+                      className="px-4 py-3 flex items-center justify-center gap-2 text-xs font-bold text-text-main hover:bg-surface-mut hover:text-black dark:hover:text-white transition-colors"
                     >
                       <img src={flagMap[l]} alt={l} className="w-4 h-auto object-cover rounded-sm shadow-[0_0_2px_rgba(0,0,0,0.2)]" />
                       <span>{l}</span>
